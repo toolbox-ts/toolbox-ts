@@ -8,12 +8,12 @@ A monorepo for Typescript utility packages.
 
 ## Packages
 
-| Package                                   | Version                                                                                                         | Description                                  |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| [`@toolbox-ts/dsa`](./packages/dsa)       | [![](https://img.shields.io/npm/v/@toolbox-ts/dsa?label=)](https://www.npmjs.com/package/@toolbox-ts/dsa)       | Data structures and algorithms in TypeScript |
-| [`@toolbox-ts/schema`](./packages/schema) | [![](https://img.shields.io/npm/v/@toolbox-ts/schema?label=)](https://www.npmjs.com/package/@toolbox-ts/schema) | Schema inference and normalization utilities |
-| [`@toolbox-ts/utils`](./packages/utils)   | [![](https://img.shields.io/npm/v/@toolbox-ts/utils?label=)](https://www.npmjs.com/package/@toolbox-ts/utils)   | Core utility functions and type helpers      |
-| [`@toolbox-ts/text`](./packages/text)     | [![](https://img.shields.io/npm/v/@toolbox-ts/text?label=)](https://www.npmjs.com/package/@toolbox-ts/text)     | Advanced text manipulation and layout tools  |
+| Package                                   | Version                                                                                                         | Description                    |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| [`@toolbox-ts/dsa`](./packages/dsa)       | [![](https://img.shields.io/npm/v/@toolbox-ts/dsa?label=)](https://www.npmjs.com/package/@toolbox-ts/dsa)       | Data structures and algorithms |
+| [`@toolbox-ts/schema`](./packages/schema) | [![](https://img.shields.io/npm/v/@toolbox-ts/schema?label=)](https://www.npmjs.com/package/@toolbox-ts/schema) | Schema Configuration Utility   |
+| [`@toolbox-ts/utils`](./packages/utils)   | [![](https://img.shields.io/npm/v/@toolbox-ts/utils?label=)](https://www.npmjs.com/package/@toolbox-ts/utils)   | General Types and Utilities    |
+| [`@toolbox-ts/text`](./packages/text)     | [![](https://img.shields.io/npm/v/@toolbox-ts/text?label=)](https://www.npmjs.com/package/@toolbox-ts/text)     | Text utilities                 |
 
 ---
 
