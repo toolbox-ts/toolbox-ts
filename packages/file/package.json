@@ -1,0 +1,51 @@
+{
+  "name": "@toolbox-ts/file",
+  "version": "0.1.1",
+  "description": "Node file system utilities",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Nolan Gajdascz",
+    "email": "dev.gajdascz@gmail.com",
+    "url": "https://github.com/gajdascz"
+  },
+  "keywords": [
+    "typescript",
+    "file",
+    "filesystem",
+    "node"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gajdascz/toolbox-ts/tree/main/packages/file"
+  },
+  "types": "./build/index.d.ts",
+  "main": "./build/index.js",
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "types": "./build/index.d.ts"
+    }
+  },
+  "files": [
+    "build",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "vitest --run",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "jiti": "^2.4.2"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.1",
+    "@vitest/coverage-v8": "3.0.9"
+  },
+  "packageManager": "pnpm@10.8.1+sha512.c50088ba998c67b8ca8c99df8a5e02fd2ae2e2b29aaf238feaa9e124248d3f48f9fb6db2424949ff901cffbb5e0f0cc1ad6aedb602cd29450751d11c35023677"
+}

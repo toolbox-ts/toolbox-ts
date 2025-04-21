@@ -1,0 +1,56 @@
+{
+  "name": "toolbox-ts",
+  "private": true,
+  "description": "A monorepo for TypeScript Utilities",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gajdascz/toolbox-ts"
+  },
+  "keywords": [
+    "typescript",
+    "utilities",
+    "monorepo"
+  ],
+  "author": {
+    "name": "Nolan Gajdascz",
+    "email": "dev.gajdascz@gmail.com",
+    "url": "https://github.com/gajdascz"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.2",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.25.0",
+    "@microsoft/tsdoc-config": "^0.17.1",
+    "@types/node": "^22.14.1",
+    "@vitest/coverage-v8": "3.0.9",
+    "dependency-cruiser": "^16.10.1",
+    "eslint": "^9.25.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-import-resolver-typescript": "^4.3.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-tsdoc": "^0.4.0",
+    "jiti": "^2.4.2",
+    "memfs": "^4.17.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vitest": "^3.1.1"
+  },
+  "packageManager": "pnpm@10.8.1+sha512.c50088ba998c67b8ca8c99df8a5e02fd2ae2e2b29aaf238feaa9e124248d3f48f9fb6db2424949ff901cffbb5e0f0cc1ad6aedb602cd29450751d11c35023677",
+  "scripts": {
+    "test": "vitest --run",
+    "gen:depsReport": "npx depcruise packages/**/src/* --config ./.dep-cruiser.cjs --output-type dot | dot -T svg > ./docs/architecture/dependency-graph.svg",
+    "format": "prettier --write .",
+    "lint": "eslint . --fix",
+    "typecheck": "tsc -b --noEmit",
+    "clean": "tsc --build --clean && rm -rf .dev/.cache",
+    "build": "tsc -b && pnpm run gen:depsReport",
+    "build:clean": "pnpm run clean && tsc -b",
+    "version": "changeset version",
+    "release": "changeset publish",
+    "commit": "git add . && git commit",
+    "prepare:release": "pnpm run format && pnpm run lint && pnpm changeset && pnpm run version && pnpm run commit && git push origin main"
+  }
+}

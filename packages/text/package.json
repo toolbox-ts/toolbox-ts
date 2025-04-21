@@ -1,0 +1,51 @@
+{
+  "name": "@toolbox-ts/text",
+  "version": "0.1.1",
+  "description": "Text utilities",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Nolan Gajdascz",
+    "email": "dev.gajdascz@gmail.com",
+    "url": "https://github.com/gajdascz"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gajdascz/toolbox-ts/tree/main/packages/text"
+  },
+  "keywords": [
+    "typescript",
+    "text",
+    "utilities"
+  ],
+  "license": "MIT",
+  "files": [
+    "build",
+    "LICENSE",
+    "README.md"
+  ],
+  "types": "./build/index.d.ts",
+  "main": "./build/index.js",
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "types": "./build/index.d.ts"
+    }
+  },
+  "packageManager": "pnpm@10.8.1+sha512.c50088ba998c67b8ca8c99df8a5e02fd2ae2e2b29aaf238feaa9e124248d3f48f9fb6db2424949ff901cffbb5e0f0cc1ad6aedb602cd29450751d11c35023677",
+  "scripts": {
+    "test": "vitest --run",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@toolbox-ts/utils": "workspace:*",
+    "@toolbox-ts/schema": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.1",
+    "@vitest/coverage-v8": "3.0.9"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "compilerOptions": { "composite": true },
+  "references": [
+    { "path": "./packages/utils" },
+    { "path": "./packages/text" },
+    { "path": "./packages/file" },
+    { "path": "./packages/dsa" },
+    { "path": "./packages/schema" }
+  ]
+}
