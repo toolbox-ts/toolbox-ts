@@ -1,5 +1,30 @@
 /*! Adapted from modern-normalize v3.0.1 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
+/*  -webkit
+ *  1. Remove the inner padding in Chrome and Safari on macOS. 
+ *  2. Correct the cursor style of increment and decrement buttons in Safari.
+ *  3. Correct the inability to style clickable types in iOS and Safari.
+ *  4. Change font properties to 'inherit' in Safari.
+*/
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+} /* 1 */
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+} /* 2 */
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 3 */
+  font: inherit; /* 4 */
+}
+[type='search'] {
+  /* Correct the odd appearance in Chrome and Safari */
+  -webkit-appearance: textfield;
+  appearance: textfield;
+  /* Correct the outline style in Safari. */
+  outline-offset: -2px;
+}
+
 /* Root and Document */
 html, body, 
 /* Sectioning */
@@ -39,7 +64,9 @@ div, span {
   margin: 0;
   padding: 0;
   border: none;
-  background-color: transparent;
+  background-color: inherit;
+  font: inherit;
+  color: inherit;
 }
 
 *,
@@ -93,22 +120,95 @@ small {
     'atkinson-next', system-ui, sans-serif, Helvetica, Arial, 'Segoe UI',
     'Apple Color Emoji', 'Segoe UI Emoji';
   --root-font-family-mono: 'atkinson-mono', ui-monospace, monospace, Courier;
-  --root-font-size: 20px;
-  --root-line-height: 1.5;
-  --root-letter-spacing: 0.01em;
+  --root-line-height: var(--line-height,1.5);
+  --root-letter-spacing: var(--letter-spacing,0.01em);
+  --root-font-size: var(--font-size,20px);
+  --root-padding: var(--padding, 0.5rem);
+  --root-transition-duration: var(--transition-duration, 0.3s);
+  
+  --root-color-bg: var(--light-color-bg, #FCFAFF);             /* Main background */
+  --root-color-fg: var(--light-color-fg, #1f0044);             /* Main foreground/text */
+  --root-color-primary: var(--light-color-primary, #5b21b6);   /* Primary (links, buttons) */
+  --root-color-accent: var(--light-color-accent, #4c1d95);     /* Accent (hover, highlights, borders) */
+  --root-color-emphasis: var(--light-color-emphasis, #3c0d99); /* Emphasis (focus, strong UI, borders) */
+  --root-color-muted: var(--light-color-muted, #59597a);       /* Muted/secondary text, visited links */
 
-  --root-color-bg: #fff;
-  --root-color-txt: #000;
-  --root-color-primary: #e11d48;
-  --root-color-accent: #9f1239;
-  --root-color-muted: #d6a5ad;
-  --root-outline: 2px solid var(--root-color-primary);
-  --root-outline-offset: 2px;
-  --root-border: 1px solid var(--root-color-accent);
-  --root-padding: 0.5rem;
-  --root-border-radius: 0.5rem;
+  --root-border-color: var(--light-border-color, var(--root-color-emphasis));
+  --root-shadow-color: var(--light-shadow-color, var(--root-color-emphasis));
+  --root-outline-color: var(--light-outline-color,var(--root-color-emphasis));
+
+  --root-outline-width: var(--light-outline-width, 2px);
+  --root-outline-offset: var(--outline-offset, 2px);
+  --root-outline: var(--root-outline-width) solid var(--root-color-emphasis);
+
+  --root-border-radius: var(--border-radius, 0.5rem);
+  --root-border-width: var(--border-width, 1px);
+  --root-border: var(--root-border-width) solid var(--root-color-emphasis);
+
+  --root-elevation-base-y-offset: var(--elevation-base-y-offset, 1.5px);
+  --root-elevation-base-blur: var(--elevation-base-blur,3px);
+
+
+  
+  --root-bold: max(var(--bold, 600), 699);
+  --root-bolder: max(var(--bolder,  700),899);
+  --root-boldest: 900;
+
+  --root-elevate-low: 0 var(--root-elevation-base-y-offset) var(--root-elevation-base-blur) var(--root-shadow-color);
+  --root-elevate-medium: 0 calc(var(--root-elevation-base-y-offset) * 2) calc(var(--root-elevation-base-blur) * 2) var(--root-shadow-color);
+  --root-elevate-high: 0 calc(var(--root-elevation-base-y-offset) * 4) calc(var(--root-elevation-base-blur) * 4) var(--root-shadow-color);
+
+  --root-interactive-element-transition: background-color var(--root-transition-duration) ease,
+      color var(--root-transition-duration) ease,
+      border-color var(--root-transition-duration) ease,
+      box-shadow var(--root-transition-duration) ease;
+  
+}
+:root[data-theme='dark']{
+  --root-color-bg: var(--dark-color-bg, #181022);
+  --root-color-fg: var(--dark-color-fg, #FCFAFF);
+  --root-color-primary: var(--dark-color-primary, #d8b4fe);
+  --root-color-accent: var(--dark-color-accent, #a78bfa);
+  --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
+  --root-color-muted: var(--dark-color-muted,#c9b8d1);
+  --root-border-color: var(--dark-border-color, var(--root-color-emphasis));
+  --root-outline-color: var(--dark-outline-color,var(--root-color-emphasis));
+  --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
+
 }
 
+h1 {
+  font-size: 2.25rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+h4 {
+  font-size: 1.125rem;
+}
+h5 {
+  font-size: 1rem;
+}
+h6 {
+  font-size: 0.875rem;
+}
+h1,
+h2,
+h3,         
+h4,
+h5,
+h6 {
+  font-weight: var(--root-bold);
+  line-height: 1.2;
+}
+hr {
+  border-top: var(--root-border);
+  width: 100%;
+}
 code,
 kbd,
 samp,
@@ -124,7 +224,7 @@ html {
   font-size: var(--root-font-size);
   line-height: var(--root-line-height);
   letter-spacing: var(--root-letter-spacing);
-  cursor: default;
+  cursor: auto;
   tab-size: 4;
   /* Prevent adjustments of font size after orientation changes in iOS. */
   -webkit-text-size-adjust: 100%;
@@ -133,6 +233,9 @@ html {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 body {
@@ -140,10 +243,10 @@ body {
   display: flex;
   flex-direction: column;
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+    background-color var(--root-transition-duration) ease,
+    color var(--root-transition-duration) ease;
   background-color: var(--root-color-bg);
-  color: var(--root-color-txt);
+  color: var(--root-color-fg);
 }
 
 main {
@@ -153,9 +256,35 @@ main {
 button,
 a,
 select,
-[role='button'] {
+option,
+video,
+[role='button'],
+[type='button'],
+[type='reset'],
+[type='submit'],
+  label[for],
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='file'],
+  input[type='range'],
+  input[type='color'],
+  input[type='image']{
   cursor: pointer;
 }
+ 
+input,textarea {
+  &:focus {
+    outline: var(--root-outline);
+    outline-offset: var(--root-outline-offset);
+  }
+  &:hover, &:active {
+    border-color: var(--root-color-primary);
+    box-shadow: var(--root-elevate-low);
+    transition: border-color var(--root-interactive-element-transition),
+      box-shadow var(--root-interactive-element-transition);
+  }
+}
+  
 *:disabled {
   cursor: not-allowed;
   opacity: 0.5;
@@ -171,31 +300,66 @@ a {
   color: var(--root-color-primary);
   text-decoration: underline;
   cursor: pointer;
-  &:focus {
+  &:focus ,&:hover, &:active {
     color: var(--root-color-accent);
-    text-decoration: underline;
+    text-decoration: none;
     outline: auto;
-  }
-  &:active {
-    color: var(--root-color-primary);
   }
   &:visited {
     color: var(--root-color-muted);
   }
-  &:hover {
-    color: var(--root-color-accent);
-    text-decoration: none;
+
+}
+
+/*  1. Correct the inability to style clickable types in iOS and Safari. */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: none; /* 1 */
+  appearance: none; /* 1 */
+    &:hover, &:focus, &:active {
+    background-color: var(--root-color-accent);
+    color: var(--root-color-bg);
+    border-color: var(--root-color-primary);
+    box-shadow: var(--root-elevate-low);
+    transition: var(--root-interactive-element-transition);
   }
 }
+input,select,textarea {
+  &:hover, &:focus, &:active {
+    border-color: var(--root-color-primary);
+    box-shadow: var(--root-elevate-low);
+    transition: var(--root-interactive-element-transition);
+  }
+}
+
+
+/* Does not work in Firefox currently */
 body:has(dialog[open]) {
   overflow: hidden;
+}
+dialog[open]{
+  background-color: var(--root-color-bg);
+  border: var(--root-border);
+  border-radius: var(--root-border-radius);
+  box-shadow: var(--root-elevate-medium);
+  padding: var(--root-padding);
+  margin: var(--root-padding);
+  max-width: calc(100vw - (var(--root-padding) * 2));
+  max-height: calc(100vh - (var(--root-padding) * 2));
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 table {
   /* Correct table border color inheritance in Chrome and Safari. (https://issues.chromium.org/issues/40615503, https://bugs.webkit.org/show_bug.cgi?id=195016) */
   border-color: currentcolor;
   border-collapse: collapse;
-  border-spacing: 0;
+  border-spacing: 0; 
 }
 
 button,
@@ -213,24 +377,26 @@ textarea {
   padding: var(--root-padding);
 }
 
-/* 
- *  1. Correct the inability to style clickable types in iOS and Safari.
- *  2. Add the correct display in Chrome and Safari. 
-*/
 
-button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
-  -webkit-appearance: none;
-  appearance: none;
-} /* 1 */
+ /* Add the correct display in Chrome and Safari.  */
 summary {
   display: list-item;
-} /* 2 */
+} 
 ul,
-ol {
+ol ,menu{
   list-style: none;
+}
+ol {
+  counter-reset: list-counter;
+}
+ol li::before {
+  counter-increment: list-counter;
+  font-weight: var(--root-bold);
+  content: counter(list-counter) ". ";
+}
+ul li::before {
+  content: "• ";
+  font-weight: var(--root-bold);
 }
 blockquote,
 q {
@@ -243,7 +409,7 @@ video,
 canvas,
 audio,
 iframe,
-embed,
+embed, 
 object,
 sub,
 sup {
@@ -263,31 +429,9 @@ img {
   image-rendering: crisp-edges;
 }
 
-/*  -webkit
- *  1. Remove the inner padding in Chrome and Safari on macOS. 
- *  2. Correct the cursor style of increment and decrement buttons in Safari.
- *  3. Correct the inability to style clickable types in iOS and Safari.
- *  4. Change font properties to 'inherit' in Safari.
-*/
-::-webkit-search-decoration {
-  -webkit-appearance: none;
-} /* 1 */
-::-webkit-inner-spin-button,
-::-webkit-outer-spin-button {
-  height: auto;
-} /* 2 */
-::-webkit-file-upload-button {
-  -webkit-appearance: button; /* 3 */
-  font: inherit; /* 4 */
-}
 
-[type='search'] {
-  /* Correct the odd appearance in Chrome and Safari */
-  -webkit-appearance: textfield;
-  appearance: textfield;
-  /* Correct the outline style in Safari. */
-  outline-offset: -2px;
-}
+
+
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -298,4 +442,17 @@ img {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+  --root-color-bg: var(--dark-color-bg, #181022);
+  --root-color-fg: var(--dark-color-fg, #FCFAFF);
+  --root-color-primary: var(--dark-color-primary, #d8b4fe);
+  --root-color-accent: var(--dark-color-accent, #a78bfa);
+  --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
+  --root-color-muted: var(--dark-color-muted,#c9b8d1);
+  --root-border-color: var(--dark-border-color, var(--root-color-emphasis));
+  --root-outline-color: var(--dark-outline-color,var(--root-color-emphasis));
+  --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
+}
 }

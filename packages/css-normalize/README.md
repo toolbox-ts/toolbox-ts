@@ -1,8 +1,12 @@
 # @toolbox-ts/css-normalize
 
+The new normal normalize
+
+normalize re-imagined
+
 ---
 
-A modern, and slightly opinionated standards-based CSS normalization layer for
+A modernized, opinionated standards-based CSS normalization layer for
 consistent, accessible, and predictable styling across browsers. This package is
 adapted from
 [modern-normalize V3.0.1](https://github.com/sindresorhus/modern-normalize) to
@@ -113,39 +117,11 @@ Simply copy and paste or download the normalize.css file from the
 
 ## Customization
 
-Override CSS variables in your own stylesheet to adjust the base font, size, or
-line height:
+Easily override CSS variables in your own stylesheet
 
-```css
-:root {
-  --root-font-family-base: Roboto, system-ui, sans-serif;
-  --root-font-size: 18px;
-  --root-line-height: 1.6;
-}
 
-// Default light/dark themes
-@media (prefers-color-scheme: light) {
-  :root {
-    --root-color-bg: #fff;
-    --root-color-txt: #111;
-  }
-  body {
-    background-color: var(--root-color-bg);
-    color: var(--root-color-txt);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --root-color-bg: #111;
-    --root-color-txt: #fff;
-  }
-  body {
-    background-color: var(--root-color-bg);
-    color: var(--root-color-txt);
-  }
-}
-```
+|t|
+-----
 
 ---
 

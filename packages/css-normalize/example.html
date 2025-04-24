@@ -4,51 +4,29 @@
     <meta charset="UTF-8" />
     <title>normalize.css Minimal Example &amp; Showcase</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Import the normalize.css file -->
     <link rel="stylesheet" href="./src/normalize.css" />
-    <style>
-      header {
-        background: #e3eaff;
-      }
-      footer {
-        background: #e3eaff;
-      }
-      header,
-      main,
-      footer {
-        padding: 1.5rem;
-      }
-      section {
-        margin-bottom: 2rem;
-      }
-      code,
-      pre {
-        background: #f3f3f3;
-        padding: 0.1em 0.3em;
-        border-radius: 3px;
-      }
-    </style>
   </head>
   <body>
     <header>
-      <h1>normalize.css Minimal Example &amp; Showcase</h1>
+      <h1>normalize.css Example &amp; Showcase</h1>
       <p>
         This page demonstrates the
         <strong>default browser behavior</strong> after applying
         <code>normalize.css</code>.<br />
-        No extra styling is applied except for header/main/footer background
-        colors for clarity.
       </p>
     </header>
+  <hr>
     <main>
       <section>
         <h2>Headings &amp; Paragraphs</h2>
         <h1>Heading 1</h1>
         <h2>Heading 2</h2>
         <h3>Heading 3</h3>
+        <h4>Heading 4</h4>
+        <h5>Heading 5</h5>
+        <h6>Heading 6</h6>
         <p>
-          This is a paragraph. Notice the margin and padding are reset by
-          normalize.css.
+          This is a great paragraph, perhaps the best paragraph. What a marvelous paragraph.
         </p>
         <p>
           <strong>Bold</strong>, <em>emphasis</em>, <b>b</b>, <i>i</i>,
@@ -159,7 +137,12 @@
           <p>This is inside a details element.</p>
         </details>
         <progress value="70" max="100"></progress>
-        <dialog open>This is a dialog (open attribute set)</dialog>
+        <button class="open-button">Open Dialog</button>
+        <dialog id="a-dialog">
+          <h1>This is a dialog</h1>
+          <button onclick="this.parentElement.close()">Close Dialog</button>
+        </dialog>
+        
       </section>
     </main>
     <footer>
@@ -171,4 +154,12 @@
       </p>
     </footer>
   </body>
+          <script>
+          // Example of using the dialog element
+          const dialog = document.getElementById('a-dialog');
+          const button = document.querySelector('.open-button');
+          button.onclick = () => {
+            dialog.showModal();
+          };
+        </script>
 </html>
