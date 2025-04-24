@@ -80,7 +80,6 @@ jobs:
       - name: 🚀 Publish to NPMJS
         run: pnpm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: 🚀 Publish to GitHub Packages
@@ -88,4 +87,4 @@ jobs:
           pnpm -r publish --access public --no-git-checks
           --registry=https://npm.pkg.github.com --filter ./packages/*
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PKGS_TOKEN }}
