@@ -82,7 +82,7 @@ export default tseslint.config(
   },
   {
     name: "dev",
-    files: ["*.ts", ".dev/**/*.ts", "**/*.test.ts"],
+    files: ["*.ts", ".dev/**/*.ts", "**/*.test.ts", "bin/**/*.ts"],
     ignores: [...ignores],
     plugins: {
       "@typescript-eslint": tseslint.plugin,

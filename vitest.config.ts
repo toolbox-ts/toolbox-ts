@@ -40,6 +40,7 @@ export default defineConfig({
         "**/examples/**",
         "**/types.ts",
         "**/types/**",
+        "**/string.js/**",
       ],
     },
   },

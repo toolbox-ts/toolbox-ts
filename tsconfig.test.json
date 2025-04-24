@@ -21,6 +21,6 @@
     "noUncheckedIndexedAccess": false,
     "noImplicitOverride": false
   },
-  "include": ["packages/**/*.test.ts", "*.ts", "./.dev/**/*.ts"],
+  "include": ["packages/**/*.test.ts", "*.ts", "./.dev/**/*.ts", "bin/**/*.ts"],
   "exclude": ["node_modules", "build", "dist"]
 }

@@ -1,0 +1,46 @@
+{
+  "name": "@toolbox-ts/css-normalize",
+  "version": "0.0.0",
+  "description": "A modern and accessible CSS baseline with universal resets, custom font support (Atkinson Hyperlegible™), and variable-driven typography – all adapted from modern-normalize.",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "css-normalize",
+    "css",
+    "normalize"
+  ],
+  "author": {
+    "name": "Nolan Gajdascz",
+    "email": "dev.gajdascz@gmail.com",
+    "url": "https://github.com/gajdascz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gajdascz/toolbox-ts/tree/main/packages/css-normalize"
+  },
+  "type": "module",
+  "files": [
+    "build",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    "./string": "./build/string.js",
+    "./css": "./build/normalize.css",
+    "./scss": "./build/normalize.scss",
+    "./pcss": "./build/normalize.pcss",
+    "./less": "./build/normalize.less",
+    "./styl": "./build/normalize.styl",
+    ".": {
+      "import": "./build/normalize.css"
+    }
+  },
+  "packageManager": "pnpm@10.9.0+sha512.0486e394640d3c1fb3c9d43d49cf92879ff74f8516959c235308f5a8f62e2e19528a65cdc2a3058f587cde71eba3d5b56327c8c33a97e4c4051ca48a10ca2d5f",
+  "scripts": {
+    "build:string": "node ./bin/generate-from-css.js",
+    "build": "pnpm run build:string && mkdir -p build && cp -R ./src ./build"
+  }
+}
