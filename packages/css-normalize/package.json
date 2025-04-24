@@ -1,6 +1,6 @@
 {
   "name": "@toolbox-ts/css-normalize",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A modern and accessible CSS baseline with universal resets, custom font support (Atkinson Hyperlegible™), and variable-driven customization – all adapted from modern-normalize.",
   "license": "MIT",
   "private": false,

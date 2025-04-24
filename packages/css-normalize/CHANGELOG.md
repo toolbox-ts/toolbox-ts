@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.0.2
+
+### Patch Changes
+
+- b3a3feb: add github package registry support/automation
+
 ## 1.0.1
 
 ### Patch Changes
