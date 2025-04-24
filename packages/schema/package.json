@@ -1,6 +1,6 @@
 {
   "name": "@toolbox-ts/schema",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Strongly typed and lightweight schema utility",
   "private": false,
   "publishConfig": {
