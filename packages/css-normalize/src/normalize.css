@@ -17,7 +17,7 @@
   -webkit-appearance: button; /* 3 */
   font: inherit; /* 4 */
 }
-[type='search'] {
+[type="search"] {
   /* Correct the odd appearance in Chrome and Safari */
   -webkit-appearance: textfield;
   appearance: textfield;
@@ -77,19 +77,19 @@ div, span {
 
 /* Typography */
 @font-face {
-  font-family: 'atkinson-next';
+  font-family: "atkinson-next";
   src:
-    url('./fonts/atkinson-next.woff2') format('woff2'),
-    url('./fonts/atkinson-next.woff') format('woff');
+    url("./fonts/atkinson-next.woff2") format("woff2"),
+    url("./fonts/atkinson-next.woff") format("woff");
   font-weight: 100 900;
   font-style: normal italic;
   font-display: swap;
 }
 @font-face {
-  font-family: 'atkinson-mono';
+  font-family: "atkinson-mono";
   src:
-    url('./fonts/atkinson-mono.woff2') format('woff2'),
-    url('./fonts/atkinson-mono.woff') format('woff');
+    url("./fonts/atkinson-mono.woff2") format("woff2"),
+    url("./fonts/atkinson-mono.woff") format("woff");
   font-weight: 100 900;
   font-style: normal italic;
   font-display: swap;
@@ -116,26 +116,32 @@ small {
 }
 
 :root {
-  --root-font-family-base:
-    'atkinson-next', system-ui, sans-serif, Helvetica, Arial, 'Segoe UI',
-    'Apple Color Emoji', 'Segoe UI Emoji';
-  --root-font-family-mono: 'atkinson-mono', ui-monospace, monospace, Courier;
-  --root-line-height: var(--line-height,1.5);
-  --root-letter-spacing: var(--letter-spacing,0.01em);
-  --root-font-size: var(--font-size,20px);
+  --root-font-family:
+    "atkinson-next", system-ui, sans-serif, Helvetica, Arial, "Segoe UI",
+    "Apple Color Emoji", "Segoe UI Emoji";
+  --root-font-family-mono: "atkinson-mono", ui-monospace, monospace, Courier;
+  --root-line-height: var(--line-height, 1.5);
+  --root-letter-spacing: var(--letter-spacing, 0.01em);
+  --root-font-size: var(--font-size, 20px);
   --root-padding: var(--padding, 0.5rem);
   --root-transition-duration: var(--transition-duration, 0.3s);
-  
-  --root-color-bg: var(--light-color-bg, #FCFAFF);             /* Main background */
-  --root-color-fg: var(--light-color-fg, #1f0044);             /* Main foreground/text */
-  --root-color-primary: var(--light-color-primary, #5b21b6);   /* Primary (links, buttons) */
-  --root-color-accent: var(--light-color-accent, #4c1d95);     /* Accent (hover, highlights, borders) */
-  --root-color-emphasis: var(--light-color-emphasis, #3c0d99); /* Emphasis (focus, strong UI, borders) */
-  --root-color-muted: var(--light-color-muted, #59597a);       /* Muted/secondary text, visited links */
+
+  /* Main background */
+  --root-color-bg: var(--light-color-bg, #fcfaff);
+  /* Main foreground/text */
+  --root-color-fg: var(--light-color-fg, #1f0044);
+  /* Primary (links, buttons) */
+  --root-color-primary: var(--light-color-primary, #5b21b6);
+  /* Accent (hover, highlights, borders) */
+  --root-color-accent: var(--light-color-accent, #4c1d95);
+  /* Emphasis (focus, strong UI, borders) */
+  --root-color-emphasis: var(--light-color-emphasis, #3c0d99);
+  /* Muted/secondary text, visited links */
+  --root-color-muted: var(--light-color-muted, #59597a);
 
   --root-border-color: var(--light-border-color, var(--root-color-emphasis));
   --root-shadow-color: var(--light-shadow-color, var(--root-color-emphasis));
-  --root-outline-color: var(--light-outline-color,var(--root-color-emphasis));
+  --root-outline-color: var(--light-outline-color, var(--root-color-emphasis));
 
   --root-outline-width: var(--light-outline-width, 2px);
   --root-outline-offset: var(--outline-offset, 2px);
@@ -145,36 +151,36 @@ small {
   --root-border-width: var(--border-width, 1px);
   --root-border: var(--root-border-width) solid var(--root-color-emphasis);
 
-  --root-elevation-base-y-offset: var(--elevation-base-y-offset, 1.5px);
-  --root-elevation-base-blur: var(--elevation-base-blur,3px);
-
-
-  
   --root-bold: max(var(--bold, 600), 699);
-  --root-bolder: max(var(--bolder,  700),899);
-  --root-boldest: 900;
+  --root-bolder: max(var(--bolder, 700), 899);
+  --boldest: 900;
 
-  --root-elevate-low: 0 var(--root-elevation-base-y-offset) var(--root-elevation-base-blur) var(--root-shadow-color);
-  --root-elevate-medium: 0 calc(var(--root-elevation-base-y-offset) * 2) calc(var(--root-elevation-base-blur) * 2) var(--root-shadow-color);
-  --root-elevate-high: 0 calc(var(--root-elevation-base-y-offset) * 4) calc(var(--root-elevation-base-blur) * 4) var(--root-shadow-color);
+  --root-elevation-base-y-offset: var(--elevation-base-y-offset, 1.5px);
+  --root-elevation-base-blur: var(--elevation-base-blur, 3px);
 
-  --root-interactive-element-transition: background-color var(--root-transition-duration) ease,
-      color var(--root-transition-duration) ease,
-      border-color var(--root-transition-duration) ease,
-      box-shadow var(--root-transition-duration) ease;
-  
+  --elevation-low: 0 var(--root-elevation-base-y-offset)
+    var(--root-elevation-base-blur) var(--root-shadow-color);
+  --elevation-medium: 0 calc(var(--root-elevation-base-y-offset) * 2)
+    calc(var(--root-elevation-base-blur) * 2) var(--root-shadow-color);
+  --elevation-high: 0 calc(var(--root-elevation-base-y-offset) * 4)
+    calc(var(--root-elevation-base-blur) * 4) var(--root-shadow-color);
+
+  --interactive-element-transition:
+    background-color var(--root-transition-duration) ease,
+    color var(--root-transition-duration) ease,
+    border-color var(--root-transition-duration) ease,
+    box-shadow var(--root-transition-duration) ease;
 }
-:root[data-theme='dark']{
-  --root-color-bg: var(--dark-color-bg, #181022);
-  --root-color-fg: var(--dark-color-fg, #FCFAFF);
+:root[data-theme="dark"] {
+  --root-color-bg: var(--dark-color-bg, #0f0e11);
+  --root-color-fg: var(--dark-color-fg, #fcfaff);
   --root-color-primary: var(--dark-color-primary, #d8b4fe);
   --root-color-accent: var(--dark-color-accent, #a78bfa);
   --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
-  --root-color-muted: var(--dark-color-muted,#c9b8d1);
+  --root-color-muted: var(--dark-color-muted, #c9b8d1);
   --root-border-color: var(--dark-border-color, var(--root-color-emphasis));
-  --root-outline-color: var(--dark-outline-color,var(--root-color-emphasis));
+  --root-outline-color: var(--dark-outline-color, var(--root-color-emphasis));
   --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
-
 }
 
 h1 {
@@ -198,7 +204,7 @@ h6 {
 }
 h1,
 h2,
-h3,         
+h3,
 h4,
 h5,
 h6 {
@@ -220,7 +226,7 @@ pre {
 }
 
 html {
-  font-family: var(--root-font-family-base);
+  font-family: var(--root-font-family);
   font-size: var(--root-font-size);
   line-height: var(--root-line-height);
   letter-spacing: var(--root-letter-spacing);
@@ -258,33 +264,36 @@ a,
 select,
 option,
 video,
-[role='button'],
-[type='button'],
-[type='reset'],
-[type='submit'],
-  label[for],
-  input[type='checkbox'],
-  input[type='radio'],
-  input[type='file'],
-  input[type='range'],
-  input[type='color'],
-  input[type='image']{
+[role="button"],
+[type="button"],
+[type="reset"],
+[type="submit"],
+label[for],
+input[type="checkbox"],
+input[type="radio"],
+input[type="file"],
+input[type="range"],
+input[type="color"],
+input[type="image"] {
   cursor: pointer;
 }
- 
-input,textarea {
+
+input,
+textarea {
   &:focus {
     outline: var(--root-outline);
     outline-offset: var(--root-outline-offset);
   }
-  &:hover, &:active {
+  &:hover,
+  &:active {
     border-color: var(--root-color-primary);
-    box-shadow: var(--root-elevate-low);
-    transition: border-color var(--root-interactive-element-transition),
-      box-shadow var(--root-interactive-element-transition);
+    box-shadow: var(--elevation-low);
+    transition:
+      border-color var(--interactive-element-transition),
+      box-shadow var(--interactive-element-transition);
   }
 }
-  
+
 *:disabled {
   cursor: not-allowed;
   opacity: 0.5;
@@ -300,7 +309,9 @@ a {
   color: var(--root-color-primary);
   text-decoration: underline;
   cursor: pointer;
-  &:focus ,&:hover, &:active {
+  &:focus,
+  &:hover,
+  &:active {
     color: var(--root-color-accent);
     text-decoration: none;
     outline: auto;
@@ -308,42 +319,46 @@ a {
   &:visited {
     color: var(--root-color-muted);
   }
-
 }
 
 /*  1. Correct the inability to style clickable types in iOS and Safari. */
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+[type="button"],
+[type="reset"],
+[type="submit"] {
   -webkit-appearance: none; /* 1 */
   appearance: none; /* 1 */
-    &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     background-color: var(--root-color-accent);
     color: var(--root-color-bg);
     border-color: var(--root-color-primary);
-    box-shadow: var(--root-elevate-low);
-    transition: var(--root-interactive-element-transition);
+    box-shadow: var(--elevation-low);
+    transition: var(--interactive-element-transition);
   }
 }
-input,select,textarea {
-  &:hover, &:focus, &:active {
+input,
+select,
+textarea {
+  &:hover,
+  &:focus,
+  &:active {
     border-color: var(--root-color-primary);
-    box-shadow: var(--root-elevate-low);
-    transition: var(--root-interactive-element-transition);
+    box-shadow: var(--elevation-low);
+    transition: var(--interactive-element-transition);
   }
 }
-
 
 /* Does not work in Firefox currently */
 body:has(dialog[open]) {
   overflow: hidden;
 }
-dialog[open]{
+dialog[open] {
   background-color: var(--root-color-bg);
   border: var(--root-border);
   border-radius: var(--root-border-radius);
-  box-shadow: var(--root-elevate-medium);
+  box-shadow: var(--elevation-medium);
   padding: var(--root-padding);
   margin: var(--root-padding);
   max-width: calc(100vw - (var(--root-padding) * 2));
@@ -359,7 +374,8 @@ table {
   /* Correct table border color inheritance in Chrome and Safari. (https://issues.chromium.org/issues/40615503, https://bugs.webkit.org/show_bug.cgi?id=195016) */
   border-color: currentcolor;
   border-collapse: collapse;
-  border-spacing: 0; 
+  border-spacing: 0;
+  caption-side: bottom;
 }
 
 button,
@@ -377,13 +393,13 @@ textarea {
   padding: var(--root-padding);
 }
 
-
- /* Add the correct display in Chrome and Safari.  */
+/* Add the correct display in Chrome and Safari.  */
 summary {
   display: list-item;
-} 
+}
 ul,
-ol ,menu{
+ol,
+menu {
   list-style: none;
 }
 ol {
@@ -409,7 +425,7 @@ video,
 canvas,
 audio,
 iframe,
-embed, 
+embed,
 object,
 sub,
 sup {
@@ -428,11 +444,10 @@ img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
-
-
-
-
-
+svg {
+  display: inline-block;
+  fill: currentColor;
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -445,14 +460,14 @@ img {
 }
 @media (prefers-color-scheme: dark) {
   :root {
-  --root-color-bg: var(--dark-color-bg, #181022);
-  --root-color-fg: var(--dark-color-fg, #FCFAFF);
-  --root-color-primary: var(--dark-color-primary, #d8b4fe);
-  --root-color-accent: var(--dark-color-accent, #a78bfa);
-  --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
-  --root-color-muted: var(--dark-color-muted,#c9b8d1);
-  --root-border-color: var(--dark-border-color, var(--root-color-emphasis));
-  --root-outline-color: var(--dark-outline-color,var(--root-color-emphasis));
-  --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
-}
+    --root-color-bg: var(--dark-color-bg, #0f0e11);
+    --root-color-fg: var(--dark-color-fg, #fcfaff);
+    --root-color-primary: var(--dark-color-primary, #d8b4fe);
+    --root-color-accent: var(--dark-color-accent, #a78bfa);
+    --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
+    --root-color-muted: var(--dark-color-muted, #c9b8d1);
+    --root-border-color: var(--dark-border-color, var(--root-color-emphasis));
+    --root-outline-color: var(--dark-outline-color, var(--root-color-emphasis));
+    --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
+  }
 }
