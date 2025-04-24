@@ -23,6 +23,12 @@ npm i @toolbox-ts/utils
 - 🛠️ **Wide Range of Utility Types** (DeepPartial, NestedRequired, OptionalKey,
   Segments, Spatial etc...)
 
+---
+
 ## License
 
-MIT – © 2025 Nolan Gajdascz [@toolbox-ts](https://www.npmjs.com/org/toolbox-ts)
+MIT – © 2025 [Nolan Gajdascz](https://github.com/gajdascz)
+
+- @toolbox-ts
+  - [NPM](https://www.npmjs.com/org/toolbox-ts)
+  - [GitHub](https://github.com/toolbox-ts/toolbox-ts)

@@ -75,7 +75,7 @@ npm install @toolbox-ts/css-normalize
 In your Stylesheet
 
 ```css
-@import '@toolbox-ts/css-normalize';
+@import "@toolbox-ts/css-normalize";
 ```
 
 ### Direct Script Import
@@ -84,7 +84,7 @@ Or, if using a bundler (like [Vite](https://vitest.dev/) or
 [Webpack](https://webpack.js.org/)):
 
 ```ts
-import '@toolbox-ts/css-normalize';
+import "@toolbox-ts/css-normalize";
 ```
 
 Or, If you use a CSS-in-JS library (like
@@ -95,7 +95,7 @@ environment that supports directly importing CSS, you can import the
 normalization CSS as a string and inject it directly into your component:
 
 ```ts
-import normalizeCss from '@toolbox-ts/css-normalize/string';
+import normalizeCss from "@toolbox-ts/css-normalize/string";
 ```
 
 ### CDN
@@ -199,6 +199,8 @@ weights.
 | `--root-elevation-base-y-offset` | `var(--elevation-base-y-offset, 1.5px)`                                                                                     | Shadow Y offset base                                |
 | `--root-elevation-base-blur`     | `var(--elevation-base-blur, 3px)`                                                                                           | Shadow blur base                                    |
 
+---
+
 ## Why Atkinson Hyperlegible?
 
 [Atkinson Hyperlegible™](https://www.brailleinstitute.org/freefont/) is
@@ -211,4 +213,8 @@ included for broad typographic support.
 
 ## License
 
-MIT – © 2025 Nolan Gajdascz [@toolbox-ts](https://www.npmjs.com/org/toolbox-ts)
+MIT – © 2025 [Nolan Gajdascz](https://github.com/gajdascz)
+
+- @toolbox-ts
+  - [NPM](https://www.npmjs.com/org/toolbox-ts)
+  - [GitHub](https://github.com/toolbox-ts/toolbox-ts)

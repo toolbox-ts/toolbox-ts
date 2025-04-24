@@ -18,9 +18,10 @@
     "linked-list",
     "doubly-linked-list"
   ],
+  "homepage": "https://github.com/toolbox-ts/toolbox-ts/tree/main/packages/dsa",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gajdascz/toolbox-ts/tree/main/packages/dsa"
+    "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "license": "MIT",
   "type": "module",

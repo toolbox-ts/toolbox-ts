@@ -12,9 +12,10 @@
     "url": "https://github.com/gajdascz"
   },
   "type": "module",
+  "homepage": "https://github.com/toolbox-ts/toolbox-ts/tree/main/packages/text",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gajdascz/toolbox-ts/tree/main/packages/text"
+    "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "keywords": [
     "typescript",

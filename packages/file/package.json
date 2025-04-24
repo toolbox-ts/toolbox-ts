@@ -19,9 +19,10 @@
   ],
   "license": "MIT",
   "type": "module",
+  "homepage": "https://github.com/toolbox-ts/toolbox-ts/tree/main/packages/file",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gajdascz/toolbox-ts/tree/main/packages/file"
+    "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "types": "./build/index.d.ts",
   "main": "./build/index.js",

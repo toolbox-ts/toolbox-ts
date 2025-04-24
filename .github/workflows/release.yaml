@@ -37,7 +37,7 @@ jobs:
           registry-url: "https://registry.npmjs.org/"
 
       - name: 📥 Install pnpm
-        run: npm install -g pnpm@10.8.1
+        run: npm install -g pnpm@10.9.0
 
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
@@ -50,11 +50,13 @@ jobs:
 
       - name: 📝 Create Version PR (Changesets)
         uses: changesets/action@v1
+        with:
+          version: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
-    name: Publish to npm
+    name: Publish
     if:
       github.event_name == 'pull_request' && github.event.pull_request.merged ==
       true
@@ -71,15 +73,19 @@ jobs:
           registry-url: "https://registry.npmjs.org/"
 
       - name: 📥 Install pnpm
-        run: npm install -g pnpm@10.8.1
+        run: npm install -g pnpm@10.9.0
 
       - name: 📦 Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: 🚀 Publish packages
-        uses: changesets/action@v1
-        with:
-          publish: pnpm run release
+      - name: 🚀 Publish to NPMJS
+        run: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: 🚀 Publish to GitHub Packages
+        run: pnpm -r publish --access public --no-git-checks
+          --registry=https://npm.pkg.github.com --filter ./packages/*
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
