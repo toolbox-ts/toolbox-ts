@@ -1,0 +1,49 @@
+@startuml Development Workflow
+
+legend top left
+| lightblue     | Standard dev action       |
+| yellow        | Triggers (dev or process) |
+| orange        | Conditions                |
+| lightgreen    | Success outcomes          |
+| lightcoral    | Errors/failures           |
+| plum          | Automation                |
+end legend
+
+#lightblue:Open feature branch;
+while (Developing Locally?) is (yes)
+  #lightblue:Finish Feature / Fix;
+  #yellow:`pnpm run validate`;
+  #orange:if (Validation successful?) then (yes)
+    #lightblue:`pnpm run prepare:release`;
+    kill;
+  endif
+    #lightcoral:Debug;
+endwhile (no) 
+  #lightblue:Stage (git); 
+  #lightblue:Commit (git);
+  #yellow:Push Feature Branch (git);
+  #plum:Validate Workflow Initiated;
+    #orange:if (Pass?) then (yes)
+      #plum:PR Created;
+      #orange:if (Review Approved?) then (yes)
+        #lightgreen:Merge PR;
+        #plum:Changeset Branch Created (GitHub Bot);
+        #lightgreen: Merge Changeset Branch;
+        #plum:Release Workflow Initiated;
+        #plum:Publish to NPM;
+        #plum:Publish to Github Packages;
+        #orange:if (Release Successful?) then (yes)
+        #lightgreen:Complete;
+        else (no)
+          #lightcoral:Troubleshoot;
+        endif
+      else (no)
+        #lightcoral:Fix Based on Review;
+      endif
+    else (no)
+      #lightcoral:Fix Based on Validation or Contact Project Owner;
+    endif
+      kill
+
+
+@enduml

@@ -23,6 +23,12 @@ A monorepo for Typescript utility packages.
 This monorepo is built using [`pnpm`](https://pnpm.io) and
 [`changesets`](https://github.com/changesets/changesets)
 
+---
+
 ## License
 
-MIT – © 2025 Nolan Gajdascz [@toolbox-ts](https://www.npmjs.com/org/toolbox-ts)
+MIT – © 2025 [Nolan Gajdascz](https://github.com/gajdascz)
+
+- @toolbox-ts
+  - [NPM](https://www.npmjs.com/org/toolbox-ts)
+  - [GitHub](https://github.com/toolbox-ts/toolbox-ts)

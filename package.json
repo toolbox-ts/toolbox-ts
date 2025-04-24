@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gajdascz/toolbox-ts"
+    "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "keywords": [
     "typescript",
@@ -51,9 +51,9 @@
     "version": "changeset version",
     "release": "changeset publish",
     "commit": "git add . && git commit",
-    "build:clean": "pnpm run clean && tsc -b",
     "build:css-normalize": "pnpm --filter @toolbox-ts/css-normalize run build",
     "build": "tsc -b && pnpm run build:css-normalize && pnpm run cruise",
-    "prepare:release": "pnpm run format && pnpm run lint && pnpm run test && pnpm changeset"
+    "validate": "pnpm run eslint . && pnpm run prettier . && pnpm run typecheck && pnpm run test",
+    "prepare:release": "pnpm run format && pnpm run lint && pnpm run test && pnpm changeset && pnpm changeset status"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@toolbox-ts/css-normalize",
   "version": "1.0.1",
-  "description": "A modern and accessible CSS baseline with universal resets, custom font support (Atkinson Hyperlegible™), and variable-driven typography – all adapted from modern-normalize.",
+  "description": "A modern and accessible CSS baseline with universal resets, custom font support (Atkinson Hyperlegible™), and variable-driven customization – all adapted from modern-normalize.",
   "license": "MIT",
   "private": false,
   "publishConfig": {
@@ -17,9 +17,10 @@
     "email": "dev.gajdascz@gmail.com",
     "url": "https://github.com/gajdascz"
   },
+  "homepage": "https://github.com/toolbox-ts/toolbox-ts/tree/main/packages/css-normalize",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gajdascz/toolbox-ts/tree/main/packages/css-normalize"
+    "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "type": "module",
   "files": [
