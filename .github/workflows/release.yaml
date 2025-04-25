@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - "**/*.md"
+      - '**/*.md'
   pull_request:
     types:
       - closed
@@ -35,7 +35,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: "https://registry.npmjs.org/"
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: 📥 Install pnpm
         run: npm install -g pnpm@10.9.0
@@ -69,7 +69,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: "https://registry.npmjs.org/"
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: 📥 Install pnpm
         run: npm install -g pnpm@10.9.0
@@ -82,19 +82,21 @@ jobs:
 
       - name: 🚀 Publish to NPMJS
         run: pnpm changeset publish --registry=https://registry.npmjs.org
-
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🧑‍💻 Append Required Login to npmrc
         run: |
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_PKGS_TOKEN }}" >> .npmrc
+
       - name: 🚀 Publish to GitHub Packages
         run: |
-          pnpm -r publish --access public --no-git-checks
+          pnpm -r publish --access public --no-git-checks \
           --registry=https://npm.pkg.github.com --filter ./packages/*
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PKGS_TOKEN }}
+
       - name: 🧹 Cleanup npmrc
         run: |
           rm -f .npmrc
