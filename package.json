@@ -47,10 +47,9 @@
     "format": "prettier --write .",
     "lint": "eslint . --fix",
     "typecheck": "tsc -b --noEmit",
-    "clean": "tsc --build --clean && rm -rf .dev/.cache",
-    "build:css-normalize": "pnpm --filter @toolbox-ts/css-normalize run build",
-    "build": "tsc -b && pnpm run build:css-normalize && pnpm run cruise",
-    "validate": "pnpm run eslint . && pnpm run prettier . && pnpm run typecheck && pnpm run test",
-    "prepare:release": "pnpm run format && pnpm run lint && pnpm run test && pnpm changeset && pnpm changeset status"
+    "clean": "rm -rf .dev/.cache && rm -rf packages/*/build",
+    "validate": "pnpm run cruise && pnpm run eslint . && pnpm run prettier . && pnpm run typecheck && pnpm run test",
+    "build": "pnpm -r build",
+    "prepare:release": "pnpm run cruise && pnpm run format && pnpm run lint && pnpm run test && pnpm changeset && pnpm changeset status"
   }
 }

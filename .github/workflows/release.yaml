@@ -43,7 +43,7 @@ jobs:
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: 🔨 Build all packages
+      - name: 🔨 Build packages
         run: pnpm -r build
 
       - name: 🧪 Test
@@ -77,14 +77,24 @@ jobs:
       - name: 📦 Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: 🔨 Build packages
+        run: pnpm -r build
+
       - name: 🚀 Publish to NPMJS
         run: pnpm changeset publish --registry=https://registry.npmjs.org
 
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: 🧑‍💻 Append Required Login to npmrc
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_PKGS_TOKEN }}" >> .npmrc
       - name: 🚀 Publish to GitHub Packages
-        run: pnpm -r publish --access public --no-git-checks
+        run: |
+          pnpm -r publish --access public --no-git-checks
           --registry=https://npm.pkg.github.com --filter ./packages/*
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_PKGS_TOKEN }}
+      - name: 🧹 Cleanup npmrc
+        run: |
+          rm -f .npmrc
