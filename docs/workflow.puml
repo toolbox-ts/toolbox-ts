@@ -31,7 +31,6 @@ endwhile (no)
         #lightgreen: Merge Changeset Branch;
         #plum:Release Workflow Initiated;
         #plum:Publish to NPM;
-        #plum:Publish to Github Packages;
         #orange:if (Release Successful?) then (yes)
         #lightgreen:Complete;
         else (no)
