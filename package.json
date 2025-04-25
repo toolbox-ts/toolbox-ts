@@ -47,9 +47,10 @@
     "format": "prettier --write .",
     "lint": "eslint . --fix",
     "typecheck": "tsc -b --noEmit",
-    "clean": "rm -rf .dev/.cache && rm -rf packages/*/build",
+    "rm:build": "rm -rf packages/*/build",
+    "clean": "pnpm run format && pnpm run lint",
     "validate": "pnpm run cruise && pnpm run eslint . && pnpm run prettier . && pnpm run typecheck && pnpm run test",
     "build": "pnpm -r build",
-    "prepare:release": "pnpm run cruise && pnpm run format && pnpm run lint && pnpm run test && pnpm changeset && pnpm changeset status"
+    "prepare:release": "pnpm run cruise && pnpm run clean && pnpm run test && pnpm changeset && pnpm changeset status"
   }
 }
