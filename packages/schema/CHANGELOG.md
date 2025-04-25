@@ -1,5 +1,13 @@
 # @toolbox-ts/schema
 
+## 0.1.3
+
+### Patch Changes
+
+- 3235e2d: fix build process and ci
+- Updated dependencies [3235e2d]
+  - @toolbox-ts/utils@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes
