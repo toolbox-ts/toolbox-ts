@@ -1,5 +1,12 @@
 # @toolbox-ts/css-normalize
 
+## 1.0.3
+
+### Patch Changes
+
+- 961c1f4: fixed build script copying src directory into build instead of just it's content
+- 175bc0f: update build process
+
 ## 1.0.2
 
 ### Patch Changes
