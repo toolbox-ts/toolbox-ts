@@ -25,6 +25,13 @@ This monorepo is built using [`pnpm`](https://pnpm.io) and
 
 ---
 
+## ToDo
+
+- [ ] Add CLI
+  - [ ] Develop cmd to ensure build/ directory exists in all packages and add to
+        release workflow to prevent publishing empty packages.
+  - [ ] Move dep cruiser commands
+
 ## License
 
 MIT – © 2025 [Nolan Gajdascz](https://github.com/gajdascz)
