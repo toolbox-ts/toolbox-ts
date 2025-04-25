@@ -1,6 +1,6 @@
 {
   "name": "@toolbox-ts/dsa",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Data Structures and Algorithms implemented",
   "private": false,
   "publishConfig": {
