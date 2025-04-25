@@ -471,4 +471,4 @@ svg {
     --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
   }
 }
-`
+`;
