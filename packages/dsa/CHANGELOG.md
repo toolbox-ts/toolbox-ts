@@ -1,5 +1,11 @@
 # @toolbox-ts/dsa
 
+## 0.1.3
+
+### Patch Changes
+
+- 67ce9fe: rebuild and release
+
 ## 0.1.2
 
 ### Patch Changes
