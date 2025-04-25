@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.0.4
+
+### Patch Changes
+
+- 3235e2d: fix build process and ci
+
 ## 1.0.3
 
 ### Patch Changes

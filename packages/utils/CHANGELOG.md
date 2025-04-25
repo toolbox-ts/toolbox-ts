@@ -1,5 +1,11 @@
 # @toolbox-ts/utils
 
+## 0.1.3
+
+### Patch Changes
+
+- 3235e2d: fix build process and ci
+
 ## 0.1.2
 
 ### Patch Changes
