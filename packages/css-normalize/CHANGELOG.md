@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.0.5
+
+### Patch Changes
+
+- 2fc777d: add types file to remove import error
+
 ## 1.0.4
 
 ### Patch Changes
