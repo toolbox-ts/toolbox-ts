@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.0.8
+
+### Patch Changes
+
+- 78dbdea: fix declaration file (was using wrong syntax for module resolution)
+
 ## 1.0.7
 
 ### Patch Changes
