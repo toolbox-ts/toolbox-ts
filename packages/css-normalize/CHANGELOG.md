@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.0.6
+
+### Patch Changes
+
+- 93b0107: generate css-normalize types declaration during build to fix import issue
+
 ## 1.0.5
 
 ### Patch Changes
