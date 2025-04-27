@@ -1,5 +1,12 @@
 # @toolbox-ts/css-normalize
 
+## 1.0.7
+
+### Patch Changes
+
+- d020fd2: fix css-normalize type declaration
+- d020fd2: fix css-normalize export type map
+
 ## 1.0.6
 
 ### Patch Changes
