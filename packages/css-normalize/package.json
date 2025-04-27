@@ -23,12 +23,11 @@
     "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "type": "module",
-  "types": "./index.d.ts",
+  "types": "./build/index.d.ts",
   "files": [
     "build",
     "LICENSE",
-    "README.md",
-    "index.d.ts"
+    "README.md"
   ],
   "exports": {
     "./string": "./build/string.js",

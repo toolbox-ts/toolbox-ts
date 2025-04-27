@@ -17,3 +17,10 @@ fs.cpSync(srcPath, buildPath, { recursive: true });
 ["scss", "pcss", "less", "styl"].forEach((ext) => {
   fs.writeFileSync(`${buildPath}/normalize.${ext}`, css);
 });
+// Generate the index.d.ts file
+const typesContent = `declare module "@toolbox-ts/css-normalize/*" {
+  const normalize: string;
+  export default normalize;
+}`;
+
+fs.writeFileSync(path.join(buildPath, "index.d.ts"), typesContent);

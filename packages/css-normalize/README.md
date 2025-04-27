@@ -95,7 +95,7 @@ environment that supports directly importing CSS, you can import the
 normalization CSS as a string and inject it directly into your component:
 
 ```ts
-import normalizeCss from "@toolbox-ts/css-normalize/string";
+import normalize from "@toolbox-ts/css-normalize/string";
 ```
 
 ### CDN
