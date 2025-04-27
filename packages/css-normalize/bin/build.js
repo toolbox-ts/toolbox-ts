@@ -17,30 +17,40 @@ fs.cpSync(srcPath, buildPath, { recursive: true });
 ["scss", "pcss", "less", "styl"].forEach((ext) => {
   fs.writeFileSync(`${buildPath}/normalize.${ext}`, css);
 });
-// Generate the index.d.ts file
-const typesContent = `declare module '@toolbox-ts/css-normalize/string' {
-  const normalizeString: string;
-  export default normalizeString;
-}
 
-declare module '@toolbox-ts/css-normalize/css' {
-  const normalizeCss: string;
-  export default normalizeCss;
-}
+// Generate .d.ts files for each export
+const typeDefs = [
+  { file: "string.d.ts", name: "normalize", exportName: "normalize" },
+  {
+    file: "normalize.css.d.ts",
+    name: "normalizeCss",
+    exportName: "normalizeCss",
+  },
+  {
+    file: "normalize.scss.d.ts",
+    name: "normalizeScss",
+    exportName: "normalizeScss",
+  },
+  {
+    file: "normalize.pcss.d.ts",
+    name: "normalizePcss",
+    exportName: "normalizePcss",
+  },
+  {
+    file: "normalize.less.d.ts",
+    name: "normalizeLess",
+    exportName: "normalizeLess",
+  },
+  {
+    file: "normalize.styl.d.ts",
+    name: "normalizeStyl",
+    exportName: "normalizeStyl",
+  },
+];
 
-declare module '@toolbox-ts/css-normalize/scss' {
-  const normalizeScss: string;
-  export default normalizeScss;
-}
-
-declare module '@toolbox-ts/css-normalize/less' {
-  const normalizeLess: string;
-  export default normalizeLess;
-}
-
-declare module '@toolbox-ts/css-normalize/styl' {
-  const normalizeStyl: string;
-  export default normalizeStyl;
-}`;
-
-fs.writeFileSync(path.join(buildPath, "index.d.ts"), typesContent);
+typeDefs.forEach(({ file, exportName }) => {
+  fs.writeFileSync(
+    path.join(buildPath, file),
+    `declare const ${exportName}: string;\nexport default ${exportName};\n`,
+  );
+});
