@@ -41,6 +41,8 @@ export default defineConfig({
         "**/types.ts",
         "**/types/**",
         "**/string.js/**",
+        // Ignore all type only packages
+        "./packages/*-types/**",
       ],
     },
   },
