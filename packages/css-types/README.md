@@ -46,13 +46,13 @@ yarn add @toolbox-ts/css-types
 Import only what you need:
 
 ```ts
-import type { Colors, Units, Selectors, Border } from '@toolbox-ts/css-types';
+import type { Colors, Units, Selectors, Border } from "@toolbox-ts/css-types";
 
 const buttonStyle: {
   color: Colors.Type;
   margin: Border.Width;
   padding: Units.Length;
-} = { color: 'rebeccapurple', margin: '2px', padding: '1em' };
+} = { color: "rebeccapurple", margin: "2px", padding: "1em" };
 ```
 
 ### Block Selector
@@ -61,7 +61,7 @@ Use the `Selectors.Block` interface to build selector strings with relative
 type-safety and performance.
 
 ```ts
-type Logical = 'not' | 'is' | 'where' | 'has';
+type Logical = "not" | "is" | "where" | "has";
 type OrderedLogical = [Logical, Logical, Logical, Logical];
 interface ChainBase {
   tag?: Tags.All | Universal;
@@ -75,13 +75,13 @@ interface ChainBase {
 
 interface SteppableChain extends ChainBase {
   pseudo?:
-    | Exclude<Pseudo.Classes.All, ':root'>
-    | Exclude<Pseudo.Classes.All, ':root'>[];
+    | Exclude<Pseudo.Classes.All, ":root">
+    | Exclude<Pseudo.Classes.All, ":root">[];
   logical?: never;
 }
 type PrimaryChain =
   | (ChainBase & { logical?: Logical | OrderedLogical })
-  | (ChainBase & { pseudo: ':root'; tag?: never });
+  | (ChainBase & { pseudo: ":root"; tag?: never });
 
 /**
  * Chain Resolution Order:
@@ -111,44 +111,44 @@ own code or create your own.
 <details><summary>Example: Block Selector Resolver</summary>
 
 ```ts
-import { Selectors } from '@toolbox-ts/css-types';
+import { Selectors } from "@toolbox-ts/css-types";
 
 const resolveSelector = ({ primary, steps = [] }: Selectors.Block): string => {
   const chainKeys = [
-    'tag',
-    'id',
-    'class',
-    'attribute',
-    'pseudo',
-    'rest'
+    "tag",
+    "id",
+    "class",
+    "attribute",
+    "pseudo",
+    "rest",
   ] as const;
   const normalize = (part: string | string[]): string =>
-    Array.isArray(part) ? part.join('') : part;
+    Array.isArray(part) ? part.join("") : part;
 
   const resolve = (curr: ChainBase): string =>
     chainKeys.reduce(
       (acc, key) => (curr[key] ? (acc += normalize(curr[key])) : acc),
-      ''
+      "",
     );
   const { attribute, class: _class, logical, id, pseudo, rest, tag } = primary;
-  let opening = '';
-  let closing = '';
+  let opening = "";
+  let closing = "";
   if (logical) {
     const l = Array.isArray(logical) ? logical : [logical];
-    closing = ')'.repeat(l.length);
-    opening = l.map((_l) => `:${_l}(`).join('');
+    closing = ")".repeat(l.length);
+    opening = l.map((_l) => `:${_l}(`).join("");
   }
   let selector = resolve({ pseudo, attribute, class: _class, id, tag, rest });
 
   return `${opening}${
-    steps.length ?
-      (selector += steps
-        .map(
-          ([combinator, chain]) =>
-            `${combinator === ' ' ? ' ' : ` ${combinator} `}${resolve(chain)}`
-        )
-        .join('')).trim()
-    : selector
+    steps.length
+      ? (selector += steps
+          .map(
+            ([combinator, chain]) =>
+              `${combinator === " " ? " " : ` ${combinator} `}${resolve(chain)}`,
+          )
+          .join("")).trim()
+      : selector
   }${closing}`;
 };
 ```

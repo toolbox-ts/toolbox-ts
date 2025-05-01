@@ -2,4 +2,4 @@
 "@toolbox-ts/css-types": minor
 ---
 
-update block selector type
+update css-type package block selector
