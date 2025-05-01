@@ -39,6 +39,8 @@ projects
   [SCSS](https://sass-lang.com/), [Less](https://lesscss.org/),
   [Stylus](https://www.startpage.com/sp/search), and as a string template for
   maximum flexibility in your build pipeline.
+- ⚙️ **[Vars Utility Module](#vars-utility):** Provides a type-safe method for
+  creating override variables.
 - 🚀 **Developer Experience Enhancements**:
   - **Built-in Flex Layout:** Uses a flexible layout, making it effortless to
     create a full page site
@@ -75,7 +77,7 @@ npm install @toolbox-ts/css-normalize
 In your Stylesheet
 
 ```css
-@import "@toolbox-ts/css-normalize";
+@import "@toolbox-ts/css-normalize/css";
 ```
 
 ### Direct Script Import
@@ -84,7 +86,7 @@ Or, if using a bundler (like [Vite](https://vitest.dev/) or
 [Webpack](https://webpack.js.org/)):
 
 ```ts
-import "@toolbox-ts/css-normalize";
+import "@toolbox-ts/css-normalize/css";
 ```
 
 Or, If you use a CSS-in-JS library (like
@@ -97,6 +99,8 @@ normalization CSS as a string and inject it directly into your component:
 ```ts
 import normalize from "@toolbox-ts/css-normalize/string";
 ```
+
+[⚙️ **Utility:** Introduced in V1.1.0 you can now import and use the `Vars` utility module which provides auto-complete and type safety for all of the base variables.](#vars-utility)
 
 ### CDN
 
@@ -117,9 +121,65 @@ Simply copy and paste or download the normalize.css file from the
 
 ## Variables
 
+## Vars Utility
+
+```ts
+import { Vars } from '@toolbox-ts/css-normalize';
+
+const vars = Vars.define({
+  fontSize: "1rem",
+  lineHeight: "1.5",
+  lightBg: "#ffffff",
+  lightFg: "#000000",
+  ...
+});
+
+// string output
+console.log(vars.toString());
+// --font-size: 1rem;
+// --line-height: 1.5;
+// --light-color-bg: #ffffff;
+// --light-color-fg: #000000;
+
+// Object keyed by prop
+console.log(vars.toPropKeyObj());
+// {
+//   "--font-size": "1rem;",
+//   "--line-height": "1.5;",
+//   "--light-color-bg": "#ffffff;",
+//   "--light-color-fg": "#000000;"
+// }
+
+console.log(vars.toBlock({
+  primary: {
+    tag: "body",
+    class: "theme-light",
+  }
+}));
+// body.theme-light {
+// --font-size: 1rem;
+// --line-height: 1.5;
+// --light-color-bg: #ffffff;
+// --light-color-fg: #000000;
+// }
+
+console.log(vars.toBlockObj(selector));
+// {
+//   selector: "body.theme-light",
+//   css: {
+//     "--font-size": "1rem;",
+//     "--line-height": "1.5;",
+//     "--light-color-bg": "#ffffff;",
+//     "--light-color-fg": "#000000;"
+//   }
+// }
+```
+
 ### 🎨 Customizable
 
 All these variables can be overridden in your own CSS to customize the theme.
+
+<details><Summary>Table</Summary>
 
 | Variable Name                   | Default Value                | Description / Usage                          |
 | ------------------------------- | ---------------------------- | -------------------------------------------- |
@@ -146,12 +206,19 @@ All these variables can be overridden in your own CSS to customize the theme.
 | `--letter-spacing`              | `0.01em`                     | Base letter spacing                          |
 | `--padding`                     | `0.5rem`                     | Base padding                                 |
 
+</details>
+
 ---
 
 ### 🌐 Public
 
-Use these variables directly in your CSS for shadows, transitions, and font
-weights.
+These are the base variables meant to be used directly in your CSS. They include
+all variables from [`customizable`](#-customizable) (except for
+`--elevation-base-y-offset` & `--elevation-base-blur` which are meant to provide
+a base for calculating the public elevation levels). Use these variables
+directly in your CSS for shadows, transitions, and font weights.
+
+<Details><Summary>Table</Summary>
 
 | Variable Name                      | Default Value / Computed From                                                                                                                                                                           | Description / Usage                 |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
@@ -161,14 +228,20 @@ weights.
 | `--elevation-high`                 | `0 calc(var(--root-elevation-base-y-offset) * 4) calc(var(--root-elevation-base-blur) * 4) var(--root-shadow-color)`                                                                                    | High elevation shadow               |
 | `--interactive-element-transition` | `background-color var(--root-transition-duration) ease, color var(--root-transition-duration) ease, border-color var(--root-transition-duration) ease, box-shadow var(--root-transition-duration) ease` | Transition for interactive elements |
 
+</Details>
+
+---
+
 ### 🔒 Root
 
 - These variables are **computed** from the theme tokens and are generally not
   intended to be overridden directly.
-- For customization, override the theme variables (like `--light-color-bg`,
-  `--dark-color-fg`, etc.).
+- For customization, I recommend overriding the theme variables (like
+  `--light-color-bg`, `--dark-color-fg`, etc.).
 - The values for color variables will automatically switch in dark mode via
   `[data-theme='dark']/@media query`.
+
+<Details><Summary>Table</Summary>
 
 | Variable Name                    | Default Value / Computed From                                                                                               | Description / Usage                                 |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
@@ -198,6 +271,8 @@ weights.
 | `--root-bolder`                  | `max(var(--bolder, 700), 899)`                                                                                              | Computed bolder font weight                         |
 | `--root-elevation-base-y-offset` | `var(--elevation-base-y-offset, 1.5px)`                                                                                     | Shadow Y offset base                                |
 | `--root-elevation-base-blur`     | `var(--elevation-base-blur, 3px)`                                                                                           | Shadow blur base                                    |
+
+</Details>
 
 ---
 

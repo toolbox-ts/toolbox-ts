@@ -48,7 +48,7 @@ type General =
   | Pseudo.Elements.All;
 
 type Logical = "not" | "is" | "where" | "has";
-type OrderedLogical = [Logical, Logical, Logical, Logical];
+type OrderedLogical = Logical[];
 interface ChainBase {
   tag?: Tags.All | Universal;
   id?: ID;
@@ -58,17 +58,20 @@ interface ChainBase {
   rest?: string | string[];
   logical?: Logical | OrderedLogical;
 }
-
-interface SteppableChain extends ChainBase {
+interface PrimaryChainPseudoRoot extends ChainBase {
+  pseudo: ":root";
+  tag?: never;
+}
+interface PrimaryChainGeneral extends ChainBase {
   pseudo?:
     | Exclude<Pseudo.Classes.All, ":root">
     | Exclude<Pseudo.Classes.All, ":root">[];
+}
+type PrimaryChain = PrimaryChainGeneral | PrimaryChainPseudoRoot;
+
+interface SteppableChain extends PrimaryChainGeneral {
   logical?: never;
 }
-type PrimaryChain =
-  | (ChainBase & { logical?: Logical | OrderedLogical })
-  | (ChainBase & { pseudo: ":root"; tag?: never });
-
 /**
  * Chain Resolution Order:
  *  1. :root
@@ -91,6 +94,8 @@ interface Block {
 export type {
   Universal,
   PrimaryChain,
+  PrimaryChainPseudoRoot,
+  PrimaryChainGeneral,
   SteppableChain,
   BlockStep,
   Not,
@@ -99,6 +104,8 @@ export type {
   Has,
   Block,
   ChainBase,
+  Logical,
+  OrderedLogical,
   General,
   Class,
   ID,

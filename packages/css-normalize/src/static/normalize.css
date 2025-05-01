@@ -139,9 +139,9 @@ small {
   /* Muted/secondary text, visited links */
   --root-color-muted: var(--light-color-muted, #59597a);
 
-  --root-border-color: var(--light-border-color, var(--root-color-emphasis));
-  --root-shadow-color: var(--light-shadow-color, var(--root-color-emphasis));
-  --root-outline-color: var(--light-outline-color, var(--root-color-emphasis));
+  --root-color-border: var(--light-color-border, var(--root-color-emphasis));
+  --root-color-shadow: var(--light-color-shadow, var(--root-color-emphasis));
+  --root-color-outline: var(--light-color-outline, var(--root-color-emphasis));
 
   --root-outline-width: var(--light-outline-width, 2px);
   --root-outline-offset: var(--outline-offset, 2px);
@@ -159,11 +159,11 @@ small {
   --root-elevation-base-blur: var(--elevation-base-blur, 3px);
 
   --elevation-low: 0 var(--root-elevation-base-y-offset)
-    var(--root-elevation-base-blur) var(--root-shadow-color);
+    var(--root-elevation-base-blur) var(--root-color-shadow);
   --elevation-medium: 0 calc(var(--root-elevation-base-y-offset) * 2)
-    calc(var(--root-elevation-base-blur) * 2) var(--root-shadow-color);
+    calc(var(--root-elevation-base-blur) * 2) var(--root-color-shadow);
   --elevation-high: 0 calc(var(--root-elevation-base-y-offset) * 4)
-    calc(var(--root-elevation-base-blur) * 4) var(--root-shadow-color);
+    calc(var(--root-elevation-base-blur) * 4) var(--root-color-shadow);
 
   --interactive-element-transition:
     background-color var(--root-transition-duration) ease,
@@ -178,9 +178,9 @@ small {
   --root-color-accent: var(--dark-color-accent, #a78bfa);
   --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
   --root-color-muted: var(--dark-color-muted, #c9b8d1);
-  --root-border-color: var(--dark-border-color, var(--root-color-emphasis));
-  --root-outline-color: var(--dark-outline-color, var(--root-color-emphasis));
-  --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
+  --root-color-border: var(--dark-color-border, var(--root-color-emphasis));
+  --root-color-outline: var(--dark-color-outline, var(--root-color-emphasis));
+  --root-color-shadow: var(--dark-shadow-color, var(--root-color-emphasis));
 }
 
 h1 {
@@ -466,8 +466,8 @@ svg {
     --root-color-accent: var(--dark-color-accent, #a78bfa);
     --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
     --root-color-muted: var(--dark-color-muted, #c9b8d1);
-    --root-border-color: var(--dark-border-color, var(--root-color-emphasis));
-    --root-outline-color: var(--dark-outline-color, var(--root-color-emphasis));
-    --root-shadow-color: var(--dark-shadow-color, var(--root-color-emphasis));
+    --root-color-border: var(--dark-color-border, var(--root-color-emphasis));
+    --root-color-outline: var(--dark-color-outline, var(--root-color-emphasis));
+    --root-color-shadow: var(--dark-shadow-color, var(--root-color-emphasis));
   }
 }
