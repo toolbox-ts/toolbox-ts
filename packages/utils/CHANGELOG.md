@@ -1,5 +1,11 @@
 # @toolbox-ts/utils
 
+## 0.1.4
+
+### Patch Changes
+
+- d5c3498: fix css-types, update css-normalize, update docs
+
 ## 0.1.3
 
 ### Patch Changes

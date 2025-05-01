@@ -1,5 +1,16 @@
 # @toolbox-ts/css-normalize
 
+## 1.1.0
+
+### Minor Changes
+
+- d5c3498: fix css-types, update css-normalize, update docs
+
+### Patch Changes
+
+- Updated dependencies [d5c3498]
+  - @toolbox-ts/css-types@0.1.1
+
 ## 1.0.8
 
 ### Patch Changes
