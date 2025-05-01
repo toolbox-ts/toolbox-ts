@@ -38,7 +38,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: 📥 Install pnpm
-        run: npm install -g pnpm@10.9.0
+        run: npm install -g pnpm@10.10.0
+
+      - name: 📥 Install tsx
+        run: pnpm add -g tsx
 
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
@@ -72,7 +75,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: 📥 Install pnpm
-        run: npm install -g pnpm@10.9.0
+        run: npm install -g pnpm@10.10.0
+
+      - name: 📥 Install tsx
+        run: pnpm add -g tsx
 
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
