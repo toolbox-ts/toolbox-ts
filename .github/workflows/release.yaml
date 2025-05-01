@@ -40,9 +40,6 @@ jobs:
       - name: 📥 Install pnpm
         run: npm install -g pnpm@10.10.0
 
-      - name: 📥 Install tsx
-        run: pnpm add -g tsx
-
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -76,9 +73,6 @@ jobs:
 
       - name: 📥 Install pnpm
         run: npm install -g pnpm@10.10.0
-
-      - name: 📥 Install tsx
-        run: pnpm add -g tsx
 
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
