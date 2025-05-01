@@ -109,26 +109,6 @@
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M764.5,-1931.8C764.5,-1931.8 933,-1931.8 933,-1931.8 939,-1931.8 945,-1937.8 945,-1943.8 945,-1943.8 945,-2151.8 945,-2151.8 945,-2157.8 939,-2163.8 933,-2163.8 933,-2163.8 764.5,-2163.8 764.5,-2163.8 758.5,-2163.8 752.5,-2157.8 752.5,-2151.8 752.5,-2151.8 752.5,-1943.8 752.5,-1943.8 752.5,-1937.8 758.5,-1931.8 764.5,-1931.8"/>
 <text text-anchor="middle" x="848.75" y="-2152.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">properties</text>
 </g>
-<g id="clust35" class="cluster">
-<title>cluster_packages/schema</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M1691.5,-1533.8C1691.5,-1533.8 1998.5,-1533.8 1998.5,-1533.8 2004.5,-1533.8 2010.5,-1539.8 2010.5,-1545.8 2010.5,-1545.8 2010.5,-1727.8 2010.5,-1727.8 2010.5,-1733.8 2004.5,-1739.8 1998.5,-1739.8 1998.5,-1739.8 1691.5,-1739.8 1691.5,-1739.8 1685.5,-1739.8 1679.5,-1733.8 1679.5,-1727.8 1679.5,-1727.8 1679.5,-1545.8 1679.5,-1545.8 1679.5,-1539.8 1685.5,-1533.8 1691.5,-1533.8"/>
-<text text-anchor="middle" x="1845" y="-1728.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">schema</text>
-</g>
-<g id="clust36" class="cluster">
-<title>cluster_packages/schema/build</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M1718.5,-1661.8C1718.5,-1661.8 1764.5,-1661.8 1764.5,-1661.8 1770.5,-1661.8 1776.5,-1667.8 1776.5,-1673.8 1776.5,-1673.8 1776.5,-1701.8 1776.5,-1701.8 1776.5,-1707.8 1770.5,-1713.8 1764.5,-1713.8 1764.5,-1713.8 1718.5,-1713.8 1718.5,-1713.8 1712.5,-1713.8 1706.5,-1707.8 1706.5,-1701.8 1706.5,-1701.8 1706.5,-1673.8 1706.5,-1673.8 1706.5,-1667.8 1712.5,-1661.8 1718.5,-1661.8"/>
-<text text-anchor="middle" x="1741.5" y="-1702.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">build</text>
-</g>
-<g id="clust37" class="cluster">
-<title>cluster_packages/schema/src</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M1699.5,-1541.8C1699.5,-1541.8 1990.5,-1541.8 1990.5,-1541.8 1996.5,-1541.8 2002.5,-1547.8 2002.5,-1553.8 2002.5,-1553.8 2002.5,-1641.8 2002.5,-1641.8 2002.5,-1647.8 1996.5,-1653.8 1990.5,-1653.8 1990.5,-1653.8 1699.5,-1653.8 1699.5,-1653.8 1693.5,-1653.8 1687.5,-1647.8 1687.5,-1641.8 1687.5,-1641.8 1687.5,-1553.8 1687.5,-1553.8 1687.5,-1547.8 1693.5,-1541.8 1699.5,-1541.8"/>
-<text text-anchor="middle" x="1845" y="-1642.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">src</text>
-</g>
-<g id="clust38" class="cluster">
-<title>cluster_packages/schema/src/field</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M1815,-1549.8C1815,-1549.8 1982.5,-1549.8 1982.5,-1549.8 1988.5,-1549.8 1994.5,-1555.8 1994.5,-1561.8 1994.5,-1561.8 1994.5,-1589.8 1994.5,-1589.8 1994.5,-1595.8 1988.5,-1601.8 1982.5,-1601.8 1982.5,-1601.8 1815,-1601.8 1815,-1601.8 1809,-1601.8 1803,-1595.8 1803,-1589.8 1803,-1589.8 1803,-1561.8 1803,-1561.8 1803,-1555.8 1809,-1549.8 1815,-1549.8"/>
-<text text-anchor="middle" x="1898.75" y="-1590.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">field</text>
-</g>
 <g id="clust21" class="cluster">
 <title>cluster_packages/dsa</title>
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M63,-1533.8C63,-1533.8 722.5,-1533.8 722.5,-1533.8 728.5,-1533.8 734.5,-1539.8 734.5,-1545.8 734.5,-1545.8 734.5,-1885.8 734.5,-1885.8 734.5,-1891.8 728.5,-1897.8 722.5,-1897.8 722.5,-1897.8 63,-1897.8 63,-1897.8 57,-1897.8 51,-1891.8 51,-1885.8 51,-1885.8 51,-1545.8 51,-1545.8 51,-1539.8 57,-1533.8 63,-1533.8"/>
@@ -174,11 +154,6 @@
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M36,-545.8C36,-545.8 472.5,-545.8 472.5,-545.8 478.5,-545.8 484.5,-551.8 484.5,-557.8 484.5,-557.8 484.5,-885.8 484.5,-885.8 484.5,-891.8 478.5,-897.8 472.5,-897.8 472.5,-897.8 36,-897.8 36,-897.8 30,-897.8 24,-891.8 24,-885.8 24,-885.8 24,-557.8 24,-557.8 24,-551.8 30,-545.8 36,-545.8"/>
 <text text-anchor="middle" x="254.25" y="-886.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">src</text>
 </g>
-<g id="clust34" class="cluster">
-<title>cluster_packages/file/src/write</title>
-<path fill="#ffffff" stroke="black" stroke-width="2" d="M58,-699.8C58,-699.8 237,-699.8 237,-699.8 243,-699.8 249,-705.8 249,-711.8 249,-711.8 249,-739.8 249,-739.8 249,-745.8 243,-751.8 237,-751.8 237,-751.8 58,-751.8 58,-751.8 52,-751.8 46,-745.8 46,-739.8 46,-739.8 46,-711.8 46,-711.8 46,-705.8 52,-699.8 58,-699.8"/>
-<text text-anchor="middle" x="147.5" y="-740.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">write</text>
-</g>
 <g id="clust30" class="cluster">
 <title>cluster_packages/file/src/basic</title>
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M295,-819.8C295,-819.8 464.5,-819.8 464.5,-819.8 470.5,-819.8 476.5,-825.8 476.5,-831.8 476.5,-831.8 476.5,-859.8 476.5,-859.8 476.5,-865.8 470.5,-871.8 464.5,-871.8 464.5,-871.8 295,-871.8 295,-871.8 289,-871.8 283,-865.8 283,-859.8 283,-859.8 283,-831.8 283,-831.8 283,-825.8 289,-819.8 295,-819.8"/>
@@ -198,6 +173,31 @@
 <title>cluster_packages/file/src/parseJson</title>
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M47.5,-639.8C47.5,-639.8 245.5,-639.8 245.5,-639.8 251.5,-639.8 257.5,-645.8 257.5,-651.8 257.5,-651.8 257.5,-679.8 257.5,-679.8 257.5,-685.8 251.5,-691.8 245.5,-691.8 245.5,-691.8 47.5,-691.8 47.5,-691.8 41.5,-691.8 35.5,-685.8 35.5,-679.8 35.5,-679.8 35.5,-651.8 35.5,-651.8 35.5,-645.8 41.5,-639.8 47.5,-639.8"/>
 <text text-anchor="middle" x="146.5" y="-680.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">parseJson</text>
+</g>
+<g id="clust34" class="cluster">
+<title>cluster_packages/file/src/write</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M58,-699.8C58,-699.8 237,-699.8 237,-699.8 243,-699.8 249,-705.8 249,-711.8 249,-711.8 249,-739.8 249,-739.8 249,-745.8 243,-751.8 237,-751.8 237,-751.8 58,-751.8 58,-751.8 52,-751.8 46,-745.8 46,-739.8 46,-739.8 46,-711.8 46,-711.8 46,-705.8 52,-699.8 58,-699.8"/>
+<text text-anchor="middle" x="147.5" y="-740.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">write</text>
+</g>
+<g id="clust35" class="cluster">
+<title>cluster_packages/schema</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M1691.5,-1533.8C1691.5,-1533.8 1998.5,-1533.8 1998.5,-1533.8 2004.5,-1533.8 2010.5,-1539.8 2010.5,-1545.8 2010.5,-1545.8 2010.5,-1727.8 2010.5,-1727.8 2010.5,-1733.8 2004.5,-1739.8 1998.5,-1739.8 1998.5,-1739.8 1691.5,-1739.8 1691.5,-1739.8 1685.5,-1739.8 1679.5,-1733.8 1679.5,-1727.8 1679.5,-1727.8 1679.5,-1545.8 1679.5,-1545.8 1679.5,-1539.8 1685.5,-1533.8 1691.5,-1533.8"/>
+<text text-anchor="middle" x="1845" y="-1728.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">schema</text>
+</g>
+<g id="clust36" class="cluster">
+<title>cluster_packages/schema/build</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M1718.5,-1661.8C1718.5,-1661.8 1764.5,-1661.8 1764.5,-1661.8 1770.5,-1661.8 1776.5,-1667.8 1776.5,-1673.8 1776.5,-1673.8 1776.5,-1701.8 1776.5,-1701.8 1776.5,-1707.8 1770.5,-1713.8 1764.5,-1713.8 1764.5,-1713.8 1718.5,-1713.8 1718.5,-1713.8 1712.5,-1713.8 1706.5,-1707.8 1706.5,-1701.8 1706.5,-1701.8 1706.5,-1673.8 1706.5,-1673.8 1706.5,-1667.8 1712.5,-1661.8 1718.5,-1661.8"/>
+<text text-anchor="middle" x="1741.5" y="-1702.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">build</text>
+</g>
+<g id="clust37" class="cluster">
+<title>cluster_packages/schema/src</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M1699.5,-1541.8C1699.5,-1541.8 1990.5,-1541.8 1990.5,-1541.8 1996.5,-1541.8 2002.5,-1547.8 2002.5,-1553.8 2002.5,-1553.8 2002.5,-1641.8 2002.5,-1641.8 2002.5,-1647.8 1996.5,-1653.8 1990.5,-1653.8 1990.5,-1653.8 1699.5,-1653.8 1699.5,-1653.8 1693.5,-1653.8 1687.5,-1647.8 1687.5,-1641.8 1687.5,-1641.8 1687.5,-1553.8 1687.5,-1553.8 1687.5,-1547.8 1693.5,-1541.8 1699.5,-1541.8"/>
+<text text-anchor="middle" x="1845" y="-1642.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">src</text>
+</g>
+<g id="clust38" class="cluster">
+<title>cluster_packages/schema/src/field</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M1815,-1549.8C1815,-1549.8 1982.5,-1549.8 1982.5,-1549.8 1988.5,-1549.8 1994.5,-1555.8 1994.5,-1561.8 1994.5,-1561.8 1994.5,-1589.8 1994.5,-1589.8 1994.5,-1595.8 1988.5,-1601.8 1982.5,-1601.8 1982.5,-1601.8 1815,-1601.8 1815,-1601.8 1809,-1601.8 1803,-1595.8 1803,-1589.8 1803,-1589.8 1803,-1561.8 1803,-1561.8 1803,-1555.8 1809,-1549.8 1815,-1549.8"/>
+<text text-anchor="middle" x="1898.75" y="-1590.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">field</text>
 </g>
 <g id="clust39" class="cluster">
 <title>cluster_packages/text</title>
@@ -525,12 +525,8 @@
 <!-- packages/css&#45;normalize/src/modules/vars/define/__define.test.ts&#45;&gt;node_modules/vitest -->
 <g id="edge8" class="edge">
 <title>packages/css&#45;normalize/src/modules/vars/define/__define.test.ts&#45;&gt;node_modules/vitest</title>
-<g id="a_edge8"><a xlink:title="no&#45;non&#45;package&#45;json">
-<path fill="none" stroke="red" d="M370.73,-2232.78C372.12,-2231.61 373.39,-2230.29 374.5,-2228.8 386.21,-2213.07 379.12,-836.12 382.5,-816.8 407.71,-672.8 454.57,-647.99 492.5,-506.8 497.54,-488.03 486.55,-477.33 500.5,-463.8 510.42,-454.18 744.39,-422.8 786.5,-422.8 786.5,-422.8 786.5,-422.8 2062.5,-422.8 2144.15,-422.8 2179.16,-395.52 2245,-443.8 2255.99,-451.86 2247.43,-462.61 2257.5,-471.8 2261.02,-475.01 2265.26,-477.54 2269.7,-479.53"/>
-<polygon fill="red" stroke="red" points="2269.03,-481.53 2275.38,-481.77 2270.57,-477.62 2269.03,-481.53"/>
-</a>
-</g>
-<text text-anchor="middle" x="898.5" y="-415.6" font-family="Helvetica,sans-Serif" font-size="9.00" fill="red">no&#45;non&#45;package&#45;json</text>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M370.73,-2232.78C372.12,-2231.61 373.39,-2230.29 374.5,-2228.8 386.21,-2213.07 379.12,-836.12 382.5,-816.8 407.71,-672.8 454.57,-647.99 492.5,-506.8 497.54,-488.03 486.55,-477.33 500.5,-463.8 510.42,-454.18 744.39,-422.8 786.5,-422.8 786.5,-422.8 786.5,-422.8 2062.5,-422.8 2144.15,-422.8 2179.16,-395.52 2245,-443.8 2255.99,-451.86 2247.43,-462.61 2257.5,-471.8 2261.02,-475.01 2265.26,-477.54 2269.7,-479.53"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="2269.03,-481.53 2275.38,-481.77 2270.57,-477.62 2269.03,-481.53"/>
 </g>
 <!-- packages/css&#45;normalize/src/modules/vars/define/__define.test.ts&#45;&gt;packages/css&#45;normalize/src/modules/vars/types.ts -->
 <g id="edge5" class="edge">
@@ -1600,8 +1596,8 @@
 <!-- packages/file/src/index.ts&#45;&gt;packages/file/src/basic/basic.ts -->
 <g id="edge100" class="edge">
 <title>packages/file/src/index.ts&#45;&gt;packages/file/src/basic/basic.ts</title>
-<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M121.18,-618.45C176.82,-610.85 307.22,-602.09 374.5,-672.8 416.17,-716.6 432.79,-790.1 438.24,-821.66"/>
-<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="437.16,-828.07 438.26,-821.81 441.31,-827.39 437.16,-828.07"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M121.12,-622.28C131.92,-622.09 144.56,-621.89 156,-621.8 256.47,-620.98 306.55,-605.79 374.5,-679.8 413.35,-722.12 431.25,-790.64 437.62,-821.21"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="436.81,-827.88 437.69,-821.59 440.93,-827.06 436.81,-827.88"/>
 </g>
 <!-- packages/file/src/index.ts&#45;&gt;packages/file/src/find/find.ts -->
 <g id="edge101" class="edge">
@@ -1675,8 +1671,8 @@
 <!-- packages/file/src/parseJson/parseJson.ts&#45;&gt;packages/file/src/basic/basic.ts -->
 <g id="edge115" class="edge">
 <title>packages/file/src/parseJson/parseJson.ts&#45;&gt;packages/file/src/basic/basic.ts</title>
-<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M244.49,-665.83C284.82,-678.6 354.46,-702.35 374.5,-719.8 407.24,-748.33 427.27,-797.26 435.76,-821.82"/>
-<polygon fill="none" stroke="#000000" stroke-opacity="0.200000" points="433.77,-822.49 437.67,-827.51 437.75,-821.15 433.77,-822.49"/>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M233.83,-665.86C244.86,-671.04 259.11,-677.54 272,-682.8 316.85,-701.09 337.51,-688.53 374.5,-719.8 407.69,-747.86 427.53,-797.06 435.87,-821.76"/>
+<polygon fill="none" stroke="#000000" stroke-opacity="0.200000" points="433.97,-822.71 437.83,-827.76 437.97,-821.41 433.97,-822.71"/>
 </g>
 <!-- packages/file/src/parseJson/parseJson.ts&#45;&gt;packages/file/src/find/find.ts -->
 <g id="edge116" class="edge">
