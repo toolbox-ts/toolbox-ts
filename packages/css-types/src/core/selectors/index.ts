@@ -42,48 +42,63 @@ type General =
   | Attribute.Attribute
   | Class
   | ID
-  | Not
-  | Is
-  | Where
-  | Has
   | Universal
   | Tags.All
   | Pseudo.Classes.All
   | Pseudo.Elements.All;
-/**
- * Resolution Order:
- *  1. tag
- *  2. tag#id
- *  3. tag#id.class
- *  4. tag#id.class[attribute]
- *  5. tag#id.class[attribute]:pseudo
- *  6. tag#id.class[attribute]:pseudo\{general\}
- *  7. tag#id.class[attribute]:pseudo\{general\}\{rest\}
- */
-interface Chain {
-  tag?: Tags.All;
+
+type Logical = "not" | "is" | "where" | "has";
+type OrderedLogical = [Logical, Logical, Logical, Logical];
+interface ChainBase {
+  tag?: Tags.All | Universal;
   id?: ID;
   class?: Class | Class[];
   attribute?: Attribute.Attribute | Attribute.Attribute[];
   pseudo?: Pseudo.Classes.All | Pseudo.Classes.All[];
   rest?: string | string[];
+  logical?: Logical | OrderedLogical;
 }
 
-type BlockStep = [Combinator, Chain];
+interface SteppableChain extends ChainBase {
+  pseudo?:
+    | Exclude<Pseudo.Classes.All, ":root">
+    | Exclude<Pseudo.Classes.All, ":root">[];
+  logical?: never;
+}
+type PrimaryChain =
+  | (ChainBase & { logical?: Logical | OrderedLogical })
+  | (ChainBase & { pseudo: ":root"; tag?: never });
+
+/**
+ * Chain Resolution Order:
+ *  1. :root
+ *  2. *
+ *  3. logical
+ *  3. tag
+ *  4. #id
+ *  5. .class
+ *  6. [attribute]
+ *  7. :pseudo
+ *  8. :pseudo\{general\}
+ *  9. :pseudo\{general\}\{rest\}
+ */
+type BlockStep = [Combinator, SteppableChain];
 interface Block {
-  primary: Chain;
+  primary: PrimaryChain;
   steps?: BlockStep[];
 }
 
 export type {
   Universal,
+  PrimaryChain,
+  SteppableChain,
   BlockStep,
   Not,
   Is,
   Where,
   Has,
   Block,
-  Chain,
+  ChainBase,
   General,
   Class,
   ID,
