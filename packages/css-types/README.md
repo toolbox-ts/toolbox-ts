@@ -13,7 +13,7 @@ specification-compliant as possible.
 - 🎨 **Colors:** Strict types for all color formats, functions, and keywords
 - 📏 **Units** (length, angle, time, resolution, etc.)
 - 🧮 **Math:** (`calc`, `min`, `max`, etc.)
-- 🖌️ **Custom Properties**: Type-safe support for CSS custom properties
+- 🖌️ **Custom Properties:**: Type-safe support for CSS custom properties
 - 🗂️ **Selectors:** Models CSS selectors (tags, pseudo-classes, pseudo-elements,
   attributes)
 - 🏷️ **Modular:** Broken up into ES6 module namespaces for semantic clarity.
@@ -62,7 +62,7 @@ type-safety and performance.
 
 ```ts
 type Logical = "not" | "is" | "where" | "has";
-type OrderedLogical = [Logical, Logical, Logical, Logical];
+type OrderedLogical = Logical[];
 interface ChainBase {
   tag?: Tags.All | Universal;
   id?: ID;
@@ -72,16 +72,38 @@ interface ChainBase {
   rest?: string | string[];
   logical?: Logical | OrderedLogical;
 }
-
-interface SteppableChain extends ChainBase {
+interface PrimaryChainPseudoRoot extends ChainBase {
+  pseudo: ":root";
+  tag?: never;
+}
+interface PrimaryChainGeneral extends ChainBase {
   pseudo?:
     | Exclude<Pseudo.Classes.All, ":root">
     | Exclude<Pseudo.Classes.All, ":root">[];
+}
+type PrimaryChain = PrimaryChainGeneral | PrimaryChainPseudoRoot;
+
+interface SteppableChain extends PrimaryChainGeneral {
   logical?: never;
 }
-type PrimaryChain =
-  | (ChainBase & { logical?: Logical | OrderedLogical })
-  | (ChainBase & { pseudo: ":root"; tag?: never });
+/**
+ * Chain Resolution Order:
+ *  1. :root
+ *  2. *
+ *  3. logical
+ *  3. tag
+ *  4. #id
+ *  5. .class
+ *  6. [attribute]
+ *  7. :pseudo
+ *  8. :pseudo\{general\}
+ *  9. :pseudo\{general\}\{rest\}
+ */
+type BlockStep = [Combinator, SteppableChain];
+interface Block {
+  primary: PrimaryChain;
+  steps?: BlockStep[];
+}
 
 /**
  * Chain Resolution Order:
@@ -111,9 +133,12 @@ own code or create your own.
 <details><summary>Example: Block Selector Resolver</summary>
 
 ```ts
-import { Selectors } from "@toolbox-ts/css-types";
+import type { Selectors } from "@toolbox-ts/css-types";
 
-const resolveSelector = ({ primary, steps = [] }: Selectors.Block): string => {
+export const resolveSelector = ({
+  primary,
+  steps = [],
+}: Selectors.Block): string => {
   const chainKeys = [
     "tag",
     "id",
@@ -125,7 +150,7 @@ const resolveSelector = ({ primary, steps = [] }: Selectors.Block): string => {
   const normalize = (part: string | string[]): string =>
     Array.isArray(part) ? part.join("") : part;
 
-  const resolve = (curr: ChainBase): string =>
+  const resolve = (curr: Selectors.ChainBase): string =>
     chainKeys.reduce(
       (acc, key) => (curr[key] ? (acc += normalize(curr[key])) : acc),
       "",
@@ -138,9 +163,16 @@ const resolveSelector = ({ primary, steps = [] }: Selectors.Block): string => {
     closing = ")".repeat(l.length);
     opening = l.map((_l) => `:${_l}(`).join("");
   }
-  let selector = resolve({ pseudo, attribute, class: _class, id, tag, rest });
+  const root = pseudo === ":root" ? ":root" : "";
+  let selector = resolve({
+    ...(root ? { pseudo: undefined, tag: undefined } : { pseudo, tag }),
+    attribute,
+    class: _class,
+    id,
+    rest,
+  });
 
-  return `${opening}${
+  return `${opening}${root}${
     steps.length
       ? (selector += steps
           .map(
