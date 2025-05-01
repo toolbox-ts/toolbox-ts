@@ -104,25 +104,6 @@ interface Block {
   primary: PrimaryChain;
   steps?: BlockStep[];
 }
-
-/**
- * Chain Resolution Order:
- *  1. :root
- *  2. *
- *  3. logical
- *  3. tag
- *  4. #id
- *  5. .class
- *  6. [attribute]
- *  7. :pseudo
- *  8. :pseudo\{general\}
- *  9. :pseudo\{general\}\{rest\}
- */
-type BlockStep = [Combinator, SteppableChain];
-interface Block {
-  primary: PrimaryChain;
-  steps?: BlockStep[];
-}
 ```
 
 ## Block Selector Resolver
