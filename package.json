@@ -25,6 +25,7 @@
     "@microsoft/tsdoc-config": "^0.17.1",
     "@types/node": "^22.15.3",
     "@vitest/coverage-v8": "3.0.9",
+    "@vitest/ui": "3.1.2",
     "dependency-cruiser": "^16.10.1",
     "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.1.2",
@@ -51,6 +52,6 @@
     "clean": "pnpm run format && pnpm run lint",
     "validate": "pnpm run cruise && pnpm run eslint . && pnpm run prettier . && pnpm run typecheck && pnpm run test",
     "build": "pnpm -r build",
-    "prepare:release": "pnpm run cruise && pnpm run clean && pnpm run test && pnpm changeset && pnpm changeset status"
+    "prepare:release": "pnpm run cruise && pnpm run clean && pnpm run test"
   }
 }
