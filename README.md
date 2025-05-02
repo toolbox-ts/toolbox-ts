@@ -16,6 +16,7 @@ A monorepo for Typescript utility packages.
 | [`@toolbox-ts/text`](./packages/text)                   | [![](https://img.shields.io/npm/v/@toolbox-ts/text?label=)](https://www.npmjs.com/package/@toolbox-ts/text)                   | Text utilities                 |
 | [`@toolbox-ts/css-normalize`](./packages/css-normalize) | [![](https://img.shields.io/npm/v/@toolbox-ts/css-normalize?label=)](https://www.npmjs.com/package/@toolbox-ts/css-normalize) | Normalize reimagined           |
 | [`@toolbox-ts/css-types`](./packages/css-types)         | [![](https://img.shields.io/npm/v/@toolbox-ts/css-types?label=)](https://www.npmjs.com/package/@toolbox-ts/css-types)         | CSS types                      |
+| [`@toolbox-ts/colors`](./packages/colors)               | [![](https://img.shields.io/npm/v/@toolbox-ts/colors?label=)](https://www.npmjs.com/package/@toolbox-ts/colors)               | Colors utilities               |
 
 ---
 
