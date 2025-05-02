@@ -69,8 +69,7 @@ npm install @toolbox-ts/css-normalize
 - 📌 **Important:** Whether using the CSS file or the string export, this
   normalize must be the very first style included in your CSS or template
   string.
-- ℹ️ **Supported Extensions:** {css|less|pcss|styl} (defaults to css if non
-  provided)
+- ℹ️ **Supported Extensions:** {css|less|pcss|styl}
 
 ### Direct Stylesheet Import
 
@@ -174,6 +173,8 @@ console.log(vars.toBlockObj(selector));
 //   }
 // }
 ```
+
+---
 
 ### 🎨 Customizable
 
