@@ -1,6 +1,8 @@
 **/node_modules
 **/build
 **/dist
+**/coverage
+**/.coverage
 **/.cache
 **/*.tsbuildinfo
 **/package-lock.json
@@ -8,4 +10,3 @@
 *.log
 .env
 .env.*
-**/.coverage

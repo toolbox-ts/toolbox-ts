@@ -50,7 +50,7 @@ const formatViolations = (violations: Violation[]) => {
 const SRC_PATTERN = "packages/**/src/*";
 const CONFIG = ".dep-cruiser.cjs";
 const DOCS_DIR = "./docs/dependencies";
-const GRAPH_HTML = `${DOCS_DIR}/graph.html`;
+const GRAPH = `${DOCS_DIR}/graph.svg`;
 
 function run(command: string) {
   console.log(`$ ${command}`);
@@ -65,26 +65,28 @@ function run(command: string) {
 function validate() {
   console.log("🕵️ Validating dependencies...");
   const output = run(
-    `pnpm execute depcruise ${SRC_PATTERN} --config ${CONFIG} --output-type json`,
+    `npx depcruise ${SRC_PATTERN} --config ${CONFIG} --output-type json`,
   );
   const { violations } = JSON.parse(output) as Result;
 
-  if (violations.length > 0) {
-    console.error(formatViolations(violations));
+  if (violations?.length > 0) {
+    console.error(formatViolations(violations) + "\n");
     process.exit(1);
   } else {
-    console.log("✅ No dependency violations found.");
+    console.log("✅ No dependency violations found.\n");
   }
 }
 
 function generateGraph() {
   validate();
   console.log("📊 Generating dependency graph...");
-  const graph = run(
-    `pnpm execute depcruise ${SRC_PATTERN} --config ${CONFIG} --output-type dot | dot -T svg | depcruise-wrap-stream-in-html`,
+
+  const dotOutput = run(
+    `npx depcruise ${SRC_PATTERN} --config ${CONFIG} --output-type dot`,
   );
 
-  writeFileSync(GRAPH_HTML, graph);
+  const svgOutput = execSync("dot -T svg", { input: dotOutput }).toString();
+  writeFileSync(GRAPH, svgOutput);
   console.log("✅ Dependency graph generated.");
 }
 const commands = { validate, generate: generateGraph } as const;
