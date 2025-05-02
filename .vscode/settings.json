@@ -89,10 +89,8 @@
   "prettier.requireConfig": true,
   "prettier.prettierPath": "./node_modules/prettier",
   "prettier.configPath": "./.prettier.cjs",
-  "prettier.ignorePath": "./.prettierignore",
-
   "eslint.useFlatConfig": true,
-  "eslint.workingDirectories": ["./**", "./.dev/**"],
+
   "cSpell.words": [
     "depcruise",
     "depcruiser",
