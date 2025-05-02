@@ -1,8 +1,6 @@
 **/node_modules
 **/build
 **/dist
-**/coverage
-**/.coverage
 **/.cache
 **/*.tsbuildinfo
 **/package-lock.json
@@ -10,4 +8,4 @@
 *.log
 .env
 .env.*
-docs/architecture/dependency-errors.json
+**/.coverage
