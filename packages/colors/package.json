@@ -1,0 +1,53 @@
+{
+  "name": "@toolbox-ts/colors",
+  "version": "0.0.0",
+  "description": "Color utilities",
+  "private": false,
+  "author": {
+    "name": "Nolan Gajdascz",
+    "email": "dev.gajdascz@gmail.com",
+    "url": "https://github.com/gajdascz"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/toolbox-ts/toolbox-ts/tree/main/packages/color",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toolbox-ts/toolbox-ts.git"
+  },
+  "main": "index.js",
+  "type": "module",
+  "keywords": [
+    "typescript",
+    "toolbox",
+    "utils",
+    "colors",
+    "wcag",
+    "contrast",
+    "luminance",
+    "hex",
+    "rgb",
+    "hsl",
+    "color-conversion"
+  ],
+  "license": "MIT",
+  "files": [
+    "build",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "types": "./build/index.d.ts"
+    }
+  },
+  "scripts": {
+    "test": "vitest --run",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@toolbox-ts/utils": "workspace:*"
+  }
+}

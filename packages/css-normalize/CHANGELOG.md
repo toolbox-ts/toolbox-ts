@@ -1,5 +1,12 @@
 # @toolbox-ts/css-normalize
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [f63898a]
+  - @toolbox-ts/css-types@0.1.2
+
 ## 1.1.0
 
 ### Minor Changes

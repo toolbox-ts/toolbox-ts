@@ -1,5 +1,11 @@
 # @toolbox-ts/css-types
 
+## 0.1.2
+
+### Patch Changes
+
+- f63898a: fix README
+
 ## 0.1.1
 
 ### Patch Changes
