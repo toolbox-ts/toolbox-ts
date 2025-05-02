@@ -34,9 +34,7 @@ type StrategyMap = {
 };
 
 const is = (dims: unknown): dims is Spatial.Dimensions =>
-  Obj.is(dims) &&
-  Num.is.nonNegativeInt(dims.width) &&
-  Num.is.nonNegativeInt(dims.height);
+  Obj.is(dims) && Num.is.positive(dims.width) && Num.is.positive(dims.height);
 
 const isEqual = (d1: Spatial.Dimensions, d2: Spatial.Dimensions) =>
   d1.width === d2.width && d1.height === d2.height;
@@ -46,8 +44,8 @@ const STRATEGY: StrategyMap = Obj.freeze({
     default: { type: "fixed", ...C.DEFAULT_FIXED },
     guard: (dims: unknown): dims is TypeMap["fixed"] =>
       Obj.is(dims) &&
-      Num.is.nonNegativeInt(dims.width) &&
-      Num.is.nonNegativeInt(dims.height),
+      Num.is.positive(dims.width) &&
+      Num.is.positive(dims.height),
     resolve: (input?): TypeMap["fixed"] => ({
       type: "fixed",
       width: input?.width ?? STRATEGY.fixed.default.width,
@@ -69,9 +67,7 @@ const STRATEGY: StrategyMap = Obj.freeze({
       height: C.DEFAULT_FIXED.height,
     },
     guard: (dims: unknown): dims is TypeMap["dynamicWidth"] =>
-      Obj.is(dims) &&
-      dims.width === Infinity &&
-      Num.is.nonNegativeInt(dims.height),
+      Obj.is(dims) && dims.width === Infinity && Num.is.positive(dims.height),
     resolve: (input?) => ({
       type: "dynamicWidth",
       width: Infinity,
@@ -86,7 +82,7 @@ const STRATEGY: StrategyMap = Obj.freeze({
     },
     guard: (dims: unknown): dims is TypeMap["dynamicHeight"] =>
       Obj.is(dims) &&
-      Num.is.nonNegativeInt(dims.width) &&
+      Num.is.positive(dims.width) &&
       Num.is.infinity(dims.height),
     resolve: (input?) => ({
       type: "dynamicHeight",
