@@ -70,7 +70,7 @@
     "clean:builds": "rm -rf packages/*/build",
     "typecheck": "tsc -b --noEmit",
     "build": "pnpm -r build",
-    "check": "pnpm clean:code && pnpm typecheck && pnpm run cruise:validate && pnpm test",
+    "check": "pnpm typecheck && pnpm run cruise:validate && pnpm test",
     "cm": "npx tsx ./bin/commit.ts",
     "lint-staged": "lint-staged",
     "prepare": "husky"

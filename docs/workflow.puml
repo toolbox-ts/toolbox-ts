@@ -1,48 +1,86 @@
-@startuml Development Workflow
+@startuml Workflow
 
 legend top left
-| lightblue     | Standard dev action       |
-| yellow        | Triggers (dev or process) |
-| orange        | Conditions                |
-| lightgreen    | Success outcomes          |
-| lightcoral    | Errors/failures           |
-| plum          | Automation                |
+| <#lightblue>   lightblue      | Standard dev action       |
+| <#yellow>   yellow            | Triggers                  |
+| <#orange>   orange            | Conditions                |
+| <#lightgreen>   lightgreen    | Success outcomes/Admin Op |
+| <#lightcoral>   lightcoral    | Errors/failures           |
+| <#plum>   plum                | Automation                |
 end legend
 
-#lightblue:Open feature branch;
-while (Developing Locally?) is (yes)
-  #lightblue:Finish Feature / Fix;
-  #yellow:`pnpm run validate`;
-  #orange:if (Validation successful?) then (yes)
-    #lightblue:`pnpm run prepare:release`;
-    kill;
-  endif
-    #lightcoral:Debug;
-endwhile (no) 
-  #lightblue:Stage (git); 
-  #lightblue:Commit (git);
-  #yellow:Push Feature Branch (git);
-  #plum:Validate Workflow Initiated;
-    #orange:if (Pass?) then (yes)
-      #plum:PR Created;
-      #orange:if (Review Approved?) then (yes)
-        #lightgreen:Merge PR;
-        #plum:Changeset Branch Created (GitHub Bot);
-        #lightgreen: Merge Changeset Branch;
-        #plum:Release Workflow Initiated;
-        #plum:Publish to NPM;
-        #orange:if (Release Successful?) then (yes)
-        #lightgreen:Complete;
+
+
+
+#lightblue:`git checkout -b <dev/feat-branch>`;
+while (Changes Published?) is (no)
+  #lightblue:Make Changes;
+  #lightblue:`pnpm cm <file/dir file/dir...> (AND/OR) --changeset`;
+  #yellow:(script) ./bin/commit.ts;
+  #orange:if(file/dirs found (AND/OR) --changeset?) then (yes)
+    #yellow:if (--changeset?) then (yes)
+      #plum:(script) `pnpm changeset`;
+      #lightblue:Complete changeset prompts;
+      #plum:(script) Generate Dep Graph & Coverage Report;
+    endif
+    #plum:(script) `git add <file/dir file/dir...>`;
+    #plum:(script) `git changes staged`;
+    #plum:(script) `git commit`;
+    #plum:(husky:pre-commit) lint-staged;
+    #plum:(husky:prepare-commit-msg) init commitizen;
+    #lightblue:complete commitizen prompts;
+    #yellow:(husky:commit-msg) commitlint;
+    #orange:if(successful?) then (yes)
+      #lightgreen:Changes Committed;
+      #orange:if(Publishing?) then (yes)
+        #lightblue: `pnpm changeset`;
+        #lightblue: Complete changeset prompts;
+      else (no)
+      endif
+      #lightblue:git push origin <dev/feat-branch>;
+      #yellow:(husky:pre-push) `pnpm check`;
+      #orange:if(Check Valid) then (yes)
+        #lightgreen:Pushed to origin <dev/feat-branch>;
+        #plum:(GitHub Actions) Pre-Release Job Initiated;
+        #orange:if(Pre-Release Job Completed Successfully?) then (yes)
+          #lightgreen:Pre-Release Job Completed Successfully;
+          #orange:if(Changeset Detected?) then (yes)
+            #plum:(GitHub Actions) Changeset Action Initiated;
+            #plum:(GitHub Actions) PR Created;
+            #orange:if(PR Review Approved?) then (yes)
+              #lightgreen:Merge PR;
+              #plum:Changeset Branch Created (GitHub Bot);
+              #lightgreen:Merge Changeset Branch;
+              #plum:(GitHub Actions) Release Workflow Initiated;
+              #plum:(GitHub Actions) Publish to NPM;
+              #orange:if(Release Successful?) then (yes)
+                #lightgreen:Complete;
+              else (no)
+                #lightcoral:Troubleshoot;
+              endif            
+            else (no)
+              #lightcoral: PR denied;
+              #lightblue: Fix Based on Review; 
+            endif
+          else (no)
+            #lightgreen:No Changeset Detected;
+            kill;
+          endif;
         else (no)
-          #lightcoral:Troubleshoot;
+          #lightcoral:(Pre-Release Job Failed) Debug;
         endif
       else (no)
-        #lightcoral:Fix Based on Review;
+        #lightcoral:Debug;
       endif
     else (no)
-      #lightcoral:Fix Based on Validation or Contact Project Owner;
-    endif
-      kill
-
+      #lightcoral:Changes Not Committed;
+    endif 
+  else (no)
+    #lightcoral:provided files not found;
+  endif
+endwhile 
+#lightgreen: Changeset & feat/dev branch deleted;
+end
 
 @enduml
+

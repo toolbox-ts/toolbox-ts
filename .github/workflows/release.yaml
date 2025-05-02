@@ -1,8 +1,8 @@
 name: Release
 description: |
-  Triggers on: 
-    push to main-> validate
-    pull_request closed-> publish
+  1. Push to main -> runs tests + may create Version PR
+  2. Merge of Version PR to main -> publishes packages
+
 on:
   push:
     branches:
@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   prerelease:
-    name: Pre-Release Checks
+    name: Pre-Release
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
@@ -88,12 +88,6 @@ jobs:
 
       - name: 🔨 Building Packages
         run: pnpm -r build
-
-      - name: 🧭 Generating Dependency Graph
-        run: pnpm cruise:generate
-
-      - name: 🧪 Generating Coverage Report
-        run: pnpm coverage:generate
 
       - name: 🚀 Publishing to NPMJS
         run: pnpm changeset publish --registry=https://registry.npmjs.org
