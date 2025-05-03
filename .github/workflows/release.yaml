@@ -2,6 +2,8 @@ name: Release
 description: |
   1. Push to main -> runs tests + may create Version PR
   2. Merge of Version PR to main -> publishes packages
+env:
+  HUSKY: 0
 
 on:
   push:
@@ -67,7 +69,7 @@ jobs:
       - name: 🧐 Checking for Changeset Files
         id: check_changeset
         run: |
-          if [ -n "$(ls .changeset/*.md 2>/dev/null)" ]; then
+          if steps.changesets.outputs.hasChangesets == 'true'; then
             echo "Changeset file found"
             echo "has_changeset=true" >> $GITHUB_OUTPUT
           else
