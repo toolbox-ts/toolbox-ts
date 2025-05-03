@@ -46,6 +46,8 @@ export default defineConfig({
         // Ignore Config Files
         "*.config.*",
         "bin/**/*",
+        // Just organizes and exports fully tested internals
+        "./packages/colors/src/api/api.ts",
       ],
     },
   },
