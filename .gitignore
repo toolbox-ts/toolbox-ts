@@ -10,4 +10,3 @@
 *.log
 .env
 .env.*
-docs/architecture/dependency-errors.json

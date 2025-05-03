@@ -20,18 +20,26 @@
   "type": "module",
   "devDependencies": {
     "@changesets/cli": "^2.29.2",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@commitlint/cz-commitlint": "^19.8.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.25.1",
     "@microsoft/tsdoc-config": "^0.17.1",
     "@types/node": "^22.15.3",
     "@vitest/coverage-v8": "3.0.9",
+    "@vitest/ui": "3.1.2",
+    "commitizen": "^4.3.1",
     "dependency-cruiser": "^16.10.1",
     "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-tsdoc": "^0.4.0",
+    "husky": "^9.1.7",
+    "inquirer": "^12.6.0",
     "jiti": "^2.4.2",
+    "lint-staged": "^15.5.1",
     "memfs": "^4.17.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
@@ -39,18 +47,32 @@
     "vitest": "^3.1.2"
   },
   "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
+  "lint-staged": {
+    "*": [
+      "eslint . --fix",
+      "prettier . --write"
+    ]
+  },
   "scripts": {
     "test": "vitest --run",
-    "gen:depsReport": "npx depcruise packages/**/src/* --config ./.dep-cruiser.cjs --output-type json > ./docs/architecture/dependency-errors.json",
-    "gen:depsGraph": "npx depcruise packages/**/src/* --config ./.dep-cruiser.cjs --output-type dot | dot -T svg > ./docs/architecture/dependency-graph.svg",
-    "cruise": "pnpm run gen:depsReport && pnpm run gen:depsGraph",
-    "format": "prettier --write .",
-    "lint": "eslint . --fix",
+    "write:coverage-report": "vitest --coverage.reportsDirectory=./docs/coverage --coverage.reporter=html",
+    "cruise:validate": "npx tsx ./bin/cruise.ts validate",
+    "cruise:generate": "npx tsx ./bin/cruise.ts generate",
+    "write:docs": "pnpm run write:coverage-report && pnpm run cruise:generate",
+    "format": "prettier .",
+    "lint": "eslint .",
+    "clean:code": "pnpm eslint . --fix && pnpm prettier . --write ",
+    "clean:builds": "rm -rf packages/*/build",
     "typecheck": "tsc -b --noEmit",
-    "rm:build": "rm -rf packages/*/build",
-    "clean": "pnpm run format && pnpm run lint",
-    "validate": "pnpm run cruise && pnpm run eslint . && pnpm run prettier . && pnpm run typecheck && pnpm run test",
     "build": "pnpm -r build",
-    "prepare:release": "pnpm run cruise && pnpm run clean && pnpm run test && pnpm changeset && pnpm changeset status"
+    "check": "pnpm typecheck && pnpm run cruise:validate && pnpm test",
+    "cm": "npx tsx ./bin/commit.ts",
+    "lint-staged": "lint-staged",
+    "prepare": "husky"
   }
 }

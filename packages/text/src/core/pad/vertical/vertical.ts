@@ -20,7 +20,7 @@ const DEFAULTS: Cfg = {
 } as const;
 
 const isSideOpts = (opt: unknown): opt is SideOpts =>
-  Obj.is(opt) && Num.is.nonNegativeInt(opt.height) && is.countedChar(opt.fill);
+  Obj.is(opt) && Num.is.positiveInt(opt.height) && is.countedChar(opt.fill);
 
 const isCfg = (cfg: unknown): cfg is Cfg =>
   Obj.is(cfg) && isSideOpts(cfg.top) && isSideOpts(cfg.bottom);

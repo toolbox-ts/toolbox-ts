@@ -43,6 +43,9 @@ export default defineConfig({
         "**/string.js/**",
         // Ignore all type only packages
         "./packages/*-types/**",
+        // Ignore Config Files
+        "*.config.*",
+        "bin/**/*",
       ],
     },
   },

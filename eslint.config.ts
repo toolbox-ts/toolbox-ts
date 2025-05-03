@@ -69,8 +69,7 @@ export default tseslint.config(
       "import/no-duplicates": "error",
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "off",
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": "error",
+
       "@typescript-eslint/method-signature-style": "error",
     },
     extends: [

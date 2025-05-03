@@ -1,1 +1,1 @@
-export * as Num from "./number.js";
+export * as Num from "./modules/index.js";

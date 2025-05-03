@@ -1,5 +1,4 @@
-import { beforeEach } from "node:test";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { utils } from "../../../../.dev/__mocks__";
 import { loadModule } from "./loadModule.js";
 

@@ -1,14 +1,14 @@
 name: Release
 description: |
-  Triggers on: 
-    push to main-> validate
-    pull_request closed-> publish
+  1. Push to main -> runs tests + may create Version PR
+  2. Merge of Version PR to main -> publishes packages
+
 on:
   push:
     branches:
       - main
     paths-ignore:
-      - "**/*.md"
+      - "README.md"
   pull_request:
     types:
       - closed
@@ -22,34 +22,43 @@ permissions:
   pull-requests: write
 
 jobs:
-  validate:
-    name: Validate Build & Test
+  prerelease:
+    name: Pre-Release
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
-      - name: ⬇️ Checkout repo
+      - name: ⬇️ Checking Out Repo
         uses: actions/checkout@v4
 
-      - name: 🔧 Setup Node
+      - name: 🔧 Setting Up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org/"
 
-      - name: 📥 Install pnpm
+      - name: 📥 Installing pnpm
         run: npm install -g pnpm@10.10.0
 
-      - name: 📦 Install dependencies
+      - name: 📥 Installing Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: 🔨 Build packages
+      - name: 🔨 Building Packages
         run: pnpm -r build
 
-      - name: 🧪 Test
+      - name: 🕵️ Validating Dependencies
+        run: pnpm cruise:validate
+
+      - name: 🧹 Formatting
+        run: pnpm prettier --check .
+
+      - name: 🧹 Lint packages
+        run: pnpm eslint .
+
+      - name: 🧪 Running Tests
         run: pnpm test
 
-      - name: 📝 Create Version PR (Changesets)
+      - name: 📝 Creating Version PR (Changesets)
         uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -62,25 +71,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ⬇️ Checkout repo
+      - name: ⬇️ Checking Out Repo
         uses: actions/checkout@v4
 
-      - name: 🔧 Setup Node
+      - name: 🔧 Setting Up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org/"
 
-      - name: 📥 Install pnpm
+      - name: 📥 Installing pnpm
         run: npm install -g pnpm@10.10.0
 
-      - name: 📦 Install dependencies
+      - name: 📦 Installing Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: 🔨 Build packages
+      - name: 🔨 Building Packages
         run: pnpm -r build
 
-      - name: 🚀 Publish to NPMJS
+      - name: 🚀 Publishing to NPMJS
         run: pnpm changeset publish --registry=https://registry.npmjs.org
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
