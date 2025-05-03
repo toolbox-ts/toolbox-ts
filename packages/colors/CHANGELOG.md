@@ -1,5 +1,15 @@
 # @toolbox-ts/colors
 
+## 2.0.0
+
+### Major Changes
+
+- 112a1b4: fix export
+
+### Patch Changes
+
+- ace4bd8: add wcag exports to contrast
+
 ## 1.0.1
 
 ### Patch Changes
