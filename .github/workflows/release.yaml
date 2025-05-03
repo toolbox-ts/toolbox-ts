@@ -38,9 +38,13 @@ jobs:
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org/"
+          cache: "pnpm"
+
+      - name: ⚙️ Enabling Corepack
+        run: corepack enable
 
       - name: 📥 Installing pnpm
-        run: npm install -g pnpm@10.10.0
+        run: corepack prepare pnpm@10.10.0 --activate
 
       - name: 📥 Installing Dependencies
         run: pnpm install --frozen-lockfile
@@ -51,10 +55,10 @@ jobs:
       - name: 🕵️ Validating Dependencies
         run: pnpm cruise:validate
 
-      - name: 🧹 Formatting
+      - name: 🧹 Validating Formatting
         run: pnpm prettier --check .
 
-      - name: 🧹 Lint packages
+      - name: 🧹 Validating Linting
         run: pnpm eslint .
 
       - name: 🧪 Running Tests
@@ -68,7 +72,10 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true &&
+    if: |
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
       contains(github.event.pull_request.title, 'Version Packages')
 
     steps:
@@ -80,9 +87,13 @@ jobs:
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org/"
+          cache: "pnpm"
+
+      - name: ⚙️ Enabling Corepack
+        run: corepack enable
 
       - name: 📥 Installing pnpm
-        run: npm install -g pnpm@10.10.0
+        run: corepack prepare pnpm@10.10.0 --activate
 
       - name: 📦 Installing Dependencies
         run: pnpm install --frozen-lockfile
