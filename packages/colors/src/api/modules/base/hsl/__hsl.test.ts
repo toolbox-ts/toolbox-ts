@@ -10,6 +10,11 @@ import {
   lightness,
   adjust,
   type Hsl,
+  clampHue,
+  Hsla,
+  clampPerc,
+  toString,
+  stringToHsl,
 } from "./hsl";
 
 describe("hsl.ts", () => {
@@ -26,7 +31,6 @@ describe("hsl.ts", () => {
       expect(lightness.is(100)).toBe(true);
     });
   });
-
   describe("isHsl", () => {
     it("returns true for valid HSL objects", () => {
       expect(isHsl({ h: 120, s: 50, l: 50 })).toBe(true);
@@ -53,7 +57,6 @@ describe("hsl.ts", () => {
       expect(isHsl(123)).toBe(false);
     });
   });
-
   describe("normalize", () => {
     it("returns transparent for invalid input", () => {
       expect(normalize(null)).toEqual(transparent);
@@ -93,7 +96,6 @@ describe("hsl.ts", () => {
       });
     });
   });
-
   describe("chromaticity", () => {
     it("calculates chromaticity for HSL values", () => {
       expect(chromaticity({ h: 0, s: 0, l: 0 })).toBe(0);
@@ -103,7 +105,6 @@ describe("hsl.ts", () => {
       expect(chromaticity({ h: 0, s: 100, l: 100 })).toBeCloseTo(0);
     });
   });
-
   describe("interpolate", () => {
     it("calculates interpolation value for HSL", () => {
       const hsl: Hsl = { h: 120, s: 100, l: 50 };
@@ -122,7 +123,6 @@ describe("hsl.ts", () => {
       );
     });
   });
-
   describe("matchAdjustment", () => {
     it("calculates match adjustment for HSL", () => {
       const hsl: Hsl = { h: 0, s: 100, l: 50 };
@@ -165,6 +165,105 @@ describe("hsl.ts", () => {
       const result = adjust.hue(hsl, 0.2);
       expect(result).not.toBe(hsl);
       expect(hsl.h).toBe(100);
+    });
+  });
+  describe("adjust.lightness", () => {
+    it("increases lightness by the correct amount", () => {
+      const hsl: Hsl = { h: 30, s: 50, l: 50 };
+      const result = adjust.lightness(hsl, 0.2);
+      expect(result.h).toBe(30);
+      expect(result.s).toBe(50);
+      expect(result.l).toBe(70);
+    });
+
+    it("decreases lightness by the correct amount", () => {
+      const hsl: Hsl = { h: 30, s: 50, l: 50 };
+      const result = adjust.lightness(hsl, -0.2);
+      expect(result.h).toBe(30);
+      expect(result.s).toBe(50);
+      expect(result.l).toBe(30);
+    });
+
+    it("clamps lightness to 0-100 range", () => {
+      const hsl: Hsl = { h: 30, s: 50, l: 50 };
+      const result = adjust.lightness(hsl, -1);
+      expect(result.l).toBe(0);
+
+      const result2 = adjust.lightness(hsl, 1);
+      expect(result2.l).toBe(100);
+    });
+
+    it("does not mutate the original object", () => {
+      const hsl: Hsl = { h: 100, s: 50, l: 50 };
+      const result = adjust.lightness(hsl, 0.2);
+      expect(result).not.toBe(hsl);
+      expect(hsl.l).toBe(50);
+    });
+  });
+  describe("clampHue", () => {
+    it("clamps hue below 0 to 0", () => {
+      expect(clampHue(-10)).toBe(0);
+    });
+    it("clamps hue above 360 to 360", () => {
+      expect(clampHue(400)).toBe(360);
+    });
+    it("returns hue in range", () => {
+      expect(clampHue(120)).toBe(120);
+    });
+  });
+
+  describe("clampPerc", () => {
+    it("clamps percent below 0 to 0", () => {
+      expect(clampPerc(-10)).toBe(0);
+    });
+    it("clamps percent above 100 to 100", () => {
+      expect(clampPerc(120)).toBe(100);
+    });
+    it("returns percent in range", () => {
+      expect(clampPerc(50)).toBe(50);
+    });
+  });
+
+  describe("toString", () => {
+    it("serializes HSL to string with clamped values", () => {
+      expect(toString({ h: 370, s: 120, l: -10, a: 2 })).toBe(
+        "hsla(360, 100%, 0%, 1)",
+      );
+      expect(toString({ h: 180, s: 50, l: 50, a: 0.5 })).toBe(
+        "hsla(180, 50%, 50%, 0.5)",
+      );
+      expect(toString({ h: 0, s: 0, l: 0 })).toBe("hsla(0, 0%, 0%, 1)");
+    });
+  });
+
+  describe("stringToHsl", () => {
+    it("parses valid hsla string", () => {
+      expect(stringToHsl("hsla(180, 50, 50, 0.5)")).toEqual({
+        h: 180,
+        s: 50,
+        l: 50,
+        a: 0.5,
+      });
+    });
+    it("parses valid hsl string (no alpha)", () => {
+      expect(stringToHsl("hsl(120, 40, 60)")).toEqual({
+        h: 120,
+        s: 40,
+        l: 60,
+        a: 1,
+      });
+    });
+    it("clamps out-of-range values", () => {
+      expect(stringToHsl("hsl(400, -10, 120, 2)")).toEqual({
+        h: 360,
+        s: 0,
+        l: 100,
+        a: 1,
+      });
+    });
+    it("throws on invalid string", () => {
+      expect(() => stringToHsl("not a color")).toThrow();
+      expect(() => stringToHsl("rgb(1,2,3)")).toThrow();
     });
   });
 });

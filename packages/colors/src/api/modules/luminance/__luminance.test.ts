@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculateRelative, offset, weights, getVariants } from "./luminance";
+import { calculateRelative, offset, weights } from "./luminance";
 
 describe("luminance.ts", () => {
   it("calculates relative luminance for RGB", () => {
@@ -47,34 +47,5 @@ describe("luminance.ts", () => {
     expect(weights).toHaveProperty("r");
     expect(weights).toHaveProperty("g");
     expect(weights).toHaveProperty("b");
-  });
-  describe("getVariants", () => {
-    it("returns bright and dim variants for a base color", () => {
-      const base = "#5b21b6";
-      const variants = getVariants(base, "hex");
-      expect(variants).toHaveProperty("bright");
-      expect(variants).toHaveProperty("dim");
-      expect(variants).toHaveProperty("base");
-      expect(variants.bright).not.toBe(base);
-      expect(variants.dim).not.toBe(base);
-      expect(calculateRelative(variants.bright)).toBeGreaterThan(
-        calculateRelative(base),
-      );
-      expect(calculateRelative(variants.dim)).toBeLessThan(
-        calculateRelative(base),
-      );
-      const otherVariants = getVariants(base, "hex", "extra");
-      expect(otherVariants).toHaveProperty("bright");
-      expect(otherVariants).toHaveProperty("dim");
-      expect(otherVariants).toHaveProperty("base");
-      expect(otherVariants.bright).not.toBe(base);
-      expect(otherVariants.dim).not.toBe(base);
-      expect(calculateRelative(otherVariants.bright)).toBeGreaterThan(
-        calculateRelative(base),
-      );
-      expect(calculateRelative(otherVariants.dim)).toBeLessThan(
-        calculateRelative(base),
-      );
-    });
   });
 });

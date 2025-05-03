@@ -1,6 +1,6 @@
 import { Num, Obj } from "@toolbox-ts/utils";
 import { ColorWheel } from "../colorWheel/index.js";
-
+import { splitCssColorString } from "../utils/index.js";
 /** Saturation utility with min/max and type guard. */
 const saturation = {
   min: 0,
@@ -100,8 +100,31 @@ const adjust = {
   },
 } as const;
 
+const clampHue = (value: number): number =>
+  Num.clamp(value, { min: 0, max: 360 });
+const clampPerc = (value: number): number =>
+  Num.clamp(value, { min: 0, max: 100 });
+
+const toString = ({ h, s, l, a = 1 }: Hsl): string =>
+  `hsla(${clampHue(h)}, ${clampPerc(s)}%, ${clampPerc(l)}%, ${Num.UnitInterval.clamp(a)})`;
+
+const stringToHsl = (value: string): Hsl => {
+  if (!value.startsWith("hsl")) throw new Error("Invalid HSL string");
+  const [h = "0", s = "0%", l = "0%", a = "1"] = splitCssColorString(value);
+
+  return {
+    h: clampHue(parseFloat(h)),
+    s: clampPerc(parseFloat(s)),
+    l: clampPerc(parseFloat(l)),
+    a: Num.UnitInterval.clamp(parseFloat(a)),
+  };
+};
 export {
   isHsl,
+  stringToHsl,
+  toString,
+  clampHue,
+  clampPerc,
   normalize,
   chromaticity,
   interpolate,

@@ -249,5 +249,7 @@ export {
   type AdjustResult,
   type FindBestColorOptions,
   type IsRatioAchievableResult,
+  type IsRatioAchievableOptions,
+  type IsWcagCompliantOptions,
   WCAG,
 };

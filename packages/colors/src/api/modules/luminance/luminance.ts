@@ -40,7 +40,7 @@ const LINEARIZATION = {
  * Constants and weights for luminance calculations.
  * - offset: Used in contrast ratio formula to prevent division by zero.
  * - weights: Per-channel weights for RGB to luminance conversion.
- * - variantDeltas: Default deltas for generating dim and bright color variants.
+ * - deltaPresets: Default deltas for generating dim and bright color variants.
  * @see https://www.w3.org/WAI/GL/wiki/Relative_luminance
  */
 const LUMINANCE = {
@@ -53,7 +53,7 @@ const LUMINANCE = {
   /** Per-channel weights for converting linear RGB to luminance. */
   weights: { r: 0.2126, g: 0.7152, b: 0.0722 },
   /** Lightness deltas for dim and bright variants. */
-  variantDeltas: {
+  deltaPresets: {
     subtle: { dim: -0.03, bright: 0.03 },
     minimal: { dim: -0.05, bright: 0.05 },
     moderate: { dim: -0.08, bright: 0.08 },
@@ -61,7 +61,7 @@ const LUMINANCE = {
     heavy: { dim: -0.15, bright: 0.15 },
   },
 } as const;
-type VariantDeltaPreset = keyof typeof LUMINANCE.variantDeltas;
+type DeltaPresets = keyof typeof LUMINANCE.deltaPresets;
 
 /**
  * Calculates the relative luminance of a color.
@@ -86,51 +86,7 @@ const calculateRelative = (color: Converter.ColorType) => {
   );
 };
 
-/**
- * Adjusts the lightness of a color by a given delta and returns the result in the specified format.
- * @param color - The input color (any supported format).
- * @param delta - Amount to adjust lightness (decimal, e.g., 0.1 for +10%, -0.1 for -10%).
- * @param returnType - The desired output color format.
- * @returns The adjusted color in the specified format.
- */
-const adjustLuminance = <T extends Converter.Type>(
-  color: Converter.ColorType,
-  delta: number, // Positive to lighten, negative to darken
-  returnType: T,
-): Converter.ColorTypeMap[T] =>
-  Converter.resolve<T>(
-    Hsl.adjust.lightness(Converter.resolve<"hsl">(color, "hsl"), delta),
-    returnType,
-  );
-
-type Variant = "dim" | "bright";
-type VariantColorDeltas = { [key in Variant]: number };
-type Variants<T extends Converter.Type> = {
-  [key in Variant]: Converter.ColorTypeMap[T];
-};
-
-/**
- * Generates dim and bright variants of a color using lightness deltas.
- * @param color - The base color (any supported format).
- * @param returnType - The desired output color format.
- * @param deltas - Optional overrides for dim/bright deltas.
- * @returns An object with 'dim' and 'bright' color variants.
- */
-const getVariants = <T extends Converter.Type>(
-  color: Converter.ColorType,
-  returnType: T,
-  deltas: VariantColorDeltas | VariantDeltaPreset = LUMINANCE.variantDeltas
-    .moderate,
-): Variants<T> & { base: Converter.ColorTypeMap[T] } => {
-  const { dim, bright } =
-    typeof deltas === "string" ? LUMINANCE.variantDeltas[deltas] : deltas;
-  return {
-    base: Converter.resolve<T>(color, returnType),
-    dim: adjustLuminance(color, dim, returnType),
-    bright: adjustLuminance(color, bright, returnType),
-  };
-};
-
-export { calculateRelative, adjustLuminance, getVariants };
-export const { offset, weights } = LUMINANCE;
+export { calculateRelative };
+export const { offset, weights, deltaPresets } = LUMINANCE;
 export { GAMMA, LINEARIZATION };
+export type { DeltaPresets };
