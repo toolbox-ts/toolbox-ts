@@ -46,6 +46,9 @@ jobs:
       - name: 📥 Installing Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: 📥 Installing Graphviz
+        run: sudo apt-get install -y graphviz
+
       - name: 🔨 Building Packages
         run: pnpm -r build
 
@@ -91,6 +94,9 @@ jobs:
 
       - name: 📥 Installing pnpm
         run: npm install -g pnpm@10.10.0
+
+      - name: 📥 Installing Graphviz
+        run: sudo apt-get install -y graphviz
 
       - name: 🔧 Setting Up Node
         uses: actions/setup-node@v4
