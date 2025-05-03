@@ -33,18 +33,15 @@ jobs:
       - name: ⬇️ Checking Out Repo
         uses: actions/checkout@v4
 
+      - name: 📥 Installing pnpm
+        run: npm install -g pnpm@10.10.0
+
       - name: 🔧 Setting Up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org/"
           cache: "pnpm"
-
-      - name: ⚙️ Enabling Corepack
-        run: corepack enable
-
-      - name: 📥 Installing pnpm
-        run: corepack prepare pnpm@10.10.0 --activate
 
       - name: 📥 Installing Dependencies
         run: pnpm install --frozen-lockfile
@@ -82,18 +79,15 @@ jobs:
       - name: ⬇️ Checking Out Repo
         uses: actions/checkout@v4
 
+      - name: 📥 Installing pnpm
+        run: npm install -g pnpm@10.10.0
+
       - name: 🔧 Setting Up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org/"
           cache: "pnpm"
-
-      - name: ⚙️ Enabling Corepack
-        run: corepack enable
-
-      - name: 📥 Installing pnpm
-        run: corepack prepare pnpm@10.10.0 --activate
 
       - name: 📦 Installing Dependencies
         run: pnpm install --frozen-lockfile
