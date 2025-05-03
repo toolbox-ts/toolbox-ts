@@ -244,10 +244,10 @@ export {
   adjustToRatio,
   isRatioAchievable,
   isWcagCompliant,
+  type WcagLevel,
   type AdjustOptions,
   type AdjustResult,
   type FindBestColorOptions,
   type IsRatioAchievableResult,
-  type WcagLevel,
   WCAG,
 };

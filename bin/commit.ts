@@ -31,8 +31,6 @@ try {
   if (args.includes("--changeset")) {
     console.log("🔨 Creating changeset...");
     execSync(`pnpm changeset`, { stdio: "inherit" });
-    console.log("🧭 Generating Dependency Graph");
-    execSync("pnpm cruise:generate", { stdio: "inherit" });
     console.log("📦 Staging changeset files...");
     execSync(`git add .changeset docs`, { stdio: "inherit" });
   }
