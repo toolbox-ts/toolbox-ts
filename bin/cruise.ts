@@ -78,7 +78,6 @@ function validate() {
 }
 
 function generateGraph() {
-  validate();
   console.log("📊 Generating dependency graph...");
 
   const dotOutput = run(
@@ -86,6 +85,7 @@ function generateGraph() {
   );
 
   const svgOutput = execSync("dot -T svg", { input: dotOutput }).toString();
+  mkdirSync(DOCS_DIR, { recursive: true });
   writeFileSync(GRAPH, svgOutput);
   console.log("✅ Dependency graph generated.");
 }
