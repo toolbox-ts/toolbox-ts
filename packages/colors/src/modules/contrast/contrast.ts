@@ -1,4 +1,4 @@
-import { type ColorType, type ColorTypeMap, Rgb } from "../../core/index.js";
+import { type ColorType, type ColorTypeMap, Rgb } from "../base/index.js";
 import { Luminance } from "../luminance/index.js";
 import { Converter } from "../converter/index.js";
 
@@ -231,7 +231,6 @@ const isWcagCompliant = ({
 }: IsWcagCompliantOptions): boolean => {
   const fgRgb = Converter.toRgb(foreground);
   const bgRgb = Converter.toRgb(background);
-  console.log(fgRgb, bgRgb);
   if (bgRgb.a !== 1) throw new Error("Background color must be opaque");
   const effectiveFg = fgRgb.a < 1 ? Rgb.blend(fgRgb, bgRgb).fg : fgRgb;
   return calculateRatio(effectiveFg, bgRgb) >= WCAG[level];

@@ -6,7 +6,7 @@ import {
   ColorWheel,
   type ColorType,
   type ColorTypeMap,
-} from "../../core/index.js";
+} from "../base/index.js";
 
 const eightBitChannelMax = Num.Bits.eight.max;
 const rgbTo: {
