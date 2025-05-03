@@ -1,1 +1,1 @@
-export * as Colors from "./core/index.js";
+export * as Colors from "./modules/base/index.js";
