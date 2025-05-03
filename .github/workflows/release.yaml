@@ -69,7 +69,7 @@ jobs:
       - name: 🧐 Checking for Changeset Files
         id: check_changeset
         run: |
-          if steps.changesets.outputs.hasChangesets == 'true'; then
+          if [ -n "$(ls .changeset/*.md 2>/dev/null)" ]; then
             echo "Changeset file found"
             echo "has_changeset=true" >> $GITHUB_OUTPUT
           else
