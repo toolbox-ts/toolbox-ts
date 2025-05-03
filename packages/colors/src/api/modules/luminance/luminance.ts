@@ -1,6 +1,5 @@
 import { Num } from "@toolbox-ts/utils";
 import * as Converter from "../converter/converter.js";
-import { Hsl } from "../base/index.js";
 
 /**
  * Gamma correction parameters used in sRGB linearization.
