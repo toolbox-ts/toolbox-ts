@@ -78,7 +78,6 @@ function validate() {
 }
 
 function generateGraph() {
-  validate();
   console.log("📊 Generating dependency graph...");
 
   const dotOutput = run(
