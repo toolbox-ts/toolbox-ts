@@ -1,5 +1,19 @@
 # @toolbox-ts/schema
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [7aa81e7]
+  - @toolbox-ts/utils@0.3.0
+
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [08c0823]
+  - @toolbox-ts/utils@0.2.0
+
 ## 0.1.4
 
 ### Patch Changes

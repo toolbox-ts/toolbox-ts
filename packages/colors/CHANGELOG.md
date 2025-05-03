@@ -1,8 +1,8 @@
-# @toolbox-ts/utils
+# @toolbox-ts/colors
 
-## 0.3.0
+## 2.0.0
 
-### Minor Changes
+### Major Changes
 
 - 7aa81e7: - @toolbox-ts/colors Initial Release
   - @toolbox-ts/utils Num module rework
@@ -21,9 +21,14 @@
       - average calculation function
       - min/max which normalizes all numbers before returning result
 
-## 0.2.0
+### Patch Changes
 
-### Minor Changes
+- Updated dependencies [7aa81e7]
+  - @toolbox-ts/utils@0.3.0
+
+## 1.0.0
+
+### Major Changes
 
 - 08c0823: - @toolbox-ts/colors Initial Release
   - @toolbox-ts/utils Num module rework
@@ -42,26 +47,7 @@
       - average calculation function
       - min/max which normalizes all numbers before returning result
 
-## 0.1.4
-
 ### Patch Changes
 
-- d5c3498: fix css-types, update css-normalize, update docs
-
-## 0.1.3
-
-### Patch Changes
-
-- 3235e2d: fix build process and ci
-
-## 0.1.2
-
-### Patch Changes
-
-- b3a3feb: add github package registry support/automation
-
-## 0.1.1
-
-### Patch Changes
-
-- monorepo release
+- Updated dependencies [08c0823]
+  - @toolbox-ts/utils@0.2.0
