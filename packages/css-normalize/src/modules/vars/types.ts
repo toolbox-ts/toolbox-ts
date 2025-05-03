@@ -1,16 +1,3 @@
-import type {
-  Colors,
-  FontSize,
-  LineHeight,
-  LetterSpacing,
-  Padding,
-  Time,
-  Border,
-  Outline,
-  Shadow,
-  CustomProperty,
-} from "@toolbox-ts/css-types";
-
 type ColorTheme = "light" | "dark";
 type ColorVarBase =
   | "bg"
@@ -23,51 +10,38 @@ type ColorVarBase =
   | "shadow"
   | "outline";
 type ColorVarKey<T extends ColorTheme> = `${T}${Capitalize<ColorVarBase>}`;
-
+type CustomProperty<T extends string> = `--${T}`;
 type ColorVarProp<T extends ColorTheme> =
   CustomProperty<`${T}-color-${ColorVarBase}`>;
-
 type ColorVars<T extends ColorTheme> = {
-  [K in ColorVarKey<T>]: { prop: ColorVarProp<T>; value: Colors.Type };
+  [K in ColorVarKey<T>]: { prop: ColorVarProp<T>; value: string };
 };
 type LightColorVars = ColorVars<"light">;
 type DarkColorVars = ColorVars<"dark">;
 
 type VarsObj = LightColorVars &
   DarkColorVars & {
-    lineHeight: { prop: CustomProperty<"line-height">; value: LineHeight };
-    letterSpacing: {
-      prop: CustomProperty<"letter-spacing">;
-      value: LetterSpacing;
-    };
-    fontSize: { prop: CustomProperty<"font-size">; value: FontSize };
-    padding: { prop: CustomProperty<"padding">; value: Padding.Value };
+    lineHeight: { prop: CustomProperty<"line-height">; value: string };
+    letterSpacing: { prop: CustomProperty<"letter-spacing">; value: string };
+    fontSize: { prop: CustomProperty<"font-size">; value: string };
+    padding: { prop: CustomProperty<"padding">; value: string };
     transitionDuration: {
       prop: CustomProperty<"transition-duration">;
-      value: Time;
+      value: string;
     };
-    borderWidth: { prop: CustomProperty<"border-width">; value: Border.Width };
-    borderRadius: {
-      prop: CustomProperty<"border-radius">;
-      value: Border.Radius;
-    };
-    outlineWidth: {
-      prop: CustomProperty<"outline-width">;
-      value: Outline.Width;
-    };
-    outlineOffset: {
-      prop: CustomProperty<"outline-offset">;
-      value: Outline.Offset;
-    };
-    bold: { prop: CustomProperty<"bold">; value: `${number}` | number };
-    bolder: { prop: CustomProperty<"bolder">; value: `${number}` | number };
+    borderWidth: { prop: CustomProperty<"border-width">; value: string };
+    borderRadius: { prop: CustomProperty<"border-radius">; value: string };
+    outlineWidth: { prop: CustomProperty<"outline-width">; value: string };
+    outlineOffset: { prop: CustomProperty<"outline-offset">; value: string };
+    bold: { prop: CustomProperty<"bold">; value: `${number}` };
+    bolder: { prop: CustomProperty<"bolder">; value: `${number}` };
     elevationBaseYOffset: {
       prop: CustomProperty<"elevation-base-y-offset">;
-      value: Shadow.OffsetY;
+      value: string;
     };
     elevationBaseBlur: {
       prop: CustomProperty<"elevation-base-blur">;
-      value: Shadow.BlurRadius;
+      value: string;
     };
   };
 type VarKey = keyof VarsObj;
@@ -123,9 +97,5 @@ export type {
   VarKey,
   VarProp,
   VarsInput,
-  FontSize,
-  LineHeight,
-  LetterSpacing,
-  Time,
   CustomProperty,
 };
