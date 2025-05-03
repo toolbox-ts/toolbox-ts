@@ -1,6 +1,6 @@
-import { type ColorType, type ColorTypeMap, Rgb } from "../base/index.js";
-import { Luminance } from "../luminance/index.js";
-import { Converter } from "../converter/index.js";
+import { type ColorType, type ColorTypeMap, Rgb } from '../base/index.js';
+import { Luminance } from '../luminance/index.js';
+import { Converter } from '../converter/index.js';
 
 /**
  * These thresholds define the minimum
@@ -16,7 +16,7 @@ const WCAG = {
   /** Normal text */
   AAA: 7,
   /** Large text (≥18pt regular or ≥14pt bold) */
-  AAA_Large: 4.5,
+  AAA_Large: 4.5
 } as const;
 type WcagLevel = keyof typeof WCAG;
 
@@ -29,7 +29,7 @@ const CONTRAST = {
   /** bounds: Lightness bounds for searching. */
   bounds: { low: 4, high: 96 },
   /** offset: Constant added to luminance in contrast ratio formula. */
-  directions: { lighten: +1, darken: -1, none: 0 },
+  directions: { lighten: +1, darken: -1, none: 0 }
 } as const;
 
 /**
@@ -43,12 +43,12 @@ const prepareResult = <T extends Converter.Type>(
   color: ColorType,
   finalContrast: number,
   returnType: T,
-  targetRatio: number,
+  targetRatio: number
 ): AdjustResult<T> => {
   return {
     color: Converter.resolve<T>(color, returnType),
     contrast: finalContrast,
-    reachedTarget: finalContrast >= targetRatio,
+    reachedTarget: finalContrast >= targetRatio
   };
 };
 
@@ -66,7 +66,7 @@ const calculateRatio = (foreground: ColorType, background: ColorType) => {
   const darker = Math.min(l1, l2);
   return (
     Math.round(
-      ((lighter + Luminance.offset) / (darker + Luminance.offset)) * 100,
+      ((lighter + Luminance.offset) / (darker + Luminance.offset)) * 100
     ) / 100
   );
 };
@@ -78,7 +78,7 @@ interface IsRatioAchievableOptions {
 }
 interface IsRatioAchievableResult {
   achievable: boolean;
-  direction: "lighten" | "darken" | "none";
+  direction: 'lighten' | 'darken' | 'none';
   initialRatio: number;
 }
 
@@ -90,20 +90,20 @@ interface IsRatioAchievableResult {
 const isRatioAchievable = ({
   foreground,
   background,
-  targetRatio,
+  targetRatio
 }: IsRatioAchievableOptions): IsRatioAchievableResult => {
   const fg = Converter.toHsl(foreground);
   const bg = Converter.toHsl(background);
   if (fg.l === bg.l)
-    return { initialRatio: 0, achievable: false, direction: "none" };
+    return { initialRatio: 0, achievable: false, direction: 'none' };
   const initialRatio = calculateRatio(fg, bg);
   if (initialRatio >= targetRatio)
-    return { initialRatio, achievable: true, direction: "none" };
+    return { initialRatio, achievable: true, direction: 'none' };
   if (calculateRatio({ ...fg, l: CONTRAST.bounds.low }, bg) >= targetRatio)
-    return { initialRatio, achievable: true, direction: "darken" };
+    return { initialRatio, achievable: true, direction: 'darken' };
   if (calculateRatio({ ...fg, l: CONTRAST.bounds.high }, bg) >= targetRatio)
-    return { initialRatio, achievable: true, direction: "lighten" };
-  return { initialRatio, achievable: false, direction: "none" };
+    return { initialRatio, achievable: true, direction: 'lighten' };
+  return { initialRatio, achievable: false, direction: 'none' };
 };
 
 interface FindBestColorOptions {
@@ -129,7 +129,7 @@ const findBestColor = ({
   initialRatio,
   targetRatio,
   precision,
-  maxIterations,
+  maxIterations
 }: FindBestColorOptions) => {
   const fg = Converter.toHsl(foreground);
   const bg = Converter.toHsl(background);
@@ -187,25 +187,25 @@ interface AdjustResult<T extends Converter.Type> {
 const adjustToRatio = <T extends Converter.Type>(
   foreground: ColorType,
   background: ColorType,
-  options: AdjustOptions<T>,
+  options: AdjustOptions<T>
 ): AdjustResult<T> => {
   const {
     targetRatio,
     returnType,
     maxIterations = CONTRAST.maxIterations,
-    precision = CONTRAST.precision,
+    precision = CONTRAST.precision
   } = options;
   const { achievable, direction, initialRatio } = isRatioAchievable({
     foreground,
     background,
-    targetRatio,
+    targetRatio
   });
-  if (!achievable || direction === "none")
+  if (!achievable || direction === 'none')
     return prepareResult(
       foreground,
       initialRatio,
       returnType,
-      options.targetRatio,
+      options.targetRatio
     );
   const { color, contrast } = findBestColor({
     foreground,
@@ -214,7 +214,7 @@ const adjustToRatio = <T extends Converter.Type>(
     initialRatio,
     direction: CONTRAST.directions[direction],
     precision,
-    maxIterations,
+    maxIterations
   });
   return prepareResult(color, contrast, returnType, options.targetRatio);
 };
@@ -227,11 +227,11 @@ interface IsWcagCompliantOptions {
 const isWcagCompliant = ({
   background,
   foreground,
-  level = "AA",
+  level = 'AA'
 }: IsWcagCompliantOptions): boolean => {
   const fgRgb = Converter.toRgb(foreground);
   const bgRgb = Converter.toRgb(background);
-  if (bgRgb.a !== 1) throw new Error("Background color must be opaque");
+  if (bgRgb.a !== 1) throw new Error('Background color must be opaque');
   const effectiveFg = fgRgb.a < 1 ? Rgb.blend(fgRgb, bgRgb).fg : fgRgb;
   return calculateRatio(effectiveFg, bgRgb) >= WCAG[level];
 };
@@ -248,4 +248,6 @@ export {
   type AdjustResult,
   type FindBestColorOptions,
   type IsRatioAchievableResult,
+  type WcagLevel,
+  WCAG
 };

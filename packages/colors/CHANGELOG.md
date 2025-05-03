@@ -1,5 +1,11 @@
 # @toolbox-ts/colors
 
+## 1.0.1
+
+### Patch Changes
+
+- 83d93f8: fix export
+
 ## 1.0.0
 
 ### Major Changes
