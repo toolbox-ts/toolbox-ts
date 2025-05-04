@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.2.1
+
+### Patch Changes
+
+- 2576c16: change bold/bolder type to string
+
 ## 1.2.0
 
 ### Minor Changes
