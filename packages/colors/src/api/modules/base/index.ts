@@ -5,6 +5,7 @@ import type { Hsl } from "./hsl/index.js";
 export * from "./hex/index.js";
 export * from "./rgb/index.js";
 export * from "./hsl/index.js";
+export * from "./utils/index.js";
 
 export * from "./colorWheel/index.js";
 

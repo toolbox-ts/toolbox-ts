@@ -24,6 +24,7 @@ if (
 ) {
   help();
 }
+execSync(`pnpm typecheck`, { stdio: "inherit" });
 
 try {
   console.log(`📥 Staging files: ${files.join(" ")}`);

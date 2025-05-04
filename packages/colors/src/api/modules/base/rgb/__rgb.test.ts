@@ -5,6 +5,8 @@ import {
   isRgb,
   transparent,
   type Rgba,
+  toString,
+  stringToRgb,
   type Rgb,
 } from "./rgb";
 
@@ -105,6 +107,70 @@ describe("rgb.ts", () => {
       const fg: Rgba = { r: 255, g: 0, b: 0, a: 0 };
       const bg: Rgba = { r: 0, g: 255, b: 0, a: 1 };
       expect(blend(fg, bg).fg).toEqual({ r: 0, g: 255, b: 0, a: 1 });
+    });
+  });
+
+  describe("toString", () => {
+    it("serializes RGB without alpha as rgba(..., 1)", () => {
+      expect(toString({ r: 10, g: 20, b: 30 })).toBe("rgba(10, 20, 30, 1)");
+    });
+    it("serializes RGB with alpha", () => {
+      expect(toString({ r: 1, g: 2, b: 3, a: 0.5 })).toBe("rgba(1, 2, 3, 0.5)");
+      expect(toString({ r: 255, g: 255, b: 255, a: 0 })).toBe(
+        "rgba(255, 255, 255, 0)",
+      );
+      expect(toString({ r: 0, g: 0, b: 0, a: 1 })).toBe("rgba(0, 0, 0, 1)");
+    });
+  });
+
+  describe("stringToRgb", () => {
+    it("parses rgb string without alpha", () => {
+      expect(stringToRgb("rgb(10, 20, 30)")).toEqual({
+        r: 10,
+        g: 20,
+        b: 30,
+        a: 1,
+      });
+      expect(stringToRgb("rgb(0,0,0)")).toEqual({ r: 0, g: 0, b: 0, a: 1 });
+      expect(stringToRgb("rgb(255,255,255)")).toEqual({
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 1,
+      });
+    });
+    it("parses rgba string with alpha", () => {
+      expect(stringToRgb("rgba(1, 2, 3, 0.5)")).toEqual({
+        r: 1,
+        g: 2,
+        b: 3,
+        a: 0.5,
+      });
+      expect(stringToRgb("rgba(255,255,255,0)")).toEqual({
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 0,
+      });
+      expect(stringToRgb("rgba(0,0,0,1)")).toEqual({ r: 0, g: 0, b: 0, a: 1 });
+    });
+    it("parses with extra spaces", () => {
+      expect(stringToRgb("rgba( 10 , 20 , 30 , 0.7 )")).toEqual({
+        r: 10,
+        g: 20,
+        b: 30,
+        a: 0.7,
+      });
+      expect(stringToRgb("rgb( 1 , 2 , 3 )")).toEqual({
+        r: 1,
+        g: 2,
+        b: 3,
+        a: 1,
+      });
+    });
+    it("throws on invalid string", () => {
+      expect(() => stringToRgb("not a color")).toThrow();
+      expect(() => stringToRgb("rgx(100,100,100,1)")).toThrow();
     });
   });
 });

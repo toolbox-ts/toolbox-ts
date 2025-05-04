@@ -31,18 +31,196 @@ npm i @toolbox-ts/colors
 
 All functionality is exported from the `Colors` module.
 
-```ts
-import { Colors } from "@toolbox-ts/colors";
+The library provides a set of utility functions for working with colors,
+including color conversion, contrast ratio calculation, and luminance
+adjustments. The functionality is organized across several modules, and all
+utilities are exported from the `@toolbox-ts/colors` package.
 
-Colors.Contrast.isWcagCompliant({
-  foreground: { r: 0, g: 0, b: 0, a: 0.5 },
-  background: "#ffffff",
-  level: "AA",
-});
-// FALSE 50% black on white background should not be compliant at AA
-```
+<details><summary>parse</summary>
 
-### Core
+Functions for parsing and converting color values.
+
+- **stringToColor(value: string): ColorType**  
+  Converts a CSS color string (e.g., `#rgb`, `rgb(255, 0, 0)`,
+  `hsl(0, 100%, 50%)`) to a `ColorType`.
+
+- **colorToString(color: ColorType): string**  
+  Converts a `ColorType` (either Hex, RGB, or HSL) to a CSS string.
+
+- **cssColorString(value: string): string[]**  
+  Splits a CSS color string (e.g., `"rgb(255, 0, 0)"`) into its respective
+  values (e.g., `["255", "0", "0"]`).
+
+</details>
+
+<details><summary>adjust</summary>
+
+Functions for adjusting the properties of colors.
+
+- **lightness<T extends Converter.Type>(color: string, delta: number,
+  returnType: T): Converter.ColorTypeMap[T]**  
+  Adjusts the lightness of a color (positive to lighten, negative to darken).
+
+- **saturation<T extends Converter.Type>(color: string, delta: number,
+  returnType: T): Converter.ColorTypeMap[T]**  
+  Adjusts the saturation of a color (positive to increase, negative to
+  decrease).
+
+- **hue<T extends Converter.Type>(color: string, delta: number, returnType: T):
+  Converter.ColorTypeMap[T]**  
+  Adjusts the hue of a color (positive to rotate hue clockwise, negative to
+  rotate counterclockwise).
+
+- **contrastRatio(foreground: string, background: string): number**  
+  Calculates the contrast ratio between two colors.
+
+</details>
+
+<details><summary>get</summary>
+
+Functions for retrieving various color properties and variants.
+
+- **variants<T extends Converter.Type>(color: string, returnType: T, deltas?:
+  VariantColorDeltas | Luminance.DeltaPresets): Variants<T> & { base:
+  Converter.ColorTypeMap[T] }**  
+  Generates dim and bright variants of a color using lightness deltas. Returns
+  the base color along with dim and bright variants.
+
+- **bestColor(foreground: string, background: string): string**  
+  Finds the best foreground color to ensure high contrast with a background.
+
+- **relativeLuminance(color: string): number**  
+  Calculates the relative luminance of a color (from 0 for black to 1 for
+  white).
+
+- **colorType(color: string): ColorType**  
+  Returns the color type of the provided string (Hex, RGB, or HSL).
+
+</details>
+
+<details><summary>is</summary>
+
+Functions for checking the type of color values.
+
+- **rgb(value: any): boolean**  
+  Returns `true` if the value is a valid RGB color object.
+
+- **hsl(value: any): boolean**  
+  Returns `true` if the value is a valid HSL color object.
+
+- **hex(value: any): boolean**  
+  Returns `true` if the value is a valid HEX color string.
+
+- **accessible(foreground: string, background: string, level: 'AA' | 'AAA'):
+  boolean**  
+  Returns `true` if the foreground and background colors meet the specified WCAG
+  compliance level.
+
+- **contrastRatioAchievable(foreground: string, background: string, ratio:
+  number): boolean**  
+  Checks if the target contrast ratio is achievable between two colors.
+
+</details>
+
+<details><summary>clamp</summary>
+
+Functions for clamping color values to valid ranges.
+
+- **rgb(value: number): number**  
+  Clamps an RGB value to the range [0, 255].
+
+- **hslHue(value: number): number**  
+  Clamps an HSL hue value to the range [0, 360].
+
+- **hslPerc(value: number): number**  
+  Clamps an HSL percentage value (saturation or lightness) to the range [0,
+  100].
+
+- **hexByte(value: number): number**  
+  Clamps a hex byte value to the range [0, 255].
+
+</details>
+
+<details><summary>clamp</summary>
+
+Functions for clamping color values to valid ranges.
+
+- **rgb(value: number): number**  
+  Clamps an RGB value to the range [0, 255].
+
+- **hslHue(value: number): number**  
+  Clamps an HSL hue value to the range [0, 360].
+
+- **hslPerc(value: number): number**  
+  Clamps an HSL percentage value (saturation or lightness) to the range [0,
+  100].
+
+- **hexByte(value: number): number**  
+  Clamps a hex byte value to the range [0, 255].
+
+</details>
+
+<details><summary>convert</summary>
+
+Functions for converting between different color formats.
+
+- **toRgb(color: string | ColorType): Rgb.Color**  
+  Converts a color to the RGB format.
+
+- **toHsl(color: string | ColorType): Hsl.Color**  
+  Converts a color to the HSL format.
+
+- **toHex(color: string | ColorType): Hex.Color**  
+  Converts a color to the HEX format.
+
+- **rgbTo<T extends Converter.Type>(color: Rgb.Color, returnType: T):
+  Converter.ColorTypeMap[T]**  
+  Converts an RGB color to the specified type (Hex or HSL).
+
+- **hslTo<T extends Converter.Type>(color: Hsl.Color, returnType: T):
+  Converter.ColorTypeMap[T]**  
+  Converts an HSL color to the specified type (RGB or HEX).
+
+- **hexTo<T extends Converter.Type>(color: Hex.Color, returnType: T):
+  Converter.ColorTypeMap[T]**  
+  Converts a HEX color to the specified type (RGB or HSL).
+
+</details>
+
+<details><summary>blend</summary>
+
+Functions for blending two colors.
+
+- **blend<T extends Converter.Type>({ background, foreground, returnType }: {
+  background: string; foreground: string; returnType: T }): { background:
+  Converter.ColorTypeMap[T]; foreground: Converter.ColorTypeMap[T] }**  
+  Blends two colors using alpha blending and returns the result in the specified
+  color format (RGB, HSL, or HEX).
+
+</details>
+
+<details><summary>types</summary>
+
+- **ColorType**  
+  Represents any valid color type (HEX, RGB, or HSL).
+
+- **ColorTypeMap**  
+  Maps each color type (`rgb`, `hsl`, `hex`) to its corresponding value type.
+
+- **Variant**  
+  Represents a color variant, either "dim" or "bright".
+
+- **VariantColorDeltas**  
+  A mapping of deltas for "dim" and "bright" variants of a color.
+
+- **Variants<T extends Converter.Type>**  
+  Generates the color variants (`dim`, `bright`) for a given color type.
+
+</details>
+
+---
+
+## Modules
 
 <details><summary>ColorWheel</summary>
 
@@ -143,11 +321,9 @@ validation, normalization, and alpha blending.
 
 </details>
 
-### Modules
+---
 
 <details><summary>Contrast</summary>
-
-### Contrast
 
 Utilities for calculating and adjusting color contrast ratios, including WCAG
 2.2 compliance checks and binary search-based lightness tuning.

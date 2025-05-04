@@ -4,6 +4,7 @@ import type {
   NumberWithVar,
   PercentWithVar,
   AngleWithVar,
+  OptionalSpace,
 } from "./shared.js";
 
 /** https://www.w3.org/TR/css-color-4/#typedef-opacity-opacity-value */
@@ -14,32 +15,32 @@ type Hex = WithVar<`#${string}`>;
 
 /** https://www.w3.org/TR/css-color-4/#funcdef-rgb */
 type Rgb =
-  | `rgb(${NumberWithVar}, ${NumberWithVar}, ${NumberWithVar})`
+  | `rgb(${NumberWithVar},${OptionalSpace}${NumberWithVar},${OptionalSpace}${NumberWithVar})`
   | `rgb(${NumberWithVar} ${NumberWithVar} ${NumberWithVar})`;
 /** https://www.w3.org/TR/css-color-4/#funcdef-rgba */
 type Rgba =
-  | `rgb(${NumberWithVar}, ${NumberWithVar}, ${NumberWithVar}, ${Opacity})`
+  | `rgb(${NumberWithVar},${OptionalSpace}${NumberWithVar},${OptionalSpace}${NumberWithVar},${OptionalSpace}${Opacity})`
   | `rgb(${NumberWithVar} ${NumberWithVar} ${NumberWithVar} / ${Opacity})`;
 
 /** https://www.w3.org/TR/css-color-4/#funcdef-hsl */
 type Hsl =
-  | `hsl(${NumberWithVar}, ${PercentWithVar}, ${PercentWithVar})`
+  | `hsl(${NumberWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${PercentWithVar})`
   | `hsl(${NumberWithVar} ${PercentWithVar} ${PercentWithVar})`;
 
 /** https://www.w3.org/TR/css-color-4/#funcdef-hsla */
 type Hsla =
-  | `hsl(${NumberWithVar}, ${PercentWithVar}, ${PercentWithVar}, ${Opacity})`
+  | `hsl(${NumberWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${Opacity})`
   | `hsl(${NumberWithVar} ${PercentWithVar} ${PercentWithVar} / ${Opacity})`;
 
 /** https://www.w3.org/TR/css-color-4/#funcdef-hwb */
 type Hwb =
-  | `hwb(${NumberWithVar}, ${PercentWithVar}, ${PercentWithVar})`
+  | `hwb(${NumberWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${PercentWithVar})`
   | `hwb(${NumberWithVar} ${PercentWithVar} ${PercentWithVar})`
-  | `hwb(${AngleWithVar}, ${PercentWithVar}, ${PercentWithVar})`
+  | `hwb(${AngleWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${PercentWithVar})`
   | `hwb(${AngleWithVar} ${PercentWithVar} ${PercentWithVar})`
-  | `hwb(${NumberWithVar}, ${PercentWithVar}, ${PercentWithVar}, ${Opacity})`
+  | `hwb(${NumberWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${Opacity})`
   | `hwb(${NumberWithVar} ${PercentWithVar} ${PercentWithVar} / ${Opacity})`
-  | `hwb(${AngleWithVar}, ${PercentWithVar}, ${PercentWithVar}, ${Opacity})`
+  | `hwb(${AngleWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${PercentWithVar},${OptionalSpace}${Opacity})`
   | `hwb(${AngleWithVar} ${PercentWithVar} ${PercentWithVar} / ${Opacity})`;
 
 /** https://www.w3.org/TR/css-color-4/#funcdef-lab */

@@ -21,8 +21,9 @@ type PercentWithVar = WithVar<Percent>;
 type AngleWithVar = WithVar<Angle>;
 
 type Accepts<T> = WithVar<T> | SharedKeyword;
-
+type OptionalSpace = "" | " ";
 export type {
+  OptionalSpace,
   CustomProperty,
   Accepts,
   PercentWithVar,

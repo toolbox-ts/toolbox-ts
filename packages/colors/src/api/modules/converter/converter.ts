@@ -150,6 +150,7 @@ const resolve = <T extends Type>(
 const toRgb = (color: ColorType): Rgb.Rgba => resolve<"rgb">(color, "rgb");
 const toHex = (color: ColorType): Hex.Color => resolve<"hex">(color, "hex");
 const toHsl = (color: ColorType): Hsl.Hsla => resolve<"hsl">(color, "hsl");
+
 export {
   resolve,
   toRgb,
