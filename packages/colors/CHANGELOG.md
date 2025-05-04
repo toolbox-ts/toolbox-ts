@@ -1,5 +1,11 @@
 # @toolbox-ts/colors
 
+## 1.2.0
+
+### Minor Changes
+
+- 37cdd1d: add get.inverse fn to api
+
 ## 1.1.1
 
 ### Patch Changes
