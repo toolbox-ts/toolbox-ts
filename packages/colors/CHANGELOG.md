@@ -1,5 +1,11 @@
 # @toolbox-ts/colors
 
+## 1.3.0
+
+### Minor Changes
+
+- d055cae: @toolbox-ts/colors Added Weighted and Alpha blending, get.mute, get.inverse, changed get.variants to return inverse and muted, split up package README
+
 ## 1.2.0
 
 ### Minor Changes
