@@ -12,7 +12,7 @@ import {
 } from "./modules/index.js";
 
 const modules = { Hex, Rgb, Hsl, Luminance, Contrast, ColorWheel } as const;
-
+type WcagLevel = keyof typeof Contrast.WCAG;
 type Variant = "dim" | "bright";
 type VariantColorDeltas = { [key in Variant]: number };
 type Variants<T extends Converter.Type> = {
@@ -67,7 +67,11 @@ const adjust = {
       ),
       returnType,
     ),
-  contrastRatio: Contrast.adjustToRatio,
+  contrastRatio: (foreground: string, background: string) =>
+    Contrast.calculateRatio(
+      parse.stringToColor(foreground),
+      parse.stringToColor(background),
+    ),
 } as const;
 const get = {
   /** Generates dim and bright variants of a color using lightness deltas */
@@ -91,16 +95,67 @@ const get = {
       parse.stringToColor(background),
     ),
 
-  bestColor: Contrast.findBestColor,
-  relativeLuminance: Luminance.calculateRelative,
-  colorType: Converter.getColorType,
+  bestColor: ({
+    background,
+    foreground,
+    direction,
+    initialRatio,
+    maxIterations,
+    precision,
+    targetRatio,
+  }: Omit<Contrast.FindBestColorOptions, "background" | "foreground"> & {
+    background: string;
+    foreground: string;
+  }) =>
+    Contrast.findBestColor({
+      background: Converter.toRgb(parse.stringToColor(background)),
+      foreground: Converter.toRgb(parse.stringToColor(foreground)),
+      direction,
+      initialRatio,
+      maxIterations,
+      precision,
+      targetRatio,
+    }),
+  relativeLuminance: (color: string) =>
+    Luminance.calculateRelative(parse.stringToColor(color)),
+  colorType: (color: string) =>
+    Converter.getColorType(parse.stringToColor(color)),
 } as const;
 const is = {
   rgb: Rgb.isRgb,
   hsl: Hsl.isHsl,
   hex: Hex.is,
-  accessible: Contrast.isWcagCompliant,
-  contrastRatioAchievable: Contrast.isRatioAchievable,
+  accessible: ({
+    background,
+    foreground,
+    level = "AA",
+  }: {
+    background: string;
+    foreground: string;
+    level?: Contrast.WcagLevel;
+  }) =>
+    Contrast.isWcagCompliant({
+      background: parse.stringToColor(background),
+      foreground: parse.stringToColor(foreground),
+      level,
+    }),
+  contrastRatioAchievable: ({
+    background,
+    foreground,
+    targetRatio,
+    allowExceed = true,
+  }: {
+    background: string;
+    foreground: string;
+    targetRatio: number;
+    allowExceed?: boolean;
+  }) =>
+    Contrast.isRatioAchievable({
+      background: parse.stringToColor(background),
+      foreground: parse.stringToColor(foreground),
+      targetRatio,
+      allowExceed,
+    }),
 } as const;
 const clamp = {
   rgb: Rgb.clamp,
@@ -109,9 +164,9 @@ const clamp = {
   hexByte: Hex.byte.clamp,
 } as const;
 const convert = {
-  toRgb: Converter.toRgb,
-  toHsl: Converter.toHsl,
-  toHex: Converter.toHex,
+  toRgb: (color: string) => Converter.toRgb(parse.stringToColor(color)),
+  toHsl: (color: string) => Converter.toHsl(parse.stringToColor(color)),
+  toHex: (color: string) => Converter.toHex(parse.stringToColor(color)),
   rgbTo: Converter.rgbTo,
   hslTo: Converter.hslTo,
   hexTo: Converter.hexTo,
@@ -134,6 +189,12 @@ const blend = <T extends Converter.Type>({
     foreground: Converter.resolve<T>(fg, returnType),
   };
 };
-
 export { convert, parse, adjust, get, is, clamp, modules, blend };
-export type { Variant, VariantColorDeltas, Variants, ColorType, ColorTypeMap };
+export type {
+  Variant,
+  VariantColorDeltas,
+  Variants,
+  ColorType,
+  ColorTypeMap,
+  WcagLevel,
+};
