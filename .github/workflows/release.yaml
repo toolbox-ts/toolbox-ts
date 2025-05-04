@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - "**"
+      - "main"
     paths-ignore:
       - "README.md"
   pull_request:
@@ -63,6 +63,8 @@ jobs:
 
       - name: 📝 Creating Version PR (Changesets)
         uses: changesets/action@v1
+        with:
+          branch: main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
