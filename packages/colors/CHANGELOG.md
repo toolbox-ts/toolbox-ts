@@ -1,5 +1,11 @@
 # @toolbox-ts/colors
 
+## 1.1.0
+
+### Minor Changes
+
+- 39546cd: create api for colors, add optional space to types, improve normalize flexability
+
 ## 1.0.2
 
 ### Patch Changes
