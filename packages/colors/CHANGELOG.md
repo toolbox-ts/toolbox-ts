@@ -1,5 +1,11 @@
 # @toolbox-ts/colors
 
+## 1.1.1
+
+### Patch Changes
+
+- cdaf579: export WcagLevel type and wrap all functions to accept string
+
 ## 1.1.0
 
 ### Minor Changes
