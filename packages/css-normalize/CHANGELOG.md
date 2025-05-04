@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.2.0
+
+### Minor Changes
+
+- 09b8263: create api for colors, add optional space to types, improve normalize flexability
+
 ## 1.1.3
 
 ### Patch Changes
