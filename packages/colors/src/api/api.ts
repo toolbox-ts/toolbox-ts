@@ -120,7 +120,7 @@ const get = {
       Rgb.invert(Converter.toRgb(parse.stringToColor(color))),
       returnType,
     ),
-  mute: <T extends ColorType>({
+  muted: <T extends ColorType>({
     foreground,
     background,
     returnType,
