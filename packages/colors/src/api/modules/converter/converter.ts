@@ -4,8 +4,9 @@ import {
   Rgb,
   Hsl,
   ColorWheel,
+  type Color,
   type ColorType,
-  type ColorTypeMap,
+  type ColorMap,
 } from "../base/index.js";
 
 const eightBitChannelMax = Num.Bits.eight.max;
@@ -111,9 +112,8 @@ const hslTo: {
   hex: ({ h, l, s, a = 1 }) => rgbTo.hex(hslTo.rgb({ h, l, s, a })),
 } as const;
 const converters = { rgb: rgbTo, hex: hexTo, hsl: hslTo } as const;
-type Type = keyof typeof converters;
 
-const getColorType = (color: ColorType): Type | undefined => {
+const getColorType = (color: Color): ColorType | undefined => {
   if (Rgb.isRgb(color)) return "rgb";
   if (Hex.is(color)) return "hex";
   if (Hsl.isHsl(color)) return "hsl";
@@ -126,10 +126,7 @@ const defaults = {
 } as const;
 const validators = { rgb: Rgb.isRgb, hex: Hex.is, hsl: Hsl.isHsl } as const;
 
-const resolve = <T extends Type>(
-  color: ColorType,
-  type: T,
-): ColorTypeMap[T] => {
+const resolve = <T extends ColorType>(color: Color, type: T): ColorMap[T] => {
   const colorType = getColorType(color);
   let result = undefined;
   switch (colorType) {
@@ -145,11 +142,11 @@ const resolve = <T extends Type>(
     default:
       result = defaults[type];
   }
-  return result as ColorTypeMap[T];
+  return result as ColorMap[T];
 };
-const toRgb = (color: ColorType): Rgb.Rgba => resolve<"rgb">(color, "rgb");
-const toHex = (color: ColorType): Hex.Color => resolve<"hex">(color, "hex");
-const toHsl = (color: ColorType): Hsl.Hsla => resolve<"hsl">(color, "hsl");
+const toRgb = (color: Color): Rgb.Rgba => resolve<"rgb">(color, "rgb");
+const toHex = (color: Color): Hex.Color => resolve<"hex">(color, "hex");
+const toHsl = (color: Color): Hsl.Hsla => resolve<"hsl">(color, "hsl");
 
 export {
   resolve,
@@ -162,7 +159,4 @@ export {
   rgbTo,
   hexTo,
   hslTo,
-  type Type,
-  type ColorType,
-  type ColorTypeMap,
 };

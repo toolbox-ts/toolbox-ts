@@ -1,6 +1,7 @@
 import {
+  type Color,
+  type ColorMap,
   type ColorType,
-  type ColorTypeMap,
   Contrast,
   Converter,
   Hex,
@@ -13,19 +14,21 @@ import {
 
 const modules = { Hex, Rgb, Hsl, Luminance, Contrast, ColorWheel } as const;
 type WcagLevel = keyof typeof Contrast.WCAG;
-type Variant = "dim" | "bright";
-type VariantColorDeltas = { [key in Variant]: number };
-type Variants<T extends Converter.Type> = {
-  [key in Variant]: Converter.ColorTypeMap[T];
-};
+type WcagLevelRatio = (typeof Contrast.WCAG)[WcagLevel];
+
+type Variant = "base" | "inverse" | "muted";
+type MuteOptions<T extends ColorType> = Omit<
+  Contrast.MuteOptions<T>,
+  "foreground" | "background"
+> & { foreground: string; background: string };
 const parse = {
-  stringToColor: (value: string): ColorType => {
+  stringToColor: (value: string): Color => {
     if (value.startsWith("#")) return Hex.normalize(value);
     if (value.startsWith("rgb")) return Rgb.stringToRgb(value);
     if (value.startsWith("hsl")) return Hsl.stringToHsl(value);
     throw new Error(`Invalid color string: ${value}`);
   },
-  colorToString: (color: ColorType): string => {
+  colorToString: (color: Color): string => {
     if (Hex.is(color)) return Hex.normalize(color);
     if (Rgb.isRgb(color)) return Rgb.toString(color);
     if (Hsl.isHsl(color)) return Hsl.toString(color);
@@ -37,12 +40,13 @@ const parse = {
    */
   cssColorString: splitCssColorString,
 } as const;
+
 const adjust = {
-  lightness: <T extends Converter.Type>(
+  lightness: <T extends ColorType>(
     color: string,
     delta: number, // Positive to lighten, negative to darken
     returnType: T,
-  ): Converter.ColorTypeMap[T] =>
+  ): ColorMap[T] =>
     Converter.resolve<T>(
       Hsl.adjust.lightness(
         Converter.resolve<"hsl">(parse.stringToColor(color), "hsl"),
@@ -50,16 +54,16 @@ const adjust = {
       ),
       returnType,
     ),
-  saturation: <T extends Converter.Type>(
+  saturation: <T extends ColorType>(
     color: string,
     delta: number, // Positive to increase, negative to decrease
     returnType: T,
   ) => adjust.lightness(color, delta, returnType),
-  hue: <T extends Converter.Type>(
+  hue: <T extends ColorType>(
     color: string,
     delta: number, // Positive to rotate hue clockwise, negative to rotate counterclockwise
     returnType: T,
-  ): Converter.ColorTypeMap[T] =>
+  ): ColorMap[T] =>
     Converter.resolve<T>(
       Hsl.adjust.hue(
         Converter.resolve<"hsl">(parse.stringToColor(color), "hsl"),
@@ -81,27 +85,11 @@ const adjust = {
 } as const;
 
 const get = {
-  /** Generates dim and bright variants of a color using lightness deltas */
-  variants: <T extends Converter.Type>(
-    color: string,
-    returnType: T,
-    deltas: VariantColorDeltas | Luminance.DeltaPresets = Luminance.deltaPresets
-      .moderate,
-  ): Variants<T> & { base: Converter.ColorTypeMap[T] } => {
-    const { dim, bright } =
-      typeof deltas === "string" ? Luminance.deltaPresets[deltas] : deltas;
-    return {
-      base: Converter.resolve<T>(parse.stringToColor(color), returnType),
-      dim: adjust.lightness(color, dim, returnType),
-      bright: adjust.lightness(color, bright, returnType),
-    };
-  },
-  contrast: (foreground: string, background: string) =>
+  contrastRatio: (foreground: string, background: string) =>
     Contrast.calculateRatio(
       parse.stringToColor(foreground),
       parse.stringToColor(background),
     ),
-
   bestColor: ({
     background,
     foreground,
@@ -127,16 +115,47 @@ const get = {
     Luminance.calculateRelative(parse.stringToColor(color)),
   colorType: (color: string) =>
     Converter.getColorType(parse.stringToColor(color)),
-  inverse: <T extends Converter.Type>(
-    color: string,
-    returnType: T,
-  ): ColorTypeMap[T] => {
-    const { r, g, b, a } = Converter.toRgb(parse.stringToColor(color));
-    return Converter.resolve<T>(
-      { r: 255 - r, g: 255 - g, b: 255 - b, a },
+  inverse: <T extends ColorType>(color: string, returnType: T): ColorMap[T] =>
+    Converter.resolve<T>(
+      Rgb.invert(Converter.toRgb(parse.stringToColor(color))),
       returnType,
-    );
-  },
+    ),
+  muted: <T extends ColorType>({
+    foreground,
+    background,
+    returnType,
+    weight = 0.3,
+    minRatio = "AA",
+  }: MuteOptions<T>): ColorMap[T] =>
+    Contrast.mute({
+      foreground: parse.stringToColor(foreground),
+      background: parse.stringToColor(background),
+      returnType,
+      weight,
+      minRatio,
+    }),
+  variants: <T extends ColorType>({
+    background,
+    foreground,
+    returnType,
+    minRatio,
+    weight,
+    forceOpaque = false,
+  }: MuteOptions<T>): { [K in Variant]: ColorMap[T] } => ({
+    base: Converter.resolve<T>(parse.stringToColor(foreground), returnType),
+    inverse: Converter.resolve<T>(
+      Rgb.invert(Converter.toRgb(parse.stringToColor(foreground))),
+      returnType,
+    ),
+    muted: Contrast.mute<T>({
+      foreground: parse.stringToColor(foreground),
+      background: parse.stringToColor(background),
+      returnType,
+      weight,
+      minRatio,
+      forceOpaque,
+    }),
+  }),
 } as const;
 const is = {
   rgb: Rgb.isRgb,
@@ -188,30 +207,44 @@ const convert = {
   hslTo: Converter.hslTo,
   hexTo: Converter.hexTo,
 } as const;
-const blend = <T extends Converter.Type>({
-  background,
-  foreground,
-  returnType,
-}: {
-  background: string;
-  foreground: string;
-  returnType: T;
-}) => {
-  const { bg, fg } = Rgb.blend(
-    Converter.toRgb(parse.stringToColor(foreground)),
-    Converter.toRgb(parse.stringToColor(background)),
-  );
-  return {
-    background: Converter.resolve<T>(bg, returnType),
-    foreground: Converter.resolve<T>(fg, returnType),
-  };
+const blend = {
+  alpha: <T extends ColorType>({
+    background,
+    foreground,
+    returnType,
+  }: {
+    background: string;
+    foreground: string;
+    returnType: T;
+  }) => {
+    const { bg, fg } = Rgb.blendAlpha(
+      Converter.toRgb(parse.stringToColor(foreground)),
+      Converter.toRgb(parse.stringToColor(background)),
+    );
+    return {
+      background: Converter.resolve<T>(bg, returnType),
+      foreground: Converter.resolve<T>(fg, returnType),
+    };
+  },
+  weighted: <T extends ColorType>({
+    background,
+    foreground,
+    weight,
+    returnType,
+  }: {
+    background: string;
+    foreground: string;
+    weight: number;
+    returnType: T;
+  }) =>
+    Converter.resolve<T>(
+      Rgb.blendWeighted({
+        fg: Converter.toRgb(parse.stringToColor(foreground)),
+        bg: Converter.toRgb(parse.stringToColor(background)),
+        weight,
+      }),
+      returnType,
+    ),
 };
 export { convert, parse, adjust, get, is, clamp, modules, blend };
-export type {
-  Variant,
-  VariantColorDeltas,
-  Variants,
-  ColorType,
-  ColorTypeMap,
-  WcagLevel,
-};
+export type { Variant, Color, ColorMap, ColorType, WcagLevel, WcagLevelRatio };

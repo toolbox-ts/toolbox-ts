@@ -1,13 +1,14 @@
 import { describe, it, expect } from "vitest";
 import {
-  blend,
+  blendAlpha,
+  blendWeighted,
   normalize,
   isRgb,
   transparent,
   type Rgba,
   toString,
+  invert,
   stringToRgb,
-  type Rgb,
 } from "./rgb";
 
 describe("rgb.ts", () => {
@@ -86,27 +87,82 @@ describe("rgb.ts", () => {
     });
   });
 
-  describe("blend", () => {
-    it("blends two colors with full alpha", () => {
+  describe("blendAlpha", () => {
+    it("blendAlphas two colors with full alpha", () => {
       const fg: Rgba = { r: 255, g: 0, b: 0, a: 1 };
       const bg: Rgba = { r: 0, g: 0, b: 255, a: 1 };
-      expect(blend(fg, bg).fg).toEqual({ r: 255, g: 0, b: 0, a: 1 });
+      expect(blendAlpha(fg, bg).fg).toEqual({ r: 255, g: 0, b: 0, a: 1 });
     });
 
-    it("blends two colors with half alpha", () => {
+    it("blendAlphas two colors with half alpha", () => {
       const fg: Rgba = { r: 255, g: 0, b: 0, a: 0.5 };
       const bg: Rgba = { r: 0, g: 0, b: 255, a: 1 };
       // alpha = 128/255 ≈ 0.50196
       // r = 255*0.50196 + 0*0.49804 ≈ 128
       // g = 0
       // b = 0*0.50196 + 255*0.49804 ≈ 128
-      expect(blend(fg, bg).fg).toEqual({ r: 128, g: 0, b: 128, a: 1 });
+      expect(blendAlpha(fg, bg).fg).toEqual({ r: 128, g: 0, b: 128, a: 1 });
     });
 
-    it("blends with fully transparent fg", () => {
+    it("blendAlphas with fully transparent fg", () => {
       const fg: Rgba = { r: 255, g: 0, b: 0, a: 0 };
       const bg: Rgba = { r: 0, g: 255, b: 0, a: 1 };
-      expect(blend(fg, bg).fg).toEqual({ r: 0, g: 255, b: 0, a: 1 });
+      expect(blendAlpha(fg, bg).fg).toEqual({ r: 0, g: 255, b: 0, a: 1 });
+    });
+  });
+  describe("blendWeighted", () => {
+    it("returns the foreground color if weight is 1", () => {
+      const fg = { r: 100, g: 150, b: 200, a: 1 };
+      const bg = { r: 10, g: 20, b: 30, a: 1 };
+      const { a, b, g, r } = blendWeighted({ fg, bg, weight: 1 });
+      expect(r).toEqual(100);
+      expect(g).toEqual(150);
+      expect(b).toEqual(200);
+    });
+
+    it("returns the background color if weight is 0", () => {
+      const fg = { r: 100, g: 150, b: 200, a: 1 };
+      const bg = { r: 10, g: 20, b: 30, a: 1 };
+      const { a, b, g, r } = blendWeighted({ fg, bg, weight: 0 });
+      expect(r).toEqual(bg.r);
+      expect(g).toEqual(bg.g);
+      expect(b).toEqual(bg.b);
+    });
+
+    it("blends 50/50 between foreground and background", () => {
+      const fg = { r: 100, g: 200, b: 50, a: 1 };
+      const bg = { r: 0, g: 0, b: 100, a: 1 };
+      const { a, b, g, r } = blendWeighted({ fg, bg, weight: 0.5 });
+      expect(r).toEqual(50);
+      expect(g).toEqual(100);
+      expect(b).toEqual(75);
+    });
+
+    it("handles alpha channel blending", () => {
+      const fg = { r: 255, g: 0, b: 0, a: 0.5 };
+      const bg = { r: 0, g: 0, b: 255, a: 0.5 };
+      const { a, b, g, r } = blendWeighted({ fg, bg, weight: 0.5 });
+      expect(r).toBe(128);
+      expect(g).toBe(0);
+      expect(b).toBe(128);
+      expect(a).toBe(0.5);
+    });
+
+    it("clamps weight below 0 to 0 ", () => {
+      const fg = { r: 100, g: 100, b: 100, a: 1 };
+      const bg = { r: 0, g: 0, b: 0, a: 1 };
+      const { a, b, g, r } = blendWeighted({ fg, bg, weight: -1 });
+      expect(r).toEqual(bg.r);
+      expect(g).toEqual(bg.g);
+      expect(b).toEqual(bg.b);
+    });
+    it("clamps weight above 1 to 1 ", () => {
+      const fg = { r: 100, g: 100, b: 100, a: 1 };
+      const bg = { r: 0, g: 0, b: 0, a: 1 };
+      const { a, b, g, r } = blendWeighted({ fg, bg, weight: 2 });
+      expect(r).toEqual(fg.r);
+      expect(g).toEqual(fg.g);
+      expect(b).toEqual(fg.b);
     });
   });
 
@@ -171,6 +227,58 @@ describe("rgb.ts", () => {
     it("throws on invalid string", () => {
       expect(() => stringToRgb("not a color")).toThrow();
       expect(() => stringToRgb("rgx(100,100,100,1)")).toThrow();
+    });
+  });
+  describe("invert", () => {
+    it("inverts a fully opaque color", () => {
+      expect(invert({ r: 0, g: 0, b: 0, a: 1 })).toEqual({
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 1,
+      });
+      expect(invert({ r: 255, g: 255, b: 255, a: 1 })).toEqual({
+        r: 0,
+        g: 0,
+        b: 0,
+        a: 1,
+      });
+      expect(invert({ r: 100, g: 150, b: 200, a: 1 })).toEqual({
+        r: 155,
+        g: 105,
+        b: 55,
+        a: 1,
+      });
+    });
+
+    it("inverts with alpha < 1 (clamped to [0,1])", () => {
+      expect(invert({ r: 10, g: 20, b: 30, a: 0.5 })).toEqual({
+        r: 245,
+        g: 235,
+        b: 225,
+        a: 0.5,
+      });
+      expect(invert({ r: 10, g: 20, b: 30, a: -1 })).toEqual({
+        r: 245,
+        g: 235,
+        b: 225,
+        a: 0,
+      });
+      expect(invert({ r: 10, g: 20, b: 30, a: 2 })).toEqual({
+        r: 245,
+        g: 235,
+        b: 225,
+        a: 1,
+      });
+    });
+
+    it("clamps input channels before inverting", () => {
+      expect(invert({ r: -10, g: 300, b: 128, a: 1 })).toEqual({
+        r: 255,
+        g: 0,
+        b: 127,
+        a: 1,
+      });
     });
   });
 });
