@@ -184,7 +184,7 @@ describe("validators", () => {
     expect(validators.hsl("notacolor")).toBe(false);
   });
 });
-describe("getColorType", () => {
+describe("getColor", () => {
   it("returns the correct color type", () => {
     expect(getColorType({ r: 255, g: 0, b: 0, a: 1 })).toBe("rgb");
     expect(getColorType("#ff0000ff")).toBe("hex");

@@ -1,6 +1,6 @@
 import { Num } from "@toolbox-ts/utils";
 import * as Converter from "../converter/converter.js";
-
+import type { Color } from "../base/index.js";
 /**
  * Gamma correction parameters used in sRGB linearization.
  * These constants help convert
@@ -39,7 +39,6 @@ const LINEARIZATION = {
  * Constants and weights for luminance calculations.
  * - offset: Used in contrast ratio formula to prevent division by zero.
  * - weights: Per-channel weights for RGB to luminance conversion.
- * - deltaPresets: Default deltas for generating dim and bright color variants.
  * @see https://www.w3.org/WAI/GL/wiki/Relative_luminance
  */
 const LUMINANCE = {
@@ -51,16 +50,7 @@ const LUMINANCE = {
   offset: 0.05,
   /** Per-channel weights for converting linear RGB to luminance. */
   weights: { r: 0.2126, g: 0.7152, b: 0.0722 },
-  /** Lightness deltas for dim and bright variants. */
-  deltaPresets: {
-    subtle: { dim: -0.03, bright: 0.03 },
-    minimal: { dim: -0.05, bright: 0.05 },
-    moderate: { dim: -0.08, bright: 0.08 },
-    extra: { dim: -0.1, bright: 0.1 },
-    heavy: { dim: -0.15, bright: 0.15 },
-  },
 } as const;
-type DeltaPresets = keyof typeof LUMINANCE.deltaPresets;
 
 /**
  * Calculates the relative luminance of a color.
@@ -69,7 +59,7 @@ type DeltaPresets = keyof typeof LUMINANCE.deltaPresets;
  * @param color - The input color (any supported format).
  * @returns The relative luminance (0 = black, 1 = white).
  */
-const calculateRelative = (color: Converter.ColorType) => {
+const calculateRelative = (color: Color) => {
   const clr = Converter.resolve<"rgb">(color, "rgb");
   const { r, g, b, a = 1 } = clr;
   const [_r, _g, _b, _a] = [r, g, b, a].map((c) => {
@@ -86,6 +76,5 @@ const calculateRelative = (color: Converter.ColorType) => {
 };
 
 export { calculateRelative };
-export const { offset, weights, deltaPresets } = LUMINANCE;
+export const { offset, weights } = LUMINANCE;
 export { GAMMA, LINEARIZATION };
-export type { DeltaPresets };

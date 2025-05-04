@@ -1,4 +1,9 @@
-import { type ColorType, type ColorTypeMap, Rgb } from "../base/index.js";
+import {
+  type ColorMap,
+  type Color,
+  Rgb,
+  type ColorType,
+} from "../base/index.js";
 import { Luminance } from "../luminance/index.js";
 import { Converter } from "../converter/index.js";
 
@@ -39,8 +44,8 @@ const CONTRAST = {
  * @param returnType - The desired color format.
  * @param targetRatio - The target contrast ratio.
  */
-const prepareResult = <T extends Converter.Type>(
-  color: ColorType,
+const prepareResult = <T extends ColorType>(
+  color: Color,
   finalContrast: number,
   returnType: T,
   targetRatio: number,
@@ -59,7 +64,7 @@ const prepareResult = <T extends Converter.Type>(
  * @param background - Background color.
  * @returns The contrast ratio (rounded to 2 decimals).
  */
-const calculateRatio = (foreground: ColorType, background: ColorType) => {
+const calculateRatio = (foreground: Color, background: Color) => {
   const l1 = Luminance.calculateRelative(foreground);
   const l2 = Luminance.calculateRelative(background);
   const lighter = Math.max(l1, l2);
@@ -71,8 +76,8 @@ const calculateRatio = (foreground: ColorType, background: ColorType) => {
   );
 };
 interface IsRatioAchievableOptions {
-  foreground: ColorType;
-  background: ColorType;
+  foreground: Color;
+  background: Color;
   targetRatio: number;
   allowExceed?: boolean;
 }
@@ -107,8 +112,8 @@ const isRatioAchievable = ({
 };
 
 interface FindBestColorOptions {
-  foreground: ColorType;
-  background: ColorType;
+  foreground: Color;
+  background: Color;
   targetRatio: number;
   initialRatio: number;
   direction: 1 | -1;
@@ -165,15 +170,15 @@ const findBestColor = ({
   return state;
 };
 
-interface AdjustOptions<T extends Converter.Type> {
+interface AdjustOptions<T extends ColorType> {
   targetRatio: number;
   maxIterations?: number;
   returnType: T;
   precision?: number;
 }
-interface AdjustResult<T extends Converter.Type> {
+interface AdjustResult<T extends ColorType> {
   contrast: number;
-  color: ColorTypeMap[T];
+  color: ColorMap[T];
   reachedTarget: boolean;
 }
 /**
@@ -184,9 +189,9 @@ interface AdjustResult<T extends Converter.Type> {
  * @param options - Adjustment options.
  * @returns The adjusted color, achieved contrast, and status.
  */
-const adjustToRatio = <T extends Converter.Type>(
-  foreground: ColorType,
-  background: ColorType,
+const adjustToRatio = <T extends ColorType>(
+  foreground: Color,
+  background: Color,
   options: AdjustOptions<T>,
 ): AdjustResult<T> => {
   const {
@@ -220,8 +225,8 @@ const adjustToRatio = <T extends Converter.Type>(
 };
 
 interface IsWcagCompliantOptions {
-  foreground: ColorType;
-  background: ColorType;
+  foreground: Color;
+  background: Color;
   level?: WcagLevel;
 }
 const isWcagCompliant = ({
@@ -232,8 +237,44 @@ const isWcagCompliant = ({
   const fgRgb = Converter.toRgb(foreground);
   const bgRgb = Converter.toRgb(background);
   if (bgRgb.a !== 1) throw new Error("Background color must be opaque");
-  const effectiveFg = fgRgb.a < 1 ? Rgb.blend(fgRgb, bgRgb).fg : fgRgb;
+  const effectiveFg = fgRgb.a < 1 ? Rgb.blendAlpha(fgRgb, bgRgb).fg : fgRgb;
   return calculateRatio(effectiveFg, bgRgb) >= WCAG[level];
+};
+
+interface MuteOptions<T extends ColorType> {
+  foreground: Color;
+  background: Color;
+  returnType: T;
+  weight?: number;
+  minRatio?: WcagLevel;
+  forceOpaque?: boolean;
+}
+const mute = <T extends ColorType>({
+  foreground,
+  background,
+  returnType,
+  weight = 0.3,
+  minRatio = "AA",
+  forceOpaque = false,
+}: MuteOptions<T>): ColorMap[T] => {
+  const targetRatio = WCAG[minRatio];
+  const bg = Converter.toRgb(background);
+  const base = Converter.toRgb(foreground);
+  const inverse = Rgb.invert(base);
+
+  let blended = Rgb.blendWeighted({ fg: base, bg: inverse, weight });
+
+  const ratio = calculateRatio(blended, bg);
+  if (ratio < targetRatio) {
+    blended = adjustToRatio(blended, bg, {
+      targetRatio,
+      returnType: "rgb",
+      maxIterations: 100,
+      precision: 0.1,
+    }).color;
+  }
+  if (forceOpaque && blended.a !== 1) blended = { ...blended, a: 1 };
+  return Converter.resolve<T>(blended, returnType);
 };
 
 export {
@@ -243,6 +284,7 @@ export {
   calculateRatio,
   adjustToRatio,
   isRatioAchievable,
+  mute,
   isWcagCompliant,
   type WcagLevel,
   type AdjustOptions,
@@ -251,5 +293,6 @@ export {
   type IsRatioAchievableResult,
   type IsRatioAchievableOptions,
   type IsWcagCompliantOptions,
+  type MuteOptions,
   WCAG,
 };

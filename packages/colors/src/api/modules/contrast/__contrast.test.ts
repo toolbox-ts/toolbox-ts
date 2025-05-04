@@ -4,6 +4,7 @@ import {
   findBestColor,
   calculateRatio,
   adjustToRatio,
+  mute,
   isRatioAchievable,
   type AdjustOptions,
   type FindBestColorOptions,
@@ -224,5 +225,80 @@ describe("adjustToRatio", () => {
         }),
       ).toThrowError();
     });
+  });
+});
+
+describe("mute", () => {
+  it("returns a muted color in the requested format", () => {
+    const foreground = { r: 100, g: 150, b: 200, a: 1 };
+    const background = { r: 255, g: 255, b: 255, a: 1 };
+    const muted = mute({ foreground, background, returnType: "rgb" });
+    expect(muted).toHaveProperty("r");
+    expect(muted).toHaveProperty("g");
+    expect(muted).toHaveProperty("b");
+    expect(muted).toHaveProperty("a");
+  });
+
+  it("returns a muted color in hex format", () => {
+    const foreground = { r: 100, g: 150, b: 200, a: 1 };
+    const background = { r: 0, g: 0, b: 0, a: 1 };
+    const muted = mute({ foreground, background, returnType: "hex" });
+    expect(typeof muted).toBe("string");
+    expect(muted.startsWith("#")).toBe(true);
+  });
+
+  it("returns a muted color in hsl format", () => {
+    const foreground = { r: 100, g: 150, b: 200, a: 1 };
+    const background = { r: 0, g: 0, b: 0, a: 1 };
+    const muted = mute({ foreground, background, returnType: "hsl" });
+    expect(muted).toHaveProperty("h");
+    expect(muted).toHaveProperty("s");
+    expect(muted).toHaveProperty("l");
+    expect(muted).toHaveProperty("a");
+  });
+
+  it("uses custom weight and minRatio", () => {
+    const foreground = { r: 10, g: 20, b: 30, a: 1 };
+    const background = { r: 240, g: 240, b: 240, a: 1 };
+    const muted = mute({
+      foreground,
+      background,
+      returnType: "rgb",
+      weight: 0.7,
+      minRatio: "AAA",
+    });
+    expect(muted).toHaveProperty("r");
+    expect(muted).toHaveProperty("g");
+    expect(muted).toHaveProperty("b");
+    expect(muted).toHaveProperty("a");
+  });
+
+  it("adjusts color if initial blend does not meet contrast", () => {
+    const foreground = { r: 255, g: 255, b: 255, a: 1 };
+    const background = { r: 255, g: 255, b: 255, a: 1 };
+    const muted = mute({
+      foreground,
+      background,
+      returnType: "rgb",
+      weight: 0.5,
+      minRatio: "AA",
+    });
+    expect(muted).toHaveProperty("r");
+    expect(muted).toHaveProperty("g");
+    expect(muted).toHaveProperty("b");
+    expect(muted).toHaveProperty("a");
+  });
+  it("forces opaque result", () => {
+    const foreground = { r: 100, g: 150, b: 200, a: 0.5 };
+    const background = { r: 255, g: 255, b: 255, a: 1 };
+    const muted = mute({
+      foreground,
+      background,
+      returnType: "rgb",
+      weight: 0.5,
+      minRatio: "AA",
+      forceOpaque: true,
+    });
+    expect(muted).toHaveProperty("a", 1);
   });
 });

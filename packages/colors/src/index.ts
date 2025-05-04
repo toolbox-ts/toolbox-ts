@@ -1,1 +1,1 @@
-export * from "./api/index.js";
+export * as Colors from "./api/api.js";
