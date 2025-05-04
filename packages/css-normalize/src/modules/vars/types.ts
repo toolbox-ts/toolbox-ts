@@ -33,8 +33,8 @@ type VarsObj = LightColorVars &
     borderRadius: { prop: CustomProperty<"border-radius">; value: string };
     outlineWidth: { prop: CustomProperty<"outline-width">; value: string };
     outlineOffset: { prop: CustomProperty<"outline-offset">; value: string };
-    bold: { prop: CustomProperty<"bold">; value: `${number}` };
-    bolder: { prop: CustomProperty<"bolder">; value: `${number}` };
+    bold: { prop: CustomProperty<"bold">; value: string };
+    bolder: { prop: CustomProperty<"bolder">; value: string };
     elevationBaseYOffset: {
       prop: CustomProperty<"elevation-base-y-offset">;
       value: string;
