@@ -68,11 +68,18 @@ const adjust = {
       returnType,
     ),
   contrastRatio: (foreground: string, background: string) =>
-    Contrast.calculateRatio(
+    Contrast.adjustToRatio(
       parse.stringToColor(foreground),
       parse.stringToColor(background),
+      {
+        targetRatio: 4.5,
+        returnType: "rgb",
+        maxIterations: 100,
+        precision: 0.1,
+      },
     ),
 } as const;
+
 const get = {
   /** Generates dim and bright variants of a color using lightness deltas */
   variants: <T extends Converter.Type>(
@@ -120,6 +127,16 @@ const get = {
     Luminance.calculateRelative(parse.stringToColor(color)),
   colorType: (color: string) =>
     Converter.getColorType(parse.stringToColor(color)),
+  inverse: <T extends Converter.Type>(
+    color: string,
+    returnType: T,
+  ): ColorTypeMap[T] => {
+    const { r, g, b, a } = Converter.toRgb(parse.stringToColor(color));
+    return Converter.resolve<T>(
+      { r: 255 - r, g: 255 - g, b: 255 - b, a },
+      returnType,
+    );
+  },
 } as const;
 const is = {
   rgb: Rgb.isRgb,
@@ -158,7 +175,7 @@ const is = {
     }),
 } as const;
 const clamp = {
-  rgb: Rgb.clamp,
+  rgbChannel: Rgb.clamp,
   hslHue: Hsl.clampHue,
   hslPerc: Hsl.clampPerc,
   hexByte: Hex.byte.clamp,
