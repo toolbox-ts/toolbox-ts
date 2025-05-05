@@ -79,8 +79,8 @@ div, span {
 @font-face {
   font-family: "atkinson-next";
   src:
-    url("./fonts/atkinson-next.woff2") format("woff2"),
-    url("./fonts/atkinson-next.woff") format("woff");
+    url("./fonts/atkinson-next.woff2") format("woff2-variations"),
+    url("./fonts/atkinson-next.woff") format("woff-variations");
   font-weight: 100 900;
   font-style: normal italic;
   font-display: swap;
@@ -88,8 +88,8 @@ div, span {
 @font-face {
   font-family: "atkinson-mono";
   src:
-    url("./fonts/atkinson-mono.woff2") format("woff2"),
-    url("./fonts/atkinson-mono.woff") format("woff");
+    url("./fonts/atkinson-mono.woff2") format("woff2-variations"),
+    url("./fonts/atkinson-mono.woff") format("woff-variations");
   font-weight: 100 900;
   font-style: normal italic;
   font-display: swap;
@@ -116,71 +116,60 @@ small {
 }
 
 :root {
-  --root-font-family:
+  --font-family:
     "atkinson-next", system-ui, sans-serif, Helvetica, Arial, "Segoe UI",
     "Apple Color Emoji", "Segoe UI Emoji";
-  --root-font-family-mono: "atkinson-mono", ui-monospace, monospace, Courier;
-  --root-line-height: var(--line-height, 1.5);
-  --root-letter-spacing: var(--letter-spacing, 0.01em);
-  --root-font-size: var(--font-size, 20px);
-  --root-padding: var(--padding, 0.5rem);
-  --root-transition-duration: var(--transition-duration, 0.3s);
+  --font-family-mono: "atkinson-mono", ui-monospace, monospace, Courier;
+  --line-height: var(--line-height, 1.5);
+  --letter-spacing: var(--letter-spacing, 0.01em);
+  --font-size: var(--font-size, 20px);
+  --padding: var(--padding, 0.5rem);
+  --transition-duration: var(--transition-duration, 0.3s);
 
   /* Main background */
-  --root-color-bg: var(--light-color-bg, #fcfaff);
+  --color-bg: var(--light-color-bg, #fcfaff);
   /* Main foreground/text */
-  --root-color-fg: var(--light-color-fg, #1f0044);
+  --color-fg: var(--light-color-fg, #1f0044);
   /* Primary (links, buttons) */
-  --root-color-primary: var(--light-color-primary, #5b21b6);
+  --color-primary: var(--light-color-primary, #5b21b6);
   /* Accent (hover, highlights, borders) */
-  --root-color-accent: var(--light-color-accent, #4c1d95);
+  --color-accent: var(--light-color-accent, #4c1d95);
   /* Emphasis (focus, strong UI, borders) */
-  --root-color-emphasis: var(--light-color-emphasis, #3c0d99);
+  --color-emphasis: var(--light-color-emphasis, #3c0d99);
   /* Muted/secondary text, visited links */
-  --root-color-muted: var(--light-color-muted, #59597a);
+  --color-muted: var(--light-color-muted, #59597a);
 
-  --root-color-border: var(--light-color-border, var(--root-color-emphasis));
-  --root-color-shadow: var(--light-color-shadow, var(--root-color-emphasis));
-  --root-color-outline: var(--light-color-outline, var(--root-color-emphasis));
+  --color-border: var(--light-color-border, var(--color-emphasis));
+  --color-shadow: var(--light-color-shadow, var(--color-emphasis));
+  --color-outline: var(--light-color-outline, var(--color-emphasis));
 
-  --root-outline-width: var(--light-outline-width, 2px);
-  --root-outline-offset: var(--outline-offset, 2px);
-  --root-outline: var(--root-outline-width) solid var(--root-color-emphasis);
+  --outline-width: var(--light-outline-width, 2px);
+  --outline-offset: var(--outline-offset, 2px);
+  --outline: var(--outline-width) solid var(--color-emphasis);
 
-  --root-border-radius: var(--border-radius, 0.5rem);
-  --root-border-width: var(--border-width, 1px);
-  --root-border: var(--root-border-width) solid var(--root-color-emphasis);
+  --border-radius: var(--border-radius, 0.5rem);
+  --border-width: var(--border-width, 1px);
+  --border: var(--border-width) solid var(--color-emphasis);
 
-  --root-bold: max(var(--bold, 600), 699);
-  --root-bolder: max(var(--bolder, 700), 899);
+  --bold: max(var(--bold, 600), 699);
+  --bolder: max(var(--bolder, 700), 899);
   --boldest: 900;
 
-  --root-elevation-base-y-offset: var(--elevation-base-y-offset, 1.5px);
-  --root-elevation-base-blur: var(--elevation-base-blur, 3px);
+  --elevation-base-y-offset: var(--elevation-base-y-offset, 1.5px);
+  --elevation-base-blur: var(--elevation-base-blur, 3px);
 
-  --elevation-low: 0 var(--root-elevation-base-y-offset)
-    var(--root-elevation-base-blur) var(--root-color-shadow);
-  --elevation-medium: 0 calc(var(--root-elevation-base-y-offset) * 2)
-    calc(var(--root-elevation-base-blur) * 2) var(--root-color-shadow);
-  --elevation-high: 0 calc(var(--root-elevation-base-y-offset) * 4)
-    calc(var(--root-elevation-base-blur) * 4) var(--root-color-shadow);
+  --elevation-low: 0 var(--elevation-base-y-offset) var(--elevation-base-blur)
+    var(--color-shadow);
+  --elevation-medium: 0 calc(var(--elevation-base-y-offset) * 2)
+    calc(var(--elevation-base-blur) * 2) var(--color-shadow);
+  --elevation-high: 0 calc(var(--elevation-base-y-offset) * 4)
+    calc(var(--elevation-base-blur) * 4) var(--color-shadow);
 
   --interactive-element-transition:
-    background-color var(--root-transition-duration) ease,
-    color var(--root-transition-duration) ease,
-    border-color var(--root-transition-duration) ease,
-    box-shadow var(--root-transition-duration) ease;
-}
-:root[data-theme="dark"] {
-  --root-color-bg: var(--dark-color-bg, #0f0e11);
-  --root-color-fg: var(--dark-color-fg, #fcfaff);
-  --root-color-primary: var(--dark-color-primary, #d8b4fe);
-  --root-color-accent: var(--dark-color-accent, #a78bfa);
-  --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
-  --root-color-muted: var(--dark-color-muted, #c9b8d1);
-  --root-color-border: var(--dark-color-border, var(--root-color-emphasis));
-  --root-color-outline: var(--dark-color-outline, var(--root-color-emphasis));
-  --root-color-shadow: var(--dark-shadow-color, var(--root-color-emphasis));
+    background-color var(--transition-duration) ease,
+    color var(--transition-duration) ease,
+    border-color var(--transition-duration) ease,
+    box-shadow var(--transition-duration) ease;
 }
 
 h1 {
@@ -208,28 +197,28 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: var(--root-bold);
+  font-weight: var(--bold);
   line-height: 1.2;
 }
 hr {
-  border-top: var(--root-border);
+  border-top: var(--border);
   width: 100%;
 }
 code,
 kbd,
 samp,
 pre {
-  font-family: var(--root-font-family-mono);
+  font-family: var(--font-family-mono);
   font-size: 1em;
   font-weight: normal;
   letter-spacing: 0;
 }
 
 html {
-  font-family: var(--root-font-family);
-  font-size: var(--root-font-size);
-  line-height: var(--root-line-height);
-  letter-spacing: var(--root-letter-spacing);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
   cursor: auto;
   tab-size: 4;
   /* Prevent adjustments of font size after orientation changes in iOS. */
@@ -249,10 +238,10 @@ body {
   display: flex;
   flex-direction: column;
   transition:
-    background-color var(--root-transition-duration) ease,
-    color var(--root-transition-duration) ease;
-  background-color: var(--root-color-bg);
-  color: var(--root-color-fg);
+    background-color var(--transition-duration) ease,
+    color var(--transition-duration) ease;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
 }
 
 main {
@@ -281,12 +270,12 @@ input[type="image"] {
 input,
 textarea {
   &:focus {
-    outline: var(--root-outline);
-    outline-offset: var(--root-outline-offset);
+    outline: var(--outline);
+    outline-offset: var(--outline-offset);
   }
   &:hover,
   &:active {
-    border-color: var(--root-color-primary);
+    border-color: var(--color-primary);
     box-shadow: var(--elevation-low);
     transition:
       border-color var(--interactive-element-transition),
@@ -299,25 +288,25 @@ textarea {
   opacity: 0.5;
 }
 :focus-visible {
-  outline: var(--root-outline);
-  outline-offset: var(--root-outline-offset);
+  outline: var(--outline);
+  outline-offset: var(--outline-offset);
 }
 :focus:not(:focus-visible) {
   outline: none;
 }
 a {
-  color: var(--root-color-primary);
+  color: var(--color-primary);
   text-decoration: underline;
   cursor: pointer;
   &:focus,
   &:hover,
   &:active {
-    color: var(--root-color-accent);
+    color: var(--color-accent);
     text-decoration: none;
     outline: auto;
   }
   &:visited {
-    color: var(--root-color-muted);
+    color: var(--color-muted);
   }
 }
 
@@ -331,9 +320,9 @@ button,
   &:hover,
   &:focus,
   &:active {
-    background-color: var(--root-color-accent);
-    color: var(--root-color-bg);
-    border-color: var(--root-color-primary);
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    border-color: var(--color-primary);
     box-shadow: var(--elevation-low);
     transition: var(--interactive-element-transition);
   }
@@ -344,7 +333,7 @@ textarea {
   &:hover,
   &:focus,
   &:active {
-    border-color: var(--root-color-primary);
+    border-color: var(--color-primary);
     box-shadow: var(--elevation-low);
     transition: var(--interactive-element-transition);
   }
@@ -355,14 +344,14 @@ body:has(dialog[open]) {
   overflow: hidden;
 }
 dialog[open] {
-  background-color: var(--root-color-bg);
-  border: var(--root-border);
-  border-radius: var(--root-border-radius);
+  background-color: var(--color-bg);
+  border: var(--border);
+  border-radius: var(--border-radius);
   box-shadow: var(--elevation-medium);
-  padding: var(--root-padding);
-  margin: var(--root-padding);
-  max-width: calc(100vw - (var(--root-padding) * 2));
-  max-height: calc(100vh - (var(--root-padding) * 2));
+  padding: var(--padding);
+  margin: var(--padding);
+  max-width: calc(100vw - (var(--padding) * 2));
+  max-height: calc(100vh - (var(--padding) * 2));
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -386,11 +375,11 @@ textarea {
   /* Change the font styles in all browsers. */
   font-family: inherit;
   font-size: 100%;
-  border: var(--root-border);
-  border-radius: var(--root-border-radius);
+  border: var(--border);
+  border-radius: var(--border-radius);
   background-color: inherit;
   color: inherit;
-  padding: var(--root-padding);
+  padding: var(--padding);
 }
 
 /* Add the correct display in Chrome and Safari.  */
@@ -407,12 +396,12 @@ ol {
 }
 ol li::before {
   counter-increment: list-counter;
-  font-weight: var(--root-bold);
+  font-weight: var(--bold);
   content: counter(list-counter) ". ";
 }
 ul li::before {
   content: "• ";
-  font-weight: var(--root-bold);
+  font-weight: var(--bold);
 }
 blockquote,
 q {
@@ -460,14 +449,14 @@ svg {
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --root-color-bg: var(--dark-color-bg, #0f0e11);
-    --root-color-fg: var(--dark-color-fg, #fcfaff);
-    --root-color-primary: var(--dark-color-primary, #d8b4fe);
-    --root-color-accent: var(--dark-color-accent, #a78bfa);
-    --root-color-emphasis: var(--dark-color-emphasis, #f3e8ff);
-    --root-color-muted: var(--dark-color-muted, #c9b8d1);
-    --root-color-border: var(--dark-color-border, var(--root-color-emphasis));
-    --root-color-outline: var(--dark-color-outline, var(--root-color-emphasis));
-    --root-color-shadow: var(--dark-shadow-color, var(--root-color-emphasis));
+    --color-bg: var(--dark-color-bg, #0f0e11);
+    --color-fg: var(--dark-color-fg, #fcfaff);
+    --color-primary: var(--dark-color-primary, #d8b4fe);
+    --color-accent: var(--dark-color-accent, #a78bfa);
+    --color-emphasis: var(--dark-color-emphasis, #f3e8ff);
+    --color-muted: var(--dark-color-muted, #c9b8d1);
+    --color-border: var(--dark-color-border, var(--color-emphasis));
+    --color-outline: var(--dark-color-outline, var(--color-emphasis));
+    --color-shadow: var(--dark-shadow-color, var(--color-emphasis));
   }
 }
