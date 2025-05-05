@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.3.0
+
+### Minor Changes
+
+- cdcae62: fix fonts not loading due to format (woff2 => woff2-variations), removed data-theme attribute on root, added cssVars map
+
 ## 1.2.1
 
 ### Patch Changes
