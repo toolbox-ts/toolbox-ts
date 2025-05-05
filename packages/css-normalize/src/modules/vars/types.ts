@@ -9,6 +9,7 @@ type ColorVarBase =
   | "border"
   | "shadow"
   | "outline";
+type ColorVar = CustomProperty<`color-${ColorVarBase}`>;
 type ColorVarKey<T extends ColorTheme> = `${T}${Capitalize<ColorVarBase>}`;
 type CustomProperty<T extends string> = `--${T}`;
 type ColorVarProp<T extends ColorTheme> =
@@ -51,7 +52,7 @@ type VarsByProp = {
   [K in VarKey as VarsObj[K]["prop"] & string]: VarsObj[K]["value"];
 };
 
-export const propMap: { [Key in VarKey & string]: string } = {
+const coreProps = {
   bold: "--bold",
   bolder: "--bolder",
   lineHeight: "--line-height",
@@ -65,6 +66,9 @@ export const propMap: { [Key in VarKey & string]: string } = {
   outlineOffset: "--outline-offset",
   elevationBaseYOffset: "--elevation-base-y-offset",
   elevationBaseBlur: "--elevation-base-blur",
+} as const;
+export const propMap: { [Key in VarKey & string]: string } = {
+  ...coreProps,
   lightBg: "--light-color-bg",
   lightFg: "--light-color-fg",
   lightPrimary: "--light-color-primary",
@@ -84,8 +88,66 @@ export const propMap: { [Key in VarKey & string]: string } = {
   darkShadow: "--dark-color-shadow",
   darkOutline: "--dark-color-outline",
 } as const;
+
+const colorVars = {
+  bg: "--color-bg",
+  fg: "--color-fg",
+  primary: "--color-primary",
+  accent: "--color-accent",
+  emphasis: "--color-emphasis",
+  muted: "--color-muted",
+  border: "--color-border",
+  shadow: "--color-shadow",
+  outline: "--color-outline",
+} as const;
+const themeVars = { colors: { ...colorVars }, ...coreProps } as const;
+
+const cssVars = {
+  colors: {
+    bg: "var(--color-bg)",
+    fg: "var(--color-fg)",
+    primary: "var(--color-primary)",
+    accent: "var(--color-accent)",
+    emphasis: "var(--color-emphasis)",
+    muted: "var(--color-muted)",
+    border: "var(--color-border)",
+    shadow: "var(--color-shadow)",
+    outline: "var(--color-outline)",
+  },
+  elevation: {
+    base: {
+      yOffset: "var(--elevation-base-y-offset)",
+      blur: "var(--elevation-base-blur)",
+    },
+    low: "var(--elevation-low)",
+    medium: "var(--elevation-medium)",
+    high: "var(--elevation-high)",
+  },
+  font: {
+    family: "var(--font-family)",
+    familyMono: "var(--font-family-mono)",
+    size: "var(--font-size)",
+    weight: {
+      bold: "var(--bold)",
+      bolder: "var(--bolder)",
+      boldest: "var(--boldest)",
+    },
+  },
+  spacing: {
+    padding: "var(--padding)",
+    lineHeight: "var(--line-height)",
+    letter: "var(--letter-spacing)",
+  },
+  transitionDuration: "var(--transition-duration)",
+  borderWidth: "var(--border-width)",
+  borderRadius: "var(--border-radius)",
+  outlineWidth: "var(--outline-width)",
+  outlineOffset: "var(--outline-offset)",
+} as const;
+
 export type {
   VarsByProp,
+  ColorVar,
   ColorTheme,
   ColorVarBase,
   ColorVarKey,
@@ -99,3 +161,4 @@ export type {
   VarsInput,
   CustomProperty,
 };
+export { themeVars, cssVars };
