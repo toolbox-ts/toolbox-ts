@@ -1,5 +1,15 @@
 # @toolbox-ts/css-normalize
 
+## 1.3.0
+
+### Minor Changes
+
+- b3316f0: fix fonts not loading due to format (woff2 => woff2-variations), removed data-theme attribute on root, added cssVars map
+
+### Patch Changes
+
+- b3316f0: change bold/bolder type to string
+
 ## 1.2.1
 
 ### Patch Changes
