@@ -21,10 +21,9 @@ while (Changes Published?) is (no)
     #yellow:if (--changeset?) then (yes)
       #plum:(script) `pnpm changeset`;
       #lightblue:Complete changeset prompts;
-      #plum:(script) Generate Dep Graph & Coverage Report;
+      #plum:(script) `git add .changeset`;
     endif
     #plum:(script) `git add <file/dir file/dir...>`;
-    #plum:(script) `git changes staged`;
     #plum:(script) `git commit`;
     #plum:(husky:pre-commit) lint-staged;
     #plum:(husky:prepare-commit-msg) init commitizen;
@@ -32,7 +31,7 @@ while (Changes Published?) is (no)
     #yellow:(husky:commit-msg) commitlint;
     #orange:if(successful?) then (yes)
       #lightgreen:Changes Committed;
-      #orange:if(Publishing?) then (yes)
+      #orange:if(Publishing && !--changeset?) then (yes)
         #lightblue: `pnpm changeset`;
         #lightblue: Complete changeset prompts;
       else (no)
@@ -41,15 +40,11 @@ while (Changes Published?) is (no)
       #yellow:(husky:pre-push) `pnpm check`;
       #orange:if(Check Valid) then (yes)
         #lightgreen:Pushed to origin <dev/feat-branch>;
-        #plum:(GitHub Actions) Pre-Release Job Initiated;
-        #orange:if(Pre-Release Job Completed Successfully?) then (yes)
-          #lightgreen:Pre-Release Job Completed Successfully;
-          #orange:if(Changeset Detected?) then (yes)
-            #plum:(GitHub Actions) Changeset Action Initiated;
-            #plum:(GitHub Actions) PR Created;
             #orange:if(PR Review Approved?) then (yes)
               #lightgreen:Merge PR;
-              #plum:Changeset Branch Created (GitHub Bot);
+              #plum:(GitHub Actions) Pre-Release Workflow Initiated;
+              #plum:(GitHub Actions) Changeset Action Initiated;
+              #plum:(GitHub Actions) Changeset Branch + PR Created;
               #lightgreen:Merge Changeset Branch;
               #plum:(GitHub Actions) Release Workflow Initiated;
               #plum:(GitHub Actions) Publish to NPM;
@@ -62,13 +57,6 @@ while (Changes Published?) is (no)
               #lightcoral: PR denied;
               #lightblue: Fix Based on Review; 
             endif
-          else (no)
-            #lightgreen:No Changeset Detected;
-            kill;
-          endif;
-        else (no)
-          #lightcoral:(Pre-Release Job Failed) Debug;
-        endif
       else (no)
         #lightcoral:Debug;
       endif

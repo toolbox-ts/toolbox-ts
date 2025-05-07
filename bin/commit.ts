@@ -33,7 +33,7 @@ try {
     console.log("🔨 Creating changeset...");
     execSync(`pnpm changeset`, { stdio: "inherit" });
     console.log("📦 Staging changeset files...");
-    execSync(`git add .changeset docs`, { stdio: "inherit" });
+    execSync(`git add .changeset`, { stdio: "inherit" });
   }
   console.log("📦 Committing staged files...");
   execSync(`git commit`, { stdio: "inherit" });
