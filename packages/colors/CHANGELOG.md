@@ -1,5 +1,11 @@
 # @toolbox-ts/colors
 
+## 1.4.3
+
+### Patch Changes
+
+- 26b8983: fix readme links
+
 ## 1.4.1
 
 ### Patch Changes
