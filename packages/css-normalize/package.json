@@ -1,7 +1,7 @@
 {
   "name": "@toolbox-ts/css-normalize",
   "version": "1.3.0",
-  "description": "A modern and accessible CSS baseline with universal resets, custom font support (Atkinson Hyperlegible™), and variable-driven customization – all adapted from modern-normalize.",
+  "description": "A modern and accessible CSS baseline with universal reset and variable-driven customization – all adapted from modern-normalize.",
   "license": "MIT",
   "private": false,
   "publishConfig": {
@@ -54,6 +54,10 @@
       "default": "./build/static/normalize.styl",
       "types": "./build/types/static/normalize.styl.d.ts"
     },
+    "./modules": {
+      "default": "./build/modules/",
+      "types": "./build/types/modules/index.d.ts"
+    },
     ".": {
       "import": "./build/index.js",
       "types": "./build/types/index.d.ts"
@@ -61,7 +65,7 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "3.0.9",
-    "vitest": "^3.1.1"
+    "vitest": "^3.1.3"
   },
   "scripts": {
     "build": "tsc -b && npx tsx ./bin/build.ts"
