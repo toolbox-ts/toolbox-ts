@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 2.1.0
+
+### Minor Changes
+
+- 11853fa: add css compilation to reduce redundancy and improve semantic organization, add weight prefix to font weight vars (--weight-\*), section/organize css file, updates docs, update build process, add default styling to more elements.
+
 ## 2.0.0
 
 ### Major Changes
