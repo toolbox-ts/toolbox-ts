@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 1.3.1
+
+### Patch Changes
+
+- f117a3d: change bold/bolder type to string
+
 ## 1.3.0
 
 ### Minor Changes

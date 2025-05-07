@@ -1,5 +1,11 @@
 # @toolbox-ts/colors
 
+## 1.5.0
+
+### Minor Changes
+
+- f117a3d: @toolbox-ts/colors Added Weighted and Alpha blending, get.mute, get.inverse, changed get.variants to return inverse and muted, split up package README
+
 ## 1.4.0
 
 ### Minor Changes
