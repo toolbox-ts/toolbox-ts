@@ -1,164 +1,166 @@
-type ColorTheme = "light" | "dark";
-type ColorVarBase =
-  | "bg"
-  | "fg"
-  | "primary"
-  | "accent"
-  | "emphasis"
-  | "muted"
-  | "border"
-  | "shadow"
-  | "outline";
-type ColorVar = CustomProperty<`color-${ColorVarBase}`>;
-type ColorVarKey<T extends ColorTheme> = `${T}${Capitalize<ColorVarBase>}`;
+type NestedPartial<T> = T extends object
+  ? { [P in keyof T]?: NestedPartial<T[P]> }
+  : T;
+
+type NestedValuesToStrings<T> = T extends object
+  ? { [P in keyof T]: NestedValuesToStrings<T[P]> }
+  : string;
+
 type CustomProperty<T extends string> = `--${T}`;
-type ColorVarProp<T extends ColorTheme> =
-  CustomProperty<`${T}-color-${ColorVarBase}`>;
-type ColorVars<T extends ColorTheme> = {
-  [K in ColorVarKey<T>]: { prop: ColorVarProp<T>; value: string };
-};
-type LightColorVars = ColorVars<"light">;
-type DarkColorVars = ColorVars<"dark">;
+type VarReference<T extends string> = `var(--${T})`;
+interface TokenMaps<K extends string, P extends string> {
+  props: { [Key in K]: CustomProperty<`${P}-${Key}`> };
+  vars: { [Key in K]: VarReference<`${P}-${Key}`> };
+}
+type KebabToCamel<S extends string> = S extends `${infer Head}-${infer Tail}`
+  ? `${Head}${Capitalize<KebabToCamel<Tail>>}`
+  : S;
 
-type VarsObj = LightColorVars &
-  DarkColorVars & {
-    lineHeight: { prop: CustomProperty<"line-height">; value: string };
-    letterSpacing: { prop: CustomProperty<"letter-spacing">; value: string };
-    fontSize: { prop: CustomProperty<"font-size">; value: string };
-    padding: { prop: CustomProperty<"padding">; value: string };
-    transitionDuration: {
-      prop: CustomProperty<"transition-duration">;
-      value: string;
-    };
-    borderWidth: { prop: CustomProperty<"border-width">; value: string };
-    borderRadius: { prop: CustomProperty<"border-radius">; value: string };
-    outlineWidth: { prop: CustomProperty<"outline-width">; value: string };
-    outlineOffset: { prop: CustomProperty<"outline-offset">; value: string };
-    bold: { prop: CustomProperty<"bold">; value: string };
-    bolder: { prop: CustomProperty<"bolder">; value: string };
-    elevationBaseYOffset: {
-      prop: CustomProperty<"elevation-base-y-offset">;
-      value: string;
-    };
-    elevationBaseBlur: {
-      prop: CustomProperty<"elevation-base-blur">;
-      value: string;
-    };
-  };
-type VarKey = keyof VarsObj;
-type VarProp = VarsObj[VarKey]["prop"];
-type VarsInput = { [K in VarKey]?: VarsObj[K]["value"] };
-type VarsByProp = {
-  [K in VarKey as VarsObj[K]["prop"] & string]: VarsObj[K]["value"];
-};
+function buildTokenMap<const K extends readonly string[], P extends string>(
+  keys: K,
+  prefix: P,
+): TokenMaps<KebabToCamel<K[number]>, P> {
+  const props = {} as Record<
+    KebabToCamel<K[number]>,
+    CustomProperty<`${P}-${K[number]}`>
+  >;
+  const vars = {} as Record<
+    KebabToCamel<K[number]>,
+    VarReference<`${P}-${K[number]}`>
+  >;
 
-const coreProps = {
-  bold: "--bold",
-  bolder: "--bolder",
-  lineHeight: "--line-height",
-  letterSpacing: "--letter-spacing",
-  fontSize: "--font-size",
-  padding: "--padding",
-  transitionDuration: "--transition-duration",
-  borderWidth: "--border-width",
-  borderRadius: "--border-radius",
-  outlineWidth: "--outline-width",
-  outlineOffset: "--outline-offset",
-  elevationBaseYOffset: "--elevation-base-y-offset",
-  elevationBaseBlur: "--elevation-base-blur",
+  for (const key of keys) {
+    const jsKey = key.replace(/-([a-z])/g, (_, l) =>
+      (l as string).toUpperCase(),
+    );
+    const prop = `--${prefix}-${key}` as const;
+    props[jsKey as KebabToCamel<K[number]>] = prop;
+    vars[jsKey as KebabToCamel<K[number]>] = `var(${prop})`;
+  }
+
+  return { props, vars } as TokenMaps<KebabToCamel<K[number]>, P>;
+}
+
+const colorKeys = [
+  "bg",
+  "fg",
+  "primary",
+  "accent",
+  "emphasis",
+  "muted",
+  "border",
+  "outline",
+  "shadow",
+] as const;
+const colorMaps = {
+  light: buildTokenMap(colorKeys, "light-color"),
+  dark: buildTokenMap(colorKeys, "dark-color"),
+  palette: buildTokenMap(colorKeys, "color"),
 } as const;
-export const propMap: { [Key in VarKey & string]: string } = {
-  ...coreProps,
-  lightBg: "--light-color-bg",
-  lightFg: "--light-color-fg",
-  lightPrimary: "--light-color-primary",
-  lightAccent: "--light-color-accent",
-  lightEmphasis: "--light-color-emphasis",
-  lightMuted: "--light-color-muted",
-  lightBorder: "--light-color-border",
-  lightShadow: "--light-color-shadow",
-  lightOutline: "--light-color-outline",
-  darkBg: "--dark-color-bg",
-  darkFg: "--dark-color-fg",
-  darkPrimary: "--dark-color-primary",
-  darkAccent: "--dark-color-accent",
-  darkEmphasis: "--dark-color-emphasis",
-  darkMuted: "--dark-color-muted",
-  darkBorder: "--dark-color-border",
-  darkShadow: "--dark-color-shadow",
-  darkOutline: "--dark-color-outline",
+const colorProps = {
+  dark: colorMaps.dark.props,
+  light: colorMaps.light.props,
+  palette: colorMaps.palette.props,
 } as const;
-
 const colorVars = {
-  bg: "--color-bg",
-  fg: "--color-fg",
-  primary: "--color-primary",
-  accent: "--color-accent",
-  emphasis: "--color-emphasis",
-  muted: "--color-muted",
-  border: "--color-border",
-  shadow: "--color-shadow",
-  outline: "--color-outline",
-} as const;
-const themeVars = { colors: { ...colorVars }, ...coreProps } as const;
-
-const cssVars = {
-  colors: {
-    bg: "var(--color-bg)",
-    fg: "var(--color-fg)",
-    primary: "var(--color-primary)",
-    accent: "var(--color-accent)",
-    emphasis: "var(--color-emphasis)",
-    muted: "var(--color-muted)",
-    border: "var(--color-border)",
-    shadow: "var(--color-shadow)",
-    outline: "var(--color-outline)",
-  },
-  elevation: {
-    base: {
-      yOffset: "var(--elevation-base-y-offset)",
-      blur: "var(--elevation-base-blur)",
-    },
-    low: "var(--elevation-low)",
-    medium: "var(--elevation-medium)",
-    high: "var(--elevation-high)",
-  },
-  font: {
-    family: "var(--font-family)",
-    familyMono: "var(--font-family-mono)",
-    size: "var(--font-size)",
-    weight: {
-      bold: "var(--bold)",
-      bolder: "var(--bolder)",
-      boldest: "var(--boldest)",
-    },
-  },
-  spacing: {
-    padding: "var(--padding)",
-    lineHeight: "var(--line-height)",
-    letter: "var(--letter-spacing)",
-  },
-  transitionDuration: "var(--transition-duration)",
-  borderWidth: "var(--border-width)",
-  borderRadius: "var(--border-radius)",
-  outlineWidth: "var(--outline-width)",
-  outlineOffset: "var(--outline-offset)",
+  dark: colorMaps.dark.vars,
+  light: colorMaps.light.vars,
+  palette: colorMaps.palette.vars,
 } as const;
 
-export type {
-  VarsByProp,
-  ColorVar,
-  ColorTheme,
-  ColorVarBase,
-  ColorVarKey,
-  ColorVarProp,
-  ColorVars,
-  LightColorVars,
-  DarkColorVars,
-  VarsObj,
-  VarKey,
-  VarProp,
-  VarsInput,
-  CustomProperty,
-};
-export { themeVars, cssVars };
+const fontKeys = [
+  "family",
+  "family-mono",
+  "size",
+  "letter-spacing",
+  "line-height",
+] as const;
+const fontWeightKeys = [
+  "thin",
+  "extra-light",
+  "light",
+  "normal",
+  "medium",
+  "semi-bold",
+  "bold",
+  "extra-bold",
+  "black",
+] as const;
+const fontMaps = buildTokenMap(fontKeys, "font");
+const fontWeights = buildTokenMap(fontWeightKeys, "font-weight");
+const fontProps = { ...fontMaps.props, weight: fontWeights.props } as const;
+const fontVars = { ...fontMaps.vars, weight: fontWeights.vars } as const;
+const spacingKeys = ["xs", "sm", "md", "lg", "xl"] as const;
+const { props: spacingProps, vars: spacingVars } = buildTokenMap(
+  spacingKeys,
+  "spacing",
+);
+const transitionKeys = ["duration", "interactive-element"] as const;
+const { props: transitionProps, vars: transitionVars } = buildTokenMap(
+  transitionKeys,
+  "transition",
+);
+const borderKeys = ["radius", "width", "border"] as const;
+const { props: borderProps, vars: borderVars } = buildTokenMap(
+  borderKeys,
+  "border",
+);
+
+const elevationKeys = ["low", "medium", "high"] as const;
+const elevationBaseKeys = ["y-offset", "blur"] as const;
+const elevationMap = buildTokenMap(elevationKeys, "elevation");
+const elevationBaseMap = buildTokenMap(elevationBaseKeys, "elevation-base");
+
+const elevationProps = {
+  base: elevationBaseMap.props,
+  ...elevationMap.props,
+} as const;
+const elevationVars = {
+  base: elevationBaseMap.vars,
+  ...elevationMap.vars,
+} as const;
+
+const outlineKeys = ["width", "outline"] as const;
+const { props: outlineProps, vars: outlineVars } = buildTokenMap(
+  outlineKeys,
+  "outline",
+);
+export type ThemeState = "light" | "dark";
+export const cssProps = {
+  colors: colorProps,
+  font: fontProps,
+  spacing: spacingProps,
+  transition: transitionProps,
+  border: borderProps,
+  elevation: elevationProps,
+  outline: outlineProps,
+} as const;
+export const cssVars = {
+  colors: colorVars.palette,
+  font: fontVars,
+  spacing: spacingVars,
+  transition: transitionVars,
+  border: borderVars,
+  elevation: elevationVars,
+  outline: outlineVars,
+} as const;
+/**
+ * A type representing all of the definable CSS properties.
+ * Used in the `define` function.
+ */
+export type InputVars = NestedPartial<
+  NestedValuesToStrings<
+    Omit<typeof cssProps, "colors"> & {
+      colors: {
+        light: typeof cssProps.colors.light;
+        dark: typeof cssProps.colors.dark;
+      };
+    }
+  >
+>;
+/**
+ * A type representing a fully resolved set of CSS variables.
+ * What's not included in InputVars is defined in the
+ * normalize CSS file. Meaning, all vars are valid and useable.
+ */
+export type ResolvedVars = typeof cssVars;

@@ -1,36 +1,41 @@
-import {
-  type VarKey,
-  type VarsInput,
-  type VarsByProp,
-  propMap,
-} from "../types.js";
+import { type InputVars, cssProps } from "../types.js";
 
-export interface Defined {
-  toString: () => string;
-  toPropKeyObj: () => Partial<VarsByProp>;
-  toBlock: (selector: string) => string;
-  toBlockObj: (selector: string) => {
-    selector: string;
-    css: Partial<VarsByProp>;
+const isKeyOf = <T extends object>(
+  key: string,
+  obj: T,
+): key is keyof T & string => key in obj;
+
+export const define = (
+  input: InputVars,
+  selector = "",
+  normalizeStr = "",
+): string => {
+  let result = "";
+
+  const walk = (valueNode: unknown, propsNode: unknown) => {
+    if (!valueNode || typeof valueNode !== "object") return;
+
+    for (const key in valueNode) {
+      if (!isKeyOf(key, valueNode) || !isKeyOf(key, propsNode as object))
+        continue;
+
+      const value = valueNode[key];
+      const prop = propsNode?.[key];
+
+      if (typeof value === "object" && typeof prop === "object")
+        walk(value, prop);
+      else if (typeof value === "string" && typeof prop === "string")
+        result += `  ${prop}: ${value};\n`;
+    }
   };
-}
 
-export const define = (v: VarsInput): Defined => {
-  const entries = Object.entries(v).filter(([key, value]) => value) as [
-    VarKey,
-    NonNullable<VarsInput[VarKey]>,
-  ][];
-  const toString = (): string =>
-    entries.map(([key, value]) => `${propMap[key]}: ${value};`).join("\n");
-  const toPropKeyObj = () =>
-    entries.reduce<Partial<VarsByProp>>((acc, [key, value]) => {
-      (acc as Record<string, unknown>)[propMap[key]] = `${value.toString()};`;
-      return acc;
-    }, {});
-
-  const toBlock = (selector: string): string =>
-    entries.length ? `${selector} {\n${toString()}}` : "{}";
-  const toBlockObj = (selector: string) => ({ selector, css: toPropKeyObj() });
-
-  return { toString, toPropKeyObj, toBlock, toBlockObj };
+  for (const topKey in input) {
+    if (!isKeyOf(topKey, cssProps)) continue;
+    const value = input[topKey];
+    const propMap = cssProps[topKey];
+    walk(value, propMap);
+  }
+  let block = result.trim();
+  block = selector ? `${selector} {\n${block}\n}` : block;
+  return normalizeStr ? `${normalizeStr}\n${block}` : block;
 };

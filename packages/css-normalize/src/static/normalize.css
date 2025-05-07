@@ -68,32 +68,29 @@ div, span {
   font: inherit;
   color: inherit;
 }
-
+/* Ensure Semantic Flow tags default to Block */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section {
+  display: block;
+}
+fieldset {
+  min-width: 0;
+}
 *,
 *::after,
 *::before {
   box-sizing: border-box;
 }
 
-/* Typography */
-@font-face {
-  font-family: "atkinson-next";
-  src:
-    url("./fonts/atkinson-next.woff2") format("woff2-variations"),
-    url("./fonts/atkinson-next.woff") format("woff-variations");
-  font-weight: 100 900;
-  font-style: normal italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "atkinson-mono";
-  src:
-    url("./fonts/atkinson-mono.woff2") format("woff2-variations"),
-    url("./fonts/atkinson-mono.woff") format("woff-variations");
-  font-weight: 100 900;
-  font-style: normal italic;
-  font-display: swap;
-}
 /* Prevent 'sub' and 'sup' elements from affecting the line height in all browsers. */
 sub,
 sup {
@@ -117,50 +114,47 @@ small {
 
 :root {
   --font-family:
-    "atkinson-next", system-ui, sans-serif, Helvetica, Arial, "Segoe UI",
+    "Ubuntu", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif, system-ui,
     "Apple Color Emoji", "Segoe UI Emoji";
-  --font-family-mono: "atkinson-mono", ui-monospace, monospace, Courier;
-  --line-height: var(--line-height, 1.5);
-  --letter-spacing: var(--letter-spacing, 0.01em);
-  --font-size: var(--font-size, 20px);
-  --padding: var(--padding, 0.5rem);
-  --transition-duration: var(--transition-duration, 0.3s);
+  --font-family-mono:
+    "Ubuntu Mono", "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+  --line-height: 1.5;
+  --letter-spacing: 0.01em;
+  --font-size: 20px;
 
-  /* Main background */
-  --color-bg: var(--light-color-bg, #fcfaff);
-  /* Main foreground/text */
-  --color-fg: var(--light-color-fg, #1f0044);
-  /* Primary (links, buttons) */
-  --color-primary: var(--light-color-primary, #5b21b6);
-  /* Accent (hover, highlights, borders) */
-  --color-accent: var(--light-color-accent, #4c1d95);
-  /* Emphasis (focus, strong UI, borders) */
-  --color-emphasis: var(--light-color-emphasis, #3c0d99);
-  /* Muted/secondary text, visited links */
-  --color-muted: var(--light-color-muted, #59597a);
+  --transition-duration: 0.1s;
 
-  --color-border: var(--light-color-border, var(--color-emphasis));
-  --color-shadow: var(--light-color-shadow, var(--color-emphasis));
-  --color-outline: var(--light-color-outline, var(--color-emphasis));
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
 
-  --outline-width: var(--light-outline-width, 2px);
-  --outline-offset: var(--outline-offset, 2px);
-  --outline: var(--outline-width) solid var(--color-emphasis);
+  --border-radius: 0.5rem;
+  --border-width: 1px;
+  --color-border: var(--light-color-border);
+  --border: var(--border-width) solid var(--color-border);
 
-  --border-radius: var(--border-radius, 0.5rem);
-  --border-width: var(--border-width, 1px);
-  --border: var(--border-width) solid var(--color-emphasis);
+  --thin: 100;
+  --extra-light: 200;
+  --light: 300;
+  --normal: 400;
+  --medium: 500;
+  --semi-bold: 500;
+  --bold: 600;
+  --extra-bold: 700;
+  --black: 900;
 
-  --bold: max(var(--bold, 600), 699);
-  --bolder: max(var(--bolder, 700), 899);
-  --boldest: 900;
+  --outline-width: 2px;
+  --color-outline: var(--light-color-outline);
+  --outline: var(--outline-width) solid var(--color-outline);
 
-  --elevation-base-y-offset: var(--elevation-base-y-offset, 1.5px);
-  --elevation-base-blur: var(--elevation-base-blur, 3px);
+  --elevation-base-y-offset: 1.5px;
+  --elevation-base-blur: 3px;
 
   --elevation-low: 0 var(--elevation-base-y-offset) var(--elevation-base-blur)
     var(--color-shadow);
-  --elevation-medium: 0 calc(var(--elevation-base-y-offset) * 2)
+  --elevation-medium: 0 calc(var(--elevation-base-y-offset) * var(2))
     calc(var(--elevation-base-blur) * 2) var(--color-shadow);
   --elevation-high: 0 calc(var(--elevation-base-y-offset) * 4)
     calc(var(--elevation-base-blur) * 4) var(--color-shadow);
@@ -170,6 +164,37 @@ small {
     color var(--transition-duration) ease,
     border-color var(--transition-duration) ease,
     box-shadow var(--transition-duration) ease;
+
+  /** Light mode tokens */
+  --light-color-bg: #fcfaff;
+  --light-color-fg: #1f0044;
+  --light-color-primary: #5b21b6;
+  --light-color-accent: #4c1d95;
+  --light-color-emphasis: #3c0d99;
+  --light-color-muted: #4d4d6a;
+  --light-color-border: var(--light-color-emphasis);
+  --light-color-outline: var(--light-color-emphasis);
+  --light-color-shadow: var(--light-color-emphasis);
+
+  /* Dark mode tokens */
+  --dark-color-bg: #0f0e11;
+  --dark-color-fg: #fcfaff;
+  --dark-color-primary: #d8b4fe;
+  --dark-color-accent: #a78bfa;
+  --dark-color-emphasis: #f3e8ff;
+  --dark-color-muted: #c9b8d1;
+  --dark-color-border: var(--dark-color-emphasis);
+  --dark-color-outline: var(--dark-color-emphasis);
+  --dark-shadow-color: var(--dark-color-emphasis);
+
+  --color-bg: var(--light-color-bg);
+  --color-fg: var(--light-color-fg);
+  --color-primary: var(--light-color-primary);
+  --color-accent: var(--light-color-accent);
+  --color-emphasis: var(--light-color-emphasis);
+  --color-muted: var(--light-color-muted);
+
+  --color-shadow: var(--light-color-shadow);
 }
 
 h1 {
@@ -224,13 +249,14 @@ html {
   /* Prevent adjustments of font size after orientation changes in iOS. */
   -webkit-text-size-adjust: 100%;
   min-height: 100vh;
-  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   text-rendering: optimizeLegibility;
   overflow-wrap: break-word;
   word-break: break-word;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable both-edges;
 }
 
 body {
@@ -253,6 +279,7 @@ a,
 select,
 option,
 video,
+details > summary,
 [role="button"],
 [type="button"],
 [type="reset"],
@@ -271,7 +298,6 @@ input,
 textarea {
   &:focus {
     outline: var(--outline);
-    outline-offset: var(--outline-offset);
   }
   &:hover,
   &:active {
@@ -289,7 +315,6 @@ textarea {
 }
 :focus-visible {
   outline: var(--outline);
-  outline-offset: var(--outline-offset);
 }
 :focus:not(:focus-visible) {
   outline: none;
@@ -298,6 +323,7 @@ a {
   color: var(--color-primary);
   text-decoration: underline;
   cursor: pointer;
+  text-decoration-skip-ink: auto;
   &:focus,
   &:hover,
   &:active {
@@ -333,12 +359,19 @@ textarea {
   &:hover,
   &:focus,
   &:active {
-    border-color: var(--color-primary);
     box-shadow: var(--elevation-low);
     transition: var(--interactive-element-transition);
   }
 }
-
+button,
+input,
+select,
+textarea,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  overflow: visible;
+}
 /* Does not work in Firefox currently */
 body:has(dialog[open]) {
   overflow: hidden;
@@ -348,15 +381,17 @@ dialog[open] {
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: var(--elevation-medium);
-  padding: var(--padding);
-  margin: var(--padding);
-  max-width: calc(100vw - (var(--padding) * 2));
-  max-height: calc(100vh - (var(--padding) * 2));
-  align-self: center;
+  padding: var(--spacing-md);
+  margin: var(--spacing-sm);
+  max-width: calc(100vw - (var(--spacing-md) * 2));
+  max-height: calc(100vh - (var(--spacing-sm) * 2));
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-sm);
   justify-content: center;
   align-items: center;
+  justify-self: center;
+  align-self: center;
 }
 
 table {
@@ -375,13 +410,11 @@ textarea {
   /* Change the font styles in all browsers. */
   font-family: inherit;
   font-size: 100%;
-  border: var(--border);
-  border-radius: var(--border-radius);
   background-color: inherit;
   color: inherit;
-  padding: var(--padding);
+  padding: var(--spacing-sm);
+  vertical-align: baseline;
 }
-
 /* Add the correct display in Chrome and Safari.  */
 summary {
   display: list-item;
@@ -437,6 +470,29 @@ svg {
   display: inline-block;
   fill: currentColor;
 }
+input:not([type="hidden"]),
+textarea,
+select,
+button,
+fieldset,
+meter,
+details,
+dialog,
+table,
+th,
+td {
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+}
+progress {
+  border: var(--border);
+  border-radius: var(--border-radius);
+}
+legend {
+  font-weight: bold;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -449,14 +505,40 @@ svg {
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: var(--dark-color-bg, #0f0e11);
-    --color-fg: var(--dark-color-fg, #fcfaff);
-    --color-primary: var(--dark-color-primary, #d8b4fe);
-    --color-accent: var(--dark-color-accent, #a78bfa);
-    --color-emphasis: var(--dark-color-emphasis, #f3e8ff);
-    --color-muted: var(--dark-color-muted, #c9b8d1);
-    --color-border: var(--dark-color-border, var(--color-emphasis));
-    --color-outline: var(--dark-color-outline, var(--color-emphasis));
-    --color-shadow: var(--dark-shadow-color, var(--color-emphasis));
+    --color-bg: var(--dark-color-bg);
+    --color-fg: var(--dark-color-fg);
+    --color-primary: var(--dark-color-primary);
+    --color-accent: var(--dark-color-accent);
+    --color-emphasis: var(--dark-color-emphasis);
+    --color-muted: var(--dark-color-muted);
+    --color-border: var(--dark-color-border);
+    --color-outline: var(--dark-color-outline);
+    --color-shadow: var(--dark-shadow-color);
   }
+}
+
+/* Makes the element invisible to screen readers, but remains included in the layout and is still available visually */
+[aria-hidden="true"] {
+  visibility: hidden;
+}
+/* Hide elements completely (from layout and screen readers) */
+[hidden],
+.hidden,
+[data-hidden] {
+  display: none;
+  pointer-events: none;
+}
+
+/* Hide elements visually but keep them available to screen readers */
+.visually-hidden,
+[data-hidden="visually"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  opacity: 0;
 }
