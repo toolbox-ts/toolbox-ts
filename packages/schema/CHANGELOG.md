@@ -1,5 +1,13 @@
 # @toolbox-ts/schema
 
+## 0.1.7
+
+### Patch Changes
+
+- b29f82b: rework css-normalize & update dependencies
+- Updated dependencies [b29f82b]
+  - @toolbox-ts/utils@0.3.1
+
 ## 0.1.6
 
 ### Patch Changes

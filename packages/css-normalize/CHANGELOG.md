@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 2.0.0
+
+### Major Changes
+
+- b29f82b: rework css-normalize & update dependencies
+
 ## 1.3.0
 
 ### Minor Changes
