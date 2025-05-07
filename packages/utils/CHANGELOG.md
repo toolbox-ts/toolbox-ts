@@ -1,5 +1,11 @@
 # @toolbox-ts/utils
 
+## 0.3.1
+
+### Patch Changes
+
+- b29f82b: rework css-normalize & update dependencies
+
 ## 0.3.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @toolbox-ts/colors
 
+## 1.4.1
+
+### Patch Changes
+
+- b29f82b: rework css-normalize & update dependencies
+- Updated dependencies [b29f82b]
+  - @toolbox-ts/utils@0.3.1
+
 ## 1.4.0
 
 ### Minor Changes
