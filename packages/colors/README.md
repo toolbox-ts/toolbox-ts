@@ -31,16 +31,16 @@ npm i @toolbox-ts/colors
 
 ## Modules Overview
 
-| Module         | Description                                                                                | API & Details                                               |
-| -------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
-| **API**        | Unified, type-safe API for parsing, converting, blending, adjusting, and analyzing colors. | [API README](./src/api/README.md)                           |
-| **Hex**        | Type-safe utilities for working with hexadecimal color values.                             | [Hex README](./src/api/modules/hex/README.md)               |
-| **Rgb**        | Type-safe utilities for RGB and RGBA color objects, including blending and inversion.      | [Rgb README](./src/api/modules/rgb/README.md)               |
-| **Hsl**        | Utilities for HSL/HSLA color objects, normalization, and adjustment.                       | [Hsl README](./src/api/modules/hsl/README.md)               |
-| **ColorWheel** | Utilities for color wheel math and hue sector logic.                                       | [ColorWheel README](./src/api/modules/colorWheel/README.md) |
-| **Luminance**  | Relative luminance, gamma correction, and sRGB/WCAG compliance.                            | [Luminance README](./src/api/modules/luminance/README.md)   |
-| **Contrast**   | Contrast ratio calculation, WCAG compliance, and color adjustment.                         | [Contrast README](./src/api/modules/contrast/README.md)     |
-| **Converter**  | Composable, type-safe color conversion between RGB, HEX, and HSL.                          | [Converter README](./src/api/modules/converter/README.md)   |
+| Module         | Description                                                                                | API & Details                                                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **API**        | Unified, type-safe API for parsing, converting, blending, adjusting, and analyzing colors. | [API README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/README.md)                                |
+| **Hex**        | Type-safe utilities for working with hexadecimal color values.                             | [Hex README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/modules/base/hex/README.md)               |
+| **Rgb**        | Type-safe utilities for RGB and RGBA color objects, including blending and inversion.      | [Rgb README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/modules/base/rgb/README.md)               |
+| **Hsl**        | Utilities for HSL/HSLA color objects, normalization, and adjustment.                       | [Hsl README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/modules/base/hsl/README.md)               |
+| **ColorWheel** | Utilities for color wheel math and hue sector logic.                                       | [ColorWheel README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/modules/base/colorWheel/README.md) |
+| **Luminance**  | Relative luminance, gamma correction, and sRGB/WCAG compliance.                            | [Luminance README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/modules/luminance/README.md)        |
+| **Contrast**   | Contrast ratio calculation, WCAG compliance, and color adjustment.                         | [Contrast README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/modules/contrast/README.md)          |
+| **Converter**  | Composable, type-safe color conversion between RGB, HEX, and HSL.                          | [Converter README](https://github.com/toolbox-ts/toolbox-ts/blob/main/packages/colors/src/api/modules/converter/README.md)        |
 
 ---
 
