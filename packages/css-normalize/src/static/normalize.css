@@ -1,42 +1,21 @@
+/* prettier-ignore */
 /*! Adapted from modern-normalize v3.0.1 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
-/*  -webkit
- *  1. Remove the inner padding in Chrome and Safari on macOS. 
- *  2. Correct the cursor style of increment and decrement buttons in Safari.
- *  3. Correct the inability to style clickable types in iOS and Safari.
- *  4. Change font properties to 'inherit' in Safari.
-*/
-::-webkit-search-decoration {
-  -webkit-appearance: none;
-} /* 1 */
-::-webkit-inner-spin-button,
-::-webkit-outer-spin-button {
-  height: auto;
-} /* 2 */
-::-webkit-file-upload-button {
-  -webkit-appearance: button; /* 3 */
-  font: inherit; /* 4 */
-}
-[type="search"] {
-  /* Correct the odd appearance in Chrome and Safari */
-  -webkit-appearance: textfield;
-  appearance: textfield;
-  /* Correct the outline style in Safari. */
-  outline-offset: -2px;
-}
+/* Enforce preferred box model */
+*, *::after, *::before { box-sizing: border-box; }
 
-/* Root and Document */
-html, body, 
+/*#region> Primary Reset */
+html, body,
 /* Sectioning */
-main, article, section, nav, 
-aside, header, footer, hgroup, 
+div, span, main, article, section,
+nav, aside, header, footer, hgroup, 
 /* Headings */
 h1, h2, h3, h4, h5, h6, 
 /* Text-level Semantics */
 p, a, q, s, b, u, i, address, strong, 
 samp, big, cite, code, del, dfn, blockquote, 
 pre, wbr, abbr, acronym, em, ins, kbd,  
-small, strike, sub, sup, tt, var, center, 
+small, strike, sub, sup, tt, var, center,
 mark, bdi, bdo, data, time, output, meter, 
 /* Embedded Content */
 img, picture, canvas, svg, object, 
@@ -58,9 +37,7 @@ details, summary, dialog,
 /* Figure */
 figure, figcaption, 
 /* Ruby Annotations */
-ruby, rt, rp, 
-/* Misc */
-div, span {
+ruby, rt, rp {
   margin: 0;
   padding: 0;
   border: none;
@@ -69,58 +46,137 @@ div, span {
   color: inherit;
 }
 /* Ensure Semantic Flow tags default to Block */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-main,
-menu,
-nav,
-section {
-  display: block;
-}
-fieldset {
-  min-width: 0;
-}
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
+article, aside, details,
+figcaption, figure, footer,
+header, main, menu, nav, section { display: block; }
+fieldset { min-width: 0; }
+/* Add the correct display in Chrome and Safari.  */
+summary { 
+  display: list-item; 
+  &:focus{ outline: var(--outline); }
 }
 
+/* -webkit 
+ *  1. Correct the cursor style of increment and decrement buttons in Safari.
+ *  2. Correct the inability to style clickable types in iOS and Safari.
+ *  3. Change font properties to 'inherit' in Safari.
+*/
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button { height: auto; } /* 2 */ 
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 3 */
+  font: inherit; /* 4 */
+}
+
+[type='search'] {
+  /* Correct the odd appearance in Chrome and Safari */
+  -webkit-appearance: textfield;
+  appearance: textfield;
+  /* Correct the outline style in Safari. */
+  outline-offset: -2px;
+}
+/*#endregion*/
+
+/*#region> Layout */
+html {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  letter-spacing: var(--letter-spacing);
+  cursor: auto;
+  tab-size: 4;
+  /* Prevent adjustments of font size after orientation changes in iOS. */
+  -webkit-text-size-adjust: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable both-edges;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-bg);
+}
+body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition:
+    background-color var(--transition-duration) ease,
+    color var(--transition-duration) ease;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+main {
+  flex: 1;
+}
+/*#endregion*/
+
+/*#region> Typography */
 /* Prevent 'sub' and 'sup' elements from affecting the line height in all browsers. */
-sub,
-sup {
+sub, sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
 }
-sub {
-  bottom: -0.25em;
+sub { bottom: -0.25em; }
+sup { top: -0.5em; }
+b,strong { font-weight: var(--weight-bold); }
+small { font-size: 80%; }
+blockquote, q { quotes: none;}
+code, kbd, samp, pre {
+  font-family: var(--font-family-mono);
+  font-size: 1em;
+  font-weight: var(--weight-normal);
+  letter-spacing: 0;
 }
-sup {
-  top: -0.5em;
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+h1, h2, h3,
+h4, h5, h6 {
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
 }
-b,
-strong {
-  font-weight: bolder;
+mark {
+  background-color: var(--color-accent); 
+  color:var(--color-bg);
+  padding: 0.125em 0.25em;
+  border-radius:  0.125rem;
+  user-select: text;
+  cursor: text;
+  font-weight: var(--weight-medium);
+  &::selection {
+    background-color: var(--color-fg);
+    color: var(--color-bg);
+  }
 }
-small {
-  font-size: 80%;
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  text-shadow: none;
+  user-select: text;
+  cursor: text;
+  font-weight: var(--weight-medium);
 }
 
+/*#endregion*/
+
+/*#region> :root variable definitions */
 :root {
   --font-family:
-    "Ubuntu", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif, system-ui,
-    "Apple Color Emoji", "Segoe UI Emoji";
+    'Ubuntu', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif, system-ui,
+    'Apple Color Emoji', 'Segoe UI Emoji';
   --font-family-mono:
-    "Ubuntu Mono", "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
-  --line-height: 1.5;
+    'Ubuntu Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace;
   --letter-spacing: 0.01em;
-  --font-size: 20px;
+  --line-height-base: 1.5;
+  --font-size-base: 20px;
 
   --transition-duration: 0.1s;
 
@@ -135,15 +191,14 @@ small {
   --color-border: var(--light-color-border);
   --border: var(--border-width) solid var(--color-border);
 
-  --thin: 100;
-  --extra-light: 200;
-  --light: 300;
-  --normal: 400;
-  --medium: 500;
-  --semi-bold: 500;
-  --bold: 600;
-  --extra-bold: 700;
-  --black: 900;
+  --weight-thin: 100;
+  --weight-extra-light: 200;
+  --weight-light: 300;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-bold: 600;
+  --weight-extra-bold: 700;
+  --weight-black: 900;
 
   --outline-width: 2px;
   --color-outline: var(--light-color-outline);
@@ -154,7 +209,7 @@ small {
 
   --elevation-low: 0 var(--elevation-base-y-offset) var(--elevation-base-blur)
     var(--color-shadow);
-  --elevation-medium: 0 calc(var(--elevation-base-y-offset) * var(2))
+  --elevation-medium: 0 calc(var(--elevation-base-y-offset) * 2)
     calc(var(--elevation-base-blur) * 2) var(--color-shadow);
   --elevation-high: 0 calc(var(--elevation-base-y-offset) * 4)
     calc(var(--elevation-base-blur) * 4) var(--color-shadow);
@@ -185,7 +240,7 @@ small {
   --dark-color-muted: #c9b8d1;
   --dark-color-border: var(--dark-color-emphasis);
   --dark-color-outline: var(--dark-color-emphasis);
-  --dark-shadow-color: var(--dark-color-emphasis);
+  --dark-color-shadow: var(--dark-color-emphasis);
 
   --color-bg: var(--light-color-bg);
   --color-fg: var(--light-color-fg);
@@ -193,85 +248,16 @@ small {
   --color-accent: var(--light-color-accent);
   --color-emphasis: var(--light-color-emphasis);
   --color-muted: var(--light-color-muted);
-
   --color-shadow: var(--light-color-shadow);
 }
+/*#endregion*/
 
-h1 {
-  font-size: 2.25rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-h3 {
-  font-size: 1.25rem;
-}
-h4 {
-  font-size: 1.125rem;
-}
-h5 {
-  font-size: 1rem;
-}
-h6 {
-  font-size: 0.875rem;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: var(--bold);
-  line-height: 1.2;
-}
-hr {
-  border-top: var(--border);
-  width: 100%;
-}
-code,
-kbd,
-samp,
-pre {
-  font-family: var(--font-family-mono);
-  font-size: 1em;
-  font-weight: normal;
-  letter-spacing: 0;
-}
-
-html {
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-  line-height: var(--line-height);
-  letter-spacing: var(--letter-spacing);
-  cursor: auto;
-  tab-size: 4;
-  /* Prevent adjustments of font size after orientation changes in iOS. */
-  -webkit-text-size-adjust: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  text-rendering: optimizeLegibility;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  scroll-behavior: smooth;
-  scrollbar-gutter: stable both-edges;
-}
-
-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  transition:
-    background-color var(--transition-duration) ease,
-    color var(--transition-duration) ease;
-  background-color: var(--color-bg);
-  color: var(--color-fg);
-}
-
-main {
-  flex: 1;
+/*#region> Interactives */
+*:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+  color: var(--color-muted);
 }
 
 button,
@@ -280,45 +266,28 @@ select,
 option,
 video,
 details > summary,
-[role="button"],
-[type="button"],
-[type="reset"],
-[type="submit"],
 label[for],
-input[type="checkbox"],
-input[type="radio"],
-input[type="file"],
-input[type="range"],
-input[type="color"],
-input[type="image"] {
-  cursor: pointer;
-}
-
-input,
-textarea {
-  &:focus {
-    outline: var(--outline);
-  }
-  &:hover,
-  &:active {
+[role='button'],
+[type='button'],
+[type='reset'],
+[type='submit'],
+[type='checkbox'],
+[type='radio'],
+[type='file'],
+[type='range'],
+[type='color'],
+[type='image'],
+[type='number'] { cursor: pointer; }
+input, textarea {
+  &:focus { outline: var(--outline); }
+  &:hover, &:active {
     border-color: var(--color-primary);
     box-shadow: var(--elevation-low);
-    transition:
-      border-color var(--interactive-element-transition),
-      box-shadow var(--interactive-element-transition);
+    transition: var(--interactive-element-transition);
   }
 }
-
-*:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-:focus-visible {
-  outline: var(--outline);
-}
-:focus:not(:focus-visible) {
-  outline: none;
-}
+:focus-visible { outline: var(--outline); }
+:focus:not(:focus-visible) { outline: none; }
 a {
   color: var(--color-primary);
   text-decoration: underline;
@@ -331,51 +300,59 @@ a {
     text-decoration: none;
     outline: auto;
   }
-  &:visited {
-    color: var(--color-muted);
-  }
+  &:visited { color: var(--color-muted); }
+}
+::-webkit-search-decoration, /* Remove the inner padding in Chrome and Safari on macOS */
+button, /* Correct the inability to style clickable types in iOS and Safari. */
+[type='button'], [type='reset'], [type='submit'],
+[type='date'], [type='time'], [type='datetime-local'],
+[type='month']  {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/*  1. Correct the inability to style clickable types in iOS and Safari. */
+input,
+select,
+textarea,
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: none; /* 1 */
-  appearance: none; /* 1 */
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  &:hover,
+  &:focus,
+  &:active {
+    box-shadow: var(--elevation-low);
+    transition: var(--interactive-element-transition);
+  }
+}
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
   &:hover,
   &:focus,
   &:active {
     background-color: var(--color-accent);
     color: var(--color-bg);
     border-color: var(--color-primary);
-    box-shadow: var(--elevation-low);
-    transition: var(--interactive-element-transition);
   }
 }
-input,
-select,
-textarea {
-  &:hover,
-  &:focus,
-  &:active {
-    box-shadow: var(--elevation-low);
-    transition: var(--interactive-element-transition);
-  }
+
+button, input, optgroup,
+select, textarea {
+  font-size: 100%;
+  padding: var(--spacing-sm);
+  vertical-align: baseline;
 }
-button,
-input,
-select,
-textarea,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-  overflow: visible;
+label, input, button, select, textarea { 
+  vertical-align: middle; 
+  line-height: inherit;
 }
+/*#endregion*/
+
+/*#region> Dialog */
 /* Does not work in Firefox currently */
-body:has(dialog[open]) {
-  overflow: hidden;
-}
+body:has(dialog[open]) { overflow: hidden; }
 dialog[open] {
   background-color: var(--color-bg);
   border: var(--border);
@@ -393,75 +370,59 @@ dialog[open] {
   justify-self: center;
   align-self: center;
 }
+/*#endregion*/
 
+/*#region> Lists */
+ul, ol, menu { list-style: none; }
+ol { counter-reset: list-counter; }
+ol li::before, ul li::before { font-weight:var(--weight-bold) }
+ol li::before {
+  counter-increment: list-counter;
+  content: counter(list-counter) '. ';
+}
+ul li::before { content: '• '; }
+/*#endregion*/
+
+/*#region> Tables */
+table, th, td {
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+  text-align: left;
+}
 table {
   /* Correct table border color inheritance in Chrome and Safari. (https://issues.chromium.org/issues/40615503, https://bugs.webkit.org/show_bug.cgi?id=195016) */
   border-color: currentcolor;
   border-collapse: collapse;
   border-spacing: 0;
   caption-side: bottom;
+  width: 100%;
+  table-layout: fixed;
 }
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  /* Change the font styles in all browsers. */
-  font-family: inherit;
-  font-size: 100%;
-  background-color: inherit;
-  color: inherit;
+caption {
+  font-size: 0.875em;
+  color: var(--color-muted);
   padding: var(--spacing-sm);
-  vertical-align: baseline;
 }
-/* Add the correct display in Chrome and Safari.  */
-summary {
-  display: list-item;
+th, td {
+  border-bottom: var(--border);
+  vertical-align: middle;
 }
-ul,
-ol,
-menu {
-  list-style: none;
+thead th {
+  font-weight: var(--weight-bold);
+  border-bottom: 2px solid var(--color-border);
 }
-ol {
-  counter-reset: list-counter;
-}
-ol li::before {
-  counter-increment: list-counter;
-  font-weight: var(--bold);
-  content: counter(list-counter) ". ";
-}
-ul li::before {
-  content: "• ";
-  font-weight: var(--bold);
-}
-blockquote,
-q {
-  quotes: none;
-}
-progress,
-img,
-svg,
-video,
-canvas,
-audio,
-iframe,
-embed,
-object,
-sub,
-sup {
+/*#endregion*/
+
+/*#region> Mics */
+progress, img, svg, video,
+canvas, audio, iframe,
+embed, object, sub, sup {
   vertical-align: baseline;
   max-width: 100%;
   height: auto;
 }
-label,
-input,
-button,
-select,
-textarea {
-  vertical-align: middle;
-}
+
 img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
@@ -470,39 +431,59 @@ svg {
   display: inline-block;
   fill: currentColor;
 }
-input:not([type="hidden"]),
-textarea,
-select,
-button,
-fieldset,
-meter,
-details,
-dialog,
-table,
-th,
-td {
+input:not([type='hidden']), textarea,
+select, button, fieldset, meter, 
+details, dialog {
   border: var(--border);
   border-radius: var(--border-radius);
   padding: var(--spacing-sm);
 }
-progress {
+progress,
+progress::-moz-progress-bar,
+progress::-webkit-progress-bar {
+  background-color: var(--color-accent);
   border: var(--border);
   border-radius: var(--border-radius);
 }
-legend {
-  font-weight: bold;
+progress{
+  background-color: var(--color-bg);
+}
+legend { 
+  font-weight: var(--weight-bold); 
+  float: left;
+  width: 100%;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+hr {
+  width: 100%;
+  height: var(--border-width);
+  background-color: var(--color-primary);
 }
+/*#endregion*/
+
+/*#region> Visibility */
+/* Makes the element invisible to screen readers, but remains included in the layout and is still available visually */
+[aria-hidden='true'] { visibility: hidden; }
+/* Hide elements completely (from layout and screen readers) */
+[hidden], [data-hidden], .hidden {
+  display: none;
+  pointer-events: none;
+}
+/* Hide elements visually but keep them available to screen readers */
+[data-hidden='visually'], .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  opacity: 0;
+}
+/*#endregion*/
+
+/*#region> Themes */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: var(--dark-color-bg);
@@ -513,32 +494,53 @@ legend {
     --color-muted: var(--dark-color-muted);
     --color-border: var(--dark-color-border);
     --color-outline: var(--dark-color-outline);
-    --color-shadow: var(--dark-shadow-color);
+    --color-shadow: var(--dark-color-shadow);
   }
 }
-
-/* Makes the element invisible to screen readers, but remains included in the layout and is still available visually */
-[aria-hidden="true"] {
-  visibility: hidden;
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: var(--light-color-bg);
+    --color-fg: var(--light-color-fg);
+    --color-primary: var(--light-color-primary);
+    --color-accent: var(--light-color-accent);
+    --color-emphasis: var(--light-color-emphasis);
+    --color-muted: var(--light-color-muted);
+    --color-border: var(--light-color-border);
+    --color-outline: var(--light-color-outline);
+    --color-shadow: var(--light-shadow-color);
+  }
 }
-/* Hide elements completely (from layout and screen readers) */
-[hidden],
-.hidden,
-[data-hidden] {
-  display: none;
-  pointer-events: none;
+:root[data-theme='dark'] {
+  --color-bg: var(--dark-color-bg);
+  --color-fg: var(--dark-color-fg);
+  --color-primary: var(--dark-color-primary);
+  --color-accent: var(--dark-color-accent);
+  --color-emphasis: var(--dark-color-emphasis);
+  --color-muted: var(--dark-color-muted);
+  --color-border: var(--dark-color-border);
+  --color-outline: var(--dark-color-outline);
+  --color-shadow: var(--dark-color-shadow);
 }
+:root[data-theme='light'] {
+  --color-bg: var(--light-color-bg);
+  --color-fg: var(--light-color-fg);
+  --color-primary: var(--light-color-primary);
+  --color-accent: var(--light-color-accent);
+  --color-emphasis: var(--light-color-emphasis);
+  --color-muted: var(--light-color-muted);
+  --color-border: var(--light-color-border);
+  --color-outline: var(--light-color-outline);
+  --color-shadow: var(--light-shadow-color);
+}
+/*#endregion*/
 
-/* Hide elements visually but keep them available to screen readers */
-.visually-hidden,
-[data-hidden="visually"] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  overflow: hidden;
-  opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

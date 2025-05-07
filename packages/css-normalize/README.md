@@ -225,15 +225,14 @@ foundation.
   --border-width: 1px;
 
   /* === Font Weights === */
-  --thin: 100;
-  --extra-light: 200;
-  --light: 300;
-  --normal: 400;
-  --medium: 500;
-  --semi-bold: 500;
-  --bold: 600;
-  --extra-bold: 700;
-  --black: 900;
+  --weight-thin: 100;
+  --weight-extra-light: 200;
+  --weight-light: 300;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-bold: 600;
+  --weight-extra-bold: 700;
+  --weight-black: 900;
 
   /* === Outline === */
   --outline-width: 2px;
