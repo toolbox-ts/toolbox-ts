@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { define } from "./define";
-
 // Helper: get a valid key for each top-level cssProps section
 const getValidInput = () => ({
   font: { family: "Arial", weight: { bold: "700", thin: "100" } },
@@ -19,8 +18,8 @@ describe("define", () => {
 
     // Check for a few expected outputs
     expect(css).toContain("--font-family: Arial;");
-    expect(css).toContain("--font-weight-bold: 700;");
-    expect(css).toContain("--font-weight-thin: 100;");
+    expect(css).toContain("--weight-bold: 700;");
+    expect(css).toContain("--weight-thin: 100;");
     expect(css).toContain("--spacing-sm: 4px;");
     expect(css).toContain("--border-border: 1px solid red;");
     expect(css).toContain("--transition-duration: 0.3s;");

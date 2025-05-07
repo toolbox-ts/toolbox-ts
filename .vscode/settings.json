@@ -13,16 +13,16 @@
   "better-comments.multilineComments": true,
   "better-comments.tags": [
     {
-      "tag": "#region>Meta",
-      "color": "#9d78e0",
+      "tag": "#region>",
+      "color": "#31EA56",
       "strikethrough": false,
       "underline": true,
       "bold": true,
       "italic": true
     },
     {
-      "tag": "#endregionM",
-      "color": "#4f3c73",
+      "tag": "#endregion",
+      "color": "#195226",
       "strikethrough": false,
       "underline": false,
       "bold": true,

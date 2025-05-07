@@ -1,21 +1,27 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
+import { transform } from "lightningcss";
 
 const __dirname = import.meta.dirname;
-const sourceStaticPath = path.join(__dirname, "../src/static");
-const cssPath = path.join(__dirname, "../src/static/normalize.css");
-const buildPath = path.join(__dirname, "../build/static");
-fs.mkdirSync(buildPath, { recursive: true });
+const sourceCssPath = path.join(__dirname, "../src/static/normalize.css");
+const buildStaticPath = path.join(__dirname, "../build/static");
+fs.mkdirSync(buildStaticPath, { recursive: true });
+const css = fs.readFileSync(sourceCssPath, "utf-8").replace(/`/g, "\\`");
+const compiledCss = transform({
+  filename: "normalize.css",
+  code: Buffer.from(css),
+  minify: true,
+}).code.toString();
 
-const css = fs.readFileSync(cssPath, "utf-8").replace(/`/g, "\\`");
-
-fs.writeFileSync(`${buildPath}/string.js`, `export default \`${css}\``);
-
-fs.cpSync(sourceStaticPath, buildPath, { recursive: true });
+fs.writeFileSync(path.join(buildStaticPath, "normalize.css"), compiledCss);
+fs.writeFileSync(
+  `${buildStaticPath}/string.js`,
+  `export default \`${compiledCss}\``,
+);
 
 ["scss", "pcss", "less", "styl"].forEach((ext) => {
-  fs.writeFileSync(`${buildPath}/normalize.${ext}`, css);
+  fs.writeFileSync(`${buildStaticPath}/normalize.${ext}`, compiledCss);
 });
 fs.appendFileSync(
   path.join(__dirname, "../build/index.js"),

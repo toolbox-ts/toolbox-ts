@@ -8,37 +8,38 @@ type NestedValuesToStrings<T> = T extends object
 
 type CustomProperty<T extends string> = `--${T}`;
 type VarReference<T extends string> = `var(--${T})`;
-interface TokenMaps<K extends string, P extends string> {
-  props: { [Key in K]: CustomProperty<`${P}-${Key}`> };
-  vars: { [Key in K]: VarReference<`${P}-${Key}`> };
-}
-type KebabToCamel<S extends string> = S extends `${infer Head}-${infer Tail}`
-  ? `${Head}${Capitalize<KebabToCamel<Tail>>}`
+
+type CamelToKebab<S extends string> = S extends `${infer First}${infer Rest}`
+  ? First extends Lowercase<First>
+    ? `${First}${CamelToKebab<Rest>}`
+    : `-${Lowercase<First>}${CamelToKebab<Rest>}`
   : S;
+interface TokenMaps<K extends string, P extends string> {
+  props: { [Key in K]: CustomProperty<`${P}-${CamelToKebab<Key>}`> };
+  vars: { [Key in K]: VarReference<`${P}-${CamelToKebab<Key>}`> };
+}
+
+const camelToKebab = <S extends string>(str: string): CamelToKebab<S> =>
+  str.replace(
+    /([a-z])([A-Z])/g,
+    (_, l1, l2) => `${l1}-${(l2 as string).toLowerCase()}`,
+  ) as CamelToKebab<S>;
 
 function buildTokenMap<const K extends readonly string[], P extends string>(
   keys: K,
   prefix: P,
-): TokenMaps<KebabToCamel<K[number]>, P> {
-  const props = {} as Record<
-    KebabToCamel<K[number]>,
-    CustomProperty<`${P}-${K[number]}`>
-  >;
-  const vars = {} as Record<
-    KebabToCamel<K[number]>,
-    VarReference<`${P}-${K[number]}`>
-  >;
+): TokenMaps<K[number], P> {
+  const props = {} as Record<K[number], CustomProperty<`${P}-${string}`>>;
+  const vars = {} as Record<K[number], VarReference<`${P}-${string}`>>;
 
   for (const key of keys) {
-    const jsKey = key.replace(/-([a-z])/g, (_, l) =>
-      (l as string).toUpperCase(),
-    );
-    const prop = `--${prefix}-${key}` as const;
-    props[jsKey as KebabToCamel<K[number]>] = prop;
-    vars[jsKey as KebabToCamel<K[number]>] = `var(${prop})`;
+    const kebab = camelToKebab(key);
+    const prop = `--${prefix}-${kebab}` as const;
+    props[key as K[number]] = prop;
+    vars[key as K[number]] = `var(${prop})`;
   }
 
-  return { props, vars } as TokenMaps<KebabToCamel<K[number]>, P>;
+  return { props, vars } as TokenMaps<K[number], P>;
 }
 
 const colorKeys = [
@@ -70,32 +71,34 @@ const colorVars = {
 
 const fontKeys = [
   "family",
-  "family-mono",
+  "familyMono",
   "size",
-  "letter-spacing",
-  "line-height",
+  "letterSpacing",
+  "lineHeight",
 ] as const;
 const fontWeightKeys = [
   "thin",
-  "extra-light",
+  "extraLight",
   "light",
   "normal",
   "medium",
-  "semi-bold",
   "bold",
-  "extra-bold",
+  "extraBold",
   "black",
 ] as const;
-const fontMaps = buildTokenMap(fontKeys, "font");
-const fontWeights = buildTokenMap(fontWeightKeys, "font-weight");
-const fontProps = { ...fontMaps.props, weight: fontWeights.props } as const;
-const fontVars = { ...fontMaps.vars, weight: fontWeights.vars } as const;
+const baseFontMaps = buildTokenMap(fontKeys, "font");
+const fontWeightMaps = buildTokenMap(fontWeightKeys, "weight");
+const fontProps = {
+  ...baseFontMaps.props,
+  weight: fontWeightMaps.props,
+} as const;
+const fontVars = { ...baseFontMaps.vars, weight: fontWeightMaps.vars } as const;
 const spacingKeys = ["xs", "sm", "md", "lg", "xl"] as const;
 const { props: spacingProps, vars: spacingVars } = buildTokenMap(
   spacingKeys,
   "spacing",
 );
-const transitionKeys = ["duration", "interactive-element"] as const;
+const transitionKeys = ["duration", "interactiveElement"] as const;
 const { props: transitionProps, vars: transitionVars } = buildTokenMap(
   transitionKeys,
   "transition",
@@ -107,7 +110,7 @@ const { props: borderProps, vars: borderVars } = buildTokenMap(
 );
 
 const elevationKeys = ["low", "medium", "high"] as const;
-const elevationBaseKeys = ["y-offset", "blur"] as const;
+const elevationBaseKeys = ["yOffset", "blur"] as const;
 const elevationMap = buildTokenMap(elevationKeys, "elevation");
 const elevationBaseMap = buildTokenMap(elevationBaseKeys, "elevation-base");
 
