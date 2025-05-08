@@ -53,6 +53,7 @@ const colorKeys = [
   "outline",
   "shadow",
 ] as const;
+export type ColorKey = (typeof colorKeys)[number];
 const colorMaps = {
   light: buildTokenMap(colorKeys, "light-color"),
   dark: buildTokenMap(colorKeys, "dark-color"),
@@ -76,6 +77,7 @@ const fontKeys = [
   "letterSpacing",
   "lineHeight",
 ] as const;
+export type FontKey = (typeof fontKeys)[number] | "weight";
 const fontWeightKeys = [
   "thin",
   "extraLight",
@@ -86,6 +88,7 @@ const fontWeightKeys = [
   "extraBold",
   "black",
 ] as const;
+export type FontWeightKey = (typeof fontWeightKeys)[number];
 const baseFontMaps = buildTokenMap(fontKeys, "font");
 const fontWeightMaps = buildTokenMap(fontWeightKeys, "weight");
 const fontProps = {
@@ -94,23 +97,28 @@ const fontProps = {
 } as const;
 const fontVars = { ...baseFontMaps.vars, weight: fontWeightMaps.vars } as const;
 const spacingKeys = ["xs", "sm", "md", "lg", "xl"] as const;
+export type SpacingKey = (typeof spacingKeys)[number];
 const { props: spacingProps, vars: spacingVars } = buildTokenMap(
   spacingKeys,
   "spacing",
 );
 const transitionKeys = ["duration", "interactiveElement"] as const;
+export type TransitionKey = (typeof transitionKeys)[number];
 const { props: transitionProps, vars: transitionVars } = buildTokenMap(
   transitionKeys,
   "transition",
 );
 const borderKeys = ["radius", "width", "border"] as const;
+export type BorderKey = (typeof borderKeys)[number];
 const { props: borderProps, vars: borderVars } = buildTokenMap(
   borderKeys,
   "border",
 );
 
 const elevationKeys = ["low", "medium", "high"] as const;
+export type ElevationKey = (typeof elevationKeys)[number] | "base";
 const elevationBaseKeys = ["yOffset", "blur"] as const;
+export type ElevationBaseKey = (typeof elevationBaseKeys)[number];
 const elevationMap = buildTokenMap(elevationKeys, "elevation");
 const elevationBaseMap = buildTokenMap(elevationBaseKeys, "elevation-base");
 
@@ -124,6 +132,7 @@ const elevationVars = {
 } as const;
 
 const outlineKeys = ["width", "outline"] as const;
+export type OutlineKey = (typeof outlineKeys)[number];
 const { props: outlineProps, vars: outlineVars } = buildTokenMap(
   outlineKeys,
   "outline",
@@ -147,6 +156,7 @@ export const cssVars = {
   elevation: elevationVars,
   outline: outlineVars,
 } as const;
+export type VarKey = keyof typeof cssVars;
 /**
  * A type representing all of the definable CSS properties.
  * Used in the `define` function.
