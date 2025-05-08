@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 2.1.1
+
+### Patch Changes
+
+- bb87237: export var key types
+
 ## 2.1.0
 
 ### Minor Changes
