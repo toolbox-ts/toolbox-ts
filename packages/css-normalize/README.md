@@ -24,11 +24,10 @@ and predictable styling—with smart defaults for baseline interactivity.
   interactive, and miscellaneous elements providing a clean slate to work with.
 - 📐 **Consistent Box Model:** Applies `box-sizing: border-box` universally
   (`*, *::after, *::before`) for predictable layouts.
-- ⚡ **Modern Layout & Typography Defaults:** Uses Flexbox for root layout,
-  smooth scrolling, responsive typography, and disables iOS font-size
-  adjustments.
-- 🛡️ **Accessibility Enhancements:** Provides focus-visible styles, respects
-  reduced motion preferences, and improves form element usability.
+- ⚡ **Typography Defaults:** smooth scrolling, responsive typography, and
+  disables iOS font-size adjustments.
+- 🛡️ **Accessibility Conscious:** Provides visibility control styles, respects
+  reduced motion preferences.
 - 🛠️ **Customizable:** Easily override predefined CSS variables.
 - 🌐 **Modern Browser Support:** Including Chrome, Edge, Firefox, Safari, and
   other Chromium-based browsers.
@@ -36,18 +35,15 @@ and predictable styling—with smart defaults for baseline interactivity.
   [SCSS](https://sass-lang.com/), [Less](https://lesscss.org/),
   [Stylus](https://www.startpage.com/sp/search), and as a string template for
   maximum flexibility in your build pipeline.
+- **Baseline light/dark theme:** Predefined light/dark theme tokens activated
+  via media queries for seamless theming.
+- 🚀 **First-Class Module Support:** Clean exports for direct import in modern
+  bundlers, with CDN and npm options.
+- 🌳 **Smart Shadow Elevation:** `--elevation-low`,
+  `--elevation-medium`,`--elevation-high`, are automatically calculated based on
+  `--elevation-base-y-offset` and `--elevation-base-blur`
 - ⚙️ **[Vars Utility Module](#vars-utility):** A type-safe method for creating
-  and overriding variables.
-- 🚀 **Developer Experience Enhancements:**
-  - **Built-in Flex Layout:** Uses a flexible layout, making it effortless to
-    create a full-page site.
-  - **First-Class Module Support:** Clean exports for direct import in modern
-    bundlers, with CDN and npm options.
-  - **Baseline light/dark theme:** Predefined light/dark theme tokens activated
-    via media queries for seamless theming.
-  - **Smart Shadow Elevation:** `--elevation-low`,
-    `--elevation-medium`,`--elevation-high`, are automatically calculated based
-    on `--elevation-base-y-offset` and `--elevation-base-blur`
+  and overriding variables. Especially useful for Theming CSS-in-JS
 
 ---
 
@@ -58,48 +54,6 @@ npm install @toolbox-ts/css-normalize
 ```
 
 ---
-
-## Hidden Normalization & Accessability
-
-Includes specific rules aimed at improving accessibility, particularly for
-screen reader users. You can take advantage of these rules to manage visibility
-for different use cases: CSS Rules for Accessibility
-
-- Makes the element invisible to screen readers, but keeps it in the layout:
-
-  ```css
-  [aria-hidden="true"] {
-    visibility: hidden;
-  }
-  ```
-
-- Completely hide elements from both layout and screen readers:
-
-  ```css
-  [hidden],
-  .hidden,
-  [data-hidden] {
-    display: none;
-    pointer-events: none;
-  }
-  ```
-
-  - Visually hide elements but keep them available for screen readers:
-
-  ```css
-  .visually-hidden,
-  [data-hidden="visually"] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    clip: rect(0, 0, 0, 0);
-    overflow: hidden;
-    opacity: 0;
-  }
-  ```
 
 ## Usage
 
@@ -193,105 +147,161 @@ foundation.
 
 ```css
 :root {
-  /* === Typography === */
-  --font-family:
-    "Ubuntu", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif, system-ui,
-    "Apple Color Emoji", "Segoe UI Emoji"; /* Base sans-serif stack */
-  --font-family-mono:
-    "Ubuntu Mono", "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
-  --line-height: 1.5;
-  --letter-spacing: 0.01em;
-  --font-size: 20px;
+  /* Font & Typography */
+  --fallback-font-family:
+    system-ui, sans-serif, "Segoe UI", Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --fallback-font-family-mono:
+    ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
 
-  /* === Motion === */
-  /* Default transition duration for UI elements */
-  --transition-duration: 0.1s;
-  /* Applied to basic interactive elements */
-  --interactive-element-transition:
-    background-color var(--transition-duration) ease,
-    color var(--transition-duration) ease,
-    border-color var(--transition-duration) ease,
-    box-shadow var(--transition-duration) ease;
+  --font-family: var(--fallback-font-family);
+  --font-family-mono: var(--fallback-font-family-mono);
 
-  /* === Spacing Scale === */
+  --letter-spacing-base: 0rem;
+  --letter-spacing-extra-tight: -0.1rem;
+  --letter-spacing-tight: -0.05rem;
+  --letter-spacing-loose: 0.05rem;
+  --letter-spacing-extra-loose: 0.1rem;
+
+  --line-height-base: 1.15;
+  --line-height-xs: 0.875;
+  --line-height-sm: 1;
+  --line-height-lg: 1.25;
+  --line-height-xl: 1.5;
+  --line-height-double: 2;
+
+  --font-size-base: clamp(16px, 4vw, 20px);
+  --font-size-xxxs: clamp(0.25rem, 1.5vw, 0.375rem);
+  --font-size-xxs: clamp(0.375rem, 2vw, 0.5rem);
+  --font-size-xs: clamp(0.5rem, 2.5vw, 0.75rem);
+  --font-size-sm: clamp(0.75rem, 3vw, 1rem);
+  --font-size-md: clamp(1rem, 4vw, 1.25rem);
+  --font-size-lg: clamp(1.25rem, 5vw, 1.5rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.75rem);
+  --font-size-xxl: clamp(1.75rem, 7vw, 2rem);
+  --font-size-double: clamp(2rem, 8vw, 2.25rem);
+  --font-size-xxxl: clamp(2.25rem, 9vw, 2.5rem);
+  --font-size-xxxxl: clamp(2.5rem, 10vw, 3rem);
+  --font-size-triple: clamp(3rem, 12vw, 4rem);
+
+  /* Font Weight */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+  --font-weight-extra-bold: 800;
+
+  /* Movement */
+  --duration-short: 0.1s;
+  --duration-medium: 0.25s;
+  --duration-long: 0.5s;
+
+  --ease-accel: cubic-bezier(0.4, 0, 1, 1);
+  --ease-decel: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --transition-theme-change: color var(--duration-short) ease background-color
+    var(--duration-short) ease box-shadow var(--duration-short) ease
+    border-color var(--duration-short) ease;
+
+  /* Spacing */
+  --spacing-neg-xs: -0.25rem;
+  --spacing-neg-sm: -0.5rem;
+  --spacing-neg-md: -1rem;
+  --spacing-neg-lg: -1.5rem;
+  --spacing-neg-xl: -2rem;
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
 
-  /* === Border Radius & Width === */
-  --border-radius: 0.5rem;
-  --border-width: 1px;
+  /* Border Radii */
+  --border-radius-base: 0.5rem;
+  --border-radius-b: var(--border-radius-base) var(--border-radius-base) 0 0;
+  --border-radius-t: 0 0 var(--border-radius-base) var(--border-radius-base);
+  --border-radius-l: var(--border-radius-base) 0 0 var(--border-radius-base);
+  --border-radius-r: 0 var(--border-radius-base) var(--border-radius-base) 0;
+  --border-radius-tl-br: var(--border-radius-base) 0 0 var(--border-radius-base);
+  --border-radius-tr-bl: 0 var(--border-radius-base) var(--border-radius-base) 0;
 
-  /* === Font Weights === */
-  --weight-thin: 100;
-  --weight-extra-light: 200;
-  --weight-light: 300;
-  --weight-normal: 400;
-  --weight-medium: 500;
-  --weight-bold: 600;
-  --weight-extra-bold: 700;
-  --weight-black: 900;
+  /* Opacity */
+  --opacity-transparent: 0;
+  --opacity-quarter: 0.25;
+  --opacity-half: 0.5;
+  --opacity-three-quarters: 0.75;
+  --opacity-opaque: 1;
 
-  /* === Outline === */
-  --outline-width: 2px;
-  --outline: var(--outline-width) solid var(--color-emphasis);
-
-  /* === Elevation (Shadows) === */
-  /* Used for calculating proceeding elevation y-offsets */
-  --elevation-base-y-offset: 1.5px;
-  /* Used for calculating proceeding elevation blur radii */
-  --elevation-base-blur: 3px;
-
-  --elevation-low: 0 var(--elevation-base-y-offset) var(--elevation-base-blur)
-    var(--color-shadow);
-  --elevation-medium: 0 calc(var(--elevation-base-y-offset) * 2)
-    calc(var(--elevation-base-blur) * 2) var(--color-shadow);
-  --elevation-high: 0 calc(var(--elevation-base-y-offset) * 4)
-    calc(var(--elevation-base-blur) * 4) var(--color-shadow);
-
-  /* === Light Mode Tokens === */
-  --light-color-bg: #fcfaff;
-  --light-color-fg: #1f0044;
-  --light-color-primary: #5b21b6;
-  --light-color-accent: #4c1d95;
-  --light-color-emphasis: #3c0d99;
+  /* Color Palette */
+  --light-color-surface: #fcfaff;
+  --light-color-foreground: #121212;
+  --light-color-primary: #4700ff;
+  --light-color-inverse: #b8ff00;
+  --light-color-secondary: #ff4700;
+  --light-color-tertiary: #00ff47;
   --light-color-muted: #4d4d6a;
-  --light-color-border: var(--light-color-emphasis);
-  --light-color-outline: var(--light-color-emphasis);
-  --light-color-shadow: var(--light-color-emphasis);
+  --light-color-success: #163823;
+  --light-color-warning: #7a4f00;
+  --light-color-danger: #7a1f1f;
+  --light-color-info: #1e3a8a;
 
-  /* === Dark Mode Tokens === */
-  --dark-color-bg: #0f0e11;
-  --dark-color-fg: #fcfaff;
-  --dark-color-primary: #d8b4fe;
-  --dark-color-accent: #a78bfa;
-  --dark-color-emphasis: #f3e8ff;
-  --dark-color-muted: #c9b8d1;
-  --dark-color-border: var(--dark-color-emphasis);
-  --dark-color-outline: var(--dark-color-emphasis);
-  --dark-shadow-color: var(--dark-color-emphasis);
+  --dark-color-surface: #121212;
+  --dark-color-foreground: #ffffff;
+  --dark-color-primary: #5b21b6;
+  --dark-color-inverse: #a4de49;
+  --dark-color-secondary: #ff4500;
+  --dark-color-tertiary: #00d170;
+  --dark-color-muted: #a3a3a3;
+  --dark-color-success: #4caf50;
+  --dark-color-warning: #ff9800;
+  --dark-color-danger: #f44336;
+  --dark-color-info: #2196f3;
 
-  /* === Active Theme Tokens === */
-  /* Primary page background */
-  --color-bg: var(--light-color-bg);
-  /* Used for primary text / icons on bg */
-  --color-fg: var(--light-color-fg);
-  /* Used for primary buttons, links, etc. */
+  --color-surface: var(--light-color-surface);
+  --color-foreground: var(--light-color-foreground);
   --color-primary: var(--light-color-primary);
-  /* Secondary button colors, accents */
-  --color-accent: var(--light-color-accent);
-  /* Used in outlines, hovers, focus */
-  --color-emphasis: var(--light-color-emphasis);
-  /* Used for visited links, helper text, subtitles, disabled interactives */
+  --color-inverse: var(--dark-color-inverse);
+  --color-secondary: var(--light-color-secondary);
+  --color-tertiary: var(--light-color-tertiary);
   --color-muted: var(--light-color-muted);
-  /* Border for cards, inputs, etc. */
-  --color-border: var(--light-color-border);
-  /* Shadow used in elevation */
-  --color-shadow: var(--light-color-shadow);
-  /* Used for outlines/focus rings */
-  --color-outline: var(--light-color-outline);
+  --color-success: var(--light-color-success);
+  --color-warning: var(--light-color-warning);
+  --color-danger: var(--light-color-danger);
+  --color-info: var(--light-color-info);
+
+  /* Elevation */
+  --elevation-base-y-offset: 1.5px;
+  --elevation-base-blur: 3px;
+  --elevation-low: 0 var(--elevation-base-y-offset) var(--elevation-base-blur)
+    var(--color-muted);
+  --elevation-medium: 0 calc(var(--elevation-base-y-offset) * 2)
+    calc(var(--elevation-base-blur) * 2) var(--color-muted);
+  --elevation-high: 0 calc(var(--elevation-base-y-offset) * 4)
+    calc(var(--elevation-base-blur) * 4) var(--color-muted);
+
+  /* Breakpoints */
+  --breakpoint-xs: 432px;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+
+  /* Z-Index */
+  --z-index-behind: -1;
+  --z-index-base: 0;
+  --z-index-low: 1000;
+  --z-index-medium: 1100;
+  --z-index-high: 1200;
+  --z-index-sidebar: 1300;
+  --z-index-overlay: 1400;
+  --z-index-modal: 1500;
+  --z-index-tooltip: 1600;
+  --z-index-notification: 1700;
+  --z-index-top: 1800;
+
+  /* Misc */
+  --ul-li-marker: "•";
 }
 ```
 
@@ -313,16 +323,6 @@ injection.
     in code.
 
 #### Exports
-
-- `Vars` - ES6 Module
-  - `ThemeState` – `'light' | 'dark'`
-  - `cssProps` – Map of component parts to their CSS custom property names.
-  - `cssVars` – Map of component parts to their corresponding `var(--*)`
-    expressions.
-  - `InputVars` – Type-safe structure representing theme values for use in
-    `define()`.
-  - `define(theme:InputVars, selector:string, normalizeString: string)` –
-    Generates a CSS block string for a given theme input.
 
 #### Basic Usage
 
@@ -394,6 +394,41 @@ export const GlobalStyle = createGlobalStyle`
 ```
 
 </details>
+
+---
+
+## Hidden Normalization & Accessability
+
+Includes specific rules aimed at improving accessibility, particularly for
+screen reader users. You can take advantage of these rules to manage visibility
+for different use cases.
+
+```css
+/* Makes the element invisible to screen readers, but remains included in the layout and is still available visually */
+[aria-hidden="true"] {
+  visibility: hidden;
+}
+/* Hide elements completely (from layout and screen readers) */
+[hidden],
+[data-hidden],
+.hidden {
+  display: none;
+  pointer-events: none;
+}
+/* Hide elements visually but keep them available to screen readers */
+[data-hidden="visually"],
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  opacity: 0;
+}
+```
 
 ---
 

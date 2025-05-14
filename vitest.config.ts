@@ -48,6 +48,8 @@ export default defineConfig({
         "bin/**/*",
         // Just organizes and exports fully tested internals
         "./packages/colors/src/api/api.ts",
+        // Constants File
+        "./packages/css-normalize/src/core/tokens/definitions.ts",
       ],
     },
   },

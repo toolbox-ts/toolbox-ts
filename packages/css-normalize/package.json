@@ -23,6 +23,7 @@
     "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "type": "module",
+  "main": "./build/index.js",
   "types": "./build/types/index.d.ts",
   "files": [
     "build",
