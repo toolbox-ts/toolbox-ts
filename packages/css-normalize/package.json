@@ -1,6 +1,6 @@
 {
   "name": "@toolbox-ts/css-normalize",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A modern and accessible CSS baseline with universal reset and variable-driven customization – all adapted from modern-normalize.",
   "license": "MIT",
   "private": false,
@@ -23,7 +23,6 @@
     "url": "https://github.com/toolbox-ts/toolbox-ts.git"
   },
   "type": "module",
-  "main": "./build/index.js",
   "types": "./build/types/index.d.ts",
   "files": [
     "build",

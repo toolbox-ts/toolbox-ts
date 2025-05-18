@@ -1,12 +1,24 @@
-const normalize = (value: unknown, checkFinite = true): number => {
+interface NormalizeOpts {
+  checkFinite?: boolean;
+  fallback?: number;
+}
+const normalize = (
+  value: unknown,
+  { checkFinite = true, fallback = NaN }: NormalizeOpts = {},
+): number => {
   const input =
     typeof value === "number"
       ? value
       : typeof value === "string"
         ? Number(value)
         : NaN;
-  return !isNaN(input) && (Number.isFinite(input) || !checkFinite) ? input : 0;
+  return !isNaN(input) && (Number.isFinite(input) || !checkFinite)
+    ? input
+    : fallback;
 };
+const normalizeArr = (arr: unknown[], opts: NormalizeOpts = {}) =>
+  arr.map((v) => normalize(v, opts));
+
 /**
  * Rounds a number to the specified decimal point.
  * E.g., roundTo(1.2345, 2) =\> 1.23
@@ -20,8 +32,8 @@ const round = (value: number, decimalPosition = 2) => {
 };
 
 const is = {
-  stringNumber: (value: unknown): value is string =>
-    typeof value === "string" && !isNaN(Number(value)),
+  numericString: (value: unknown): value is string =>
+    typeof value === "string" && (value === "NaN" || !isNaN(Number(value))),
   finite: (num: unknown): num is number => Number.isFinite(num),
   infinity: (num: unknown): num is number =>
     num === Infinity || num === -Infinity,
@@ -37,7 +49,10 @@ const is = {
     !is.positive(num, safe),
   decimal: (num: unknown): num is number =>
     typeof num === "number" && !is.integer(num),
-  inRange: (num: unknown, min: number, max: number): num is number =>
+  inRange: (
+    num: unknown,
+    { min, max }: { min: number; max: number },
+  ): num is number =>
     is.finite(num) &&
     is.finite(min) &&
     is.finite(max) &&
@@ -55,50 +70,83 @@ interface ReducerOpts {
   fn: (a: number, b: number) => number;
   start: unknown;
   roundTo?: unknown;
+  normalizeOpts?: NormalizeOpts;
 }
-const reduce = ({ numbers, fn, start, roundTo = 0 }: ReducerOpts): number =>
-  round(
-    numbers.map((v) => normalize(v)).reduce(fn, normalize(start)),
-    normalize(roundTo),
-  );
+const reduce = ({
+  numbers,
+  fn,
+  start,
+  roundTo = 0,
+  normalizeOpts,
+}: ReducerOpts): number =>
+  numbers.length === 0
+    ? normalize(start, normalizeOpts)
+    : round(
+        normalizeArr(numbers, normalizeOpts).reduce(
+          fn,
+          normalize(start, normalizeOpts),
+        ),
+        normalize(roundTo, normalizeOpts),
+      );
 
-const sum = (numbers: unknown[], roundTo?: number): number =>
-  reduce({ numbers, fn: (a, b) => a + b, start: 0, roundTo });
-
-const product = (numbers: unknown[], roundTo?: number): number =>
-  reduce({ numbers, fn: (a, b) => a * b, start: 1, roundTo });
-
-const average = (numbers: unknown[], roundTo?: number): number => {
-  const n = numbers.length;
-  if (n === 0) return 0;
-  return sum(numbers, roundTo) / n;
-};
-const min = (numbers: unknown[]): number =>
-  Math.min(...numbers.map((v) => normalize(v, false)));
-const max = (numbers: unknown[]): number =>
-  Math.max(...numbers.map((v) => normalize(v, false)));
-
-const range = (numbers: unknown[]): number => {
-  const minValue = min(numbers);
-  const maxValue = max(numbers);
-  return maxValue - minValue;
-};
-
-const difference = (numbers: unknown[]): number => {
-  if (numbers.length < 2) return 0;
-  const [first, ...rest] = numbers;
+interface ArithmeticOpts {
+  numbers: unknown[];
+  roundTo?: number;
+  normalizeOpts?: NormalizeOpts;
+}
+const add = (opts: ArithmeticOpts): number =>
+  reduce({ fn: (a, b) => a + b, start: 0, ...opts });
+const multiply = (opts: ArithmeticOpts): number =>
+  reduce({ fn: (a, b) => a * b, start: 1, ...opts });
+const subtract = (opts: ArithmeticOpts): number => {
+  if (opts.numbers.length < 2) return normalize(opts.numbers[0]);
+  const [first, ...rest] = opts.numbers;
   return reduce({
     numbers: rest,
     fn: (a, b) => a - b,
     start: first,
-    roundTo: 0,
+    roundTo: opts.roundTo,
   });
 };
+const divide = (opts: ArithmeticOpts): number => {
+  if (opts.numbers.length < 2) return normalize(opts.numbers[0]);
+  const [first, ...rest] = opts.numbers;
+  if (rest.some((b) => normalize(b, { checkFinite: true, fallback: 0 }) === 0))
+    return NaN;
+  return reduce({
+    numbers: rest,
+    fn: (a, b) => a / b,
+    start: first,
+    roundTo: opts.roundTo,
+  });
+};
+
+const average = (opts: ArithmeticOpts): number => {
+  const len = opts.numbers.length;
+  if (len === 0) return 0;
+  const sum = add(opts);
+  return round(sum / len, opts.roundTo);
+};
+
+const min = ({ numbers, normalizeOpts = {} }: ArithmeticOpts): number =>
+  numbers.length === 0
+    ? NaN
+    : Math.min(...numbers.map((v) => normalize(v, normalizeOpts)));
+const max = ({
+  numbers,
+  normalizeOpts = { checkFinite: true, fallback: 0 },
+}: ArithmeticOpts): number =>
+  numbers.length === 0
+    ? NaN
+    : Math.max(...numbers.map((v) => normalize(v, normalizeOpts)));
+
+const range = (opts: ArithmeticOpts): number => max(opts) - min(opts);
 
 interface ClampOpts {
   min?: number;
   max?: number;
   decimal?: number;
+  normalizeOpts?: NormalizeOpts;
 }
 /**
  * Clamps a number between min and max
@@ -107,22 +155,27 @@ interface ClampOpts {
  */
 const clamp = (
   value: number,
-  { min = 0, max = 100, decimal = 0 }: ClampOpts = {},
-) => round(Math.max(min, Math.min(max, value)), decimal);
+  { min = 0, max = 100, decimal = 0, normalizeOpts = {} }: ClampOpts = {},
+) =>
+  normalize(round(Math.max(min, Math.min(max, value)), decimal), normalizeOpts);
 
 export {
   normalize,
+  normalizeArr,
   round,
   is,
   reduce,
-  sum,
-  product,
+  add,
+  multiply,
   average,
   min,
   max,
   range,
-  difference,
+  subtract,
+  divide,
   clamp,
   type ClampOpts,
   type ReducerOpts,
+  type ArithmeticOpts,
+  type NormalizeOpts,
 };
