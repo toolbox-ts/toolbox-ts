@@ -19,7 +19,7 @@ const is = {
   inDepth: (depth: Depth, value: unknown): value is number => {
     if (
       !(String(depth) in map) ||
-      !(typeof value === "number" || Base.is.stringNumber(value))
+      !(typeof value === "number" || Base.is.numericString(value))
     )
       return false;
     const parsed = parseInt(Base.normalize(value).toString(), 10);

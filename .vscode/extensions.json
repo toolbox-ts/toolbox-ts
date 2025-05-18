@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "styled-components.vscode-styled-components",
     "aaron-bond.better-comments",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode"
