@@ -1,5 +1,13 @@
 # @toolbox-ts/schema
 
+## 0.1.13
+
+### Patch Changes
+
+- 1df5f15: update utils/number base arithmetic functions to all accept same arg type. Update package dependencies.
+- Updated dependencies [1df5f15]
+  - @toolbox-ts/utils@0.4.5
+
 ## 0.1.12
 
 ### Patch Changes
