@@ -277,6 +277,7 @@ describe("clamp", () => {
     expect(clamp(NaN, { min: 1, max: 10, decimal: 0 })).toBe(NaN);
   });
 });
+
 describe("factorial", () => {
   it("returns 1 for 0 and 1", () => {
     expect(factorial(0)).toBe(1);
@@ -308,6 +309,7 @@ describe("factorial", () => {
     expect(factorial(170)).toBeCloseTo(7.257415615307994e306);
   });
 });
+
 describe("modulo", () => {
   it("computes positive modulo correctly", () => {
     expect(modulo({ dividend: 13, divisor: 5 })).toBe(3);
