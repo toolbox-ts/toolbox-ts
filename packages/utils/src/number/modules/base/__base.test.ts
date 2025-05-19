@@ -14,6 +14,7 @@ import {
   subtract,
   divide,
   clamp,
+  factorial,
 } from "./base";
 
 describe("normalize", () => {
@@ -285,5 +286,37 @@ describe("clamp", () => {
   });
   it("returns fallback for invalid input", () => {
     expect(clamp(NaN, { min: 1, max: 10, decimal: 0 })).toBe(NaN);
+  });
+});
+
+describe("factorial", () => {
+  it("returns 1 for 0 and 1", () => {
+    expect(factorial(0)).toBe(1);
+    expect(factorial(1)).toBe(1);
+  });
+
+  it("computes factorials for small integers", () => {
+    expect(factorial(2)).toBe(2);
+    expect(factorial(3)).toBe(6);
+    expect(factorial(5)).toBe(120);
+    expect(factorial(10)).toBe(3628800);
+  });
+
+  it("returns Infinity for inputs > MAX_FACTORIAL", () => {
+    expect(factorial(171)).toBe(Infinity);
+    expect(factorial(999)).toBe(Infinity);
+  });
+
+  it("returns NaN for negative numbers, non-integers, and non-numeric input", () => {
+    expect(factorial(-1)).toBeNaN();
+    expect(factorial("hello")).toBeNaN();
+    expect(factorial(null)).toBeNaN();
+    expect(factorial(undefined)).toBeNaN();
+    expect(factorial(NaN)).toBeNaN();
+    expect(factorial(3.5)).toBeNaN();
+  });
+
+  it("returns the correct value for MAX_FACTORIAL (170!)", () => {
+    expect(factorial(170)).toBeCloseTo(7.257415615307994e306);
   });
 });
