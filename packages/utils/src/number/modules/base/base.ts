@@ -120,7 +120,6 @@ const divide = (opts: ArithmeticOpts): number => {
     roundTo: opts.roundTo,
   });
 };
-
 const average = (opts: ArithmeticOpts): number => {
   const len = opts.numbers.length;
   if (len === 0) return 0;
@@ -139,7 +138,6 @@ const max = ({
   numbers.length === 0
     ? NaN
     : Math.max(...numbers.map((v) => normalize(v, normalizeOpts)));
-
 const range = (opts: ArithmeticOpts): number => max(opts) - min(opts);
 
 interface ClampOpts {
@@ -158,12 +156,21 @@ const clamp = (
   { min = 0, max = 100, decimal = 0, normalizeOpts = {} }: ClampOpts = {},
 ) =>
   normalize(round(Math.max(min, Math.min(max, value)), decimal), normalizeOpts);
-
+const MAX_FACTORIAL = 170;
+const _factorial = (n: number): number => (n <= 1 ? 1 : n * _factorial(n - 1));
+const factorial = (num: unknown): number => {
+  const n = normalize(num);
+  if (!is.positiveInt(n, true)) return NaN;
+  if (n > MAX_FACTORIAL) return Infinity;
+  return _factorial(n);
+};
 export {
   normalize,
   normalizeArr,
   round,
+  factorial,
   is,
+  MAX_FACTORIAL,
   reduce,
   add,
   multiply,
