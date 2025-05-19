@@ -1,5 +1,12 @@
 # @toolbox-ts/utils
 
+## 0.4.4
+
+### Patch Changes
+
+- d288480: update arithmetic opts to expected two unknown parameters in numbers input
+- d288480: update power, modulo and factorial args for universal input handling
+
 ## 0.4.3
 
 ### Patch Changes

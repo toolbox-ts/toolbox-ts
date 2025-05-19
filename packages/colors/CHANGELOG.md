@@ -1,5 +1,13 @@
 # @toolbox-ts/colors
 
+## 1.4.8
+
+### Patch Changes
+
+- Updated dependencies [d288480]
+- Updated dependencies [d288480]
+  - @toolbox-ts/utils@0.4.4
+
 ## 1.4.7
 
 ### Patch Changes
