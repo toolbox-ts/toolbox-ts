@@ -140,25 +140,23 @@ const max = ({
 const range = (opts: ArithmeticOpts): number => max(opts) - min(opts);
 
 interface PowerOpts {
-  base: unknown;
-  exponent: unknown;
+  numbers: [base: unknown, exponent: unknown];
   roundTo?: number;
 }
-const power = ({ base, exponent, roundTo = 0 }: PowerOpts): number => {
-  const a = normalize(base);
-  const b = normalize(exponent);
+const power = ({ numbers, roundTo = 0 }: PowerOpts): number => {
+  const a = normalize(numbers[0]);
+  const b = normalize(numbers[1]);
   if (isNaN(a) || isNaN(b)) return NaN;
   return round(a ** b, roundTo);
 };
 
 interface ModuloOpts {
-  dividend: unknown;
-  divisor: unknown;
+  numbers: [dividend: unknown, divisor: unknown];
   roundTo?: number;
 }
-const modulo = ({ dividend, divisor, roundTo = 0 }: ModuloOpts): number => {
-  const a = normalize(dividend);
-  const b = normalize(divisor);
+const modulo = ({ numbers, roundTo = 0 }: ModuloOpts): number => {
+  const a = normalize(numbers[0]);
+  const b = normalize(numbers[1]);
   if (b === 0 || isNaN(a) || isNaN(b)) return NaN;
 
   return round(((a % b) + b) % b, roundTo);
@@ -182,8 +180,14 @@ const clamp = (
   normalize(round(Math.max(min, Math.min(max, value)), decimal), normalizeOpts);
 const MAX_FACTORIAL = 170;
 const _factorial = (n: number): number => (n <= 1 ? 1 : n * _factorial(n - 1));
-const factorial = (num: unknown): number => {
-  const n = normalize(num);
+const factorial = (num: unknown | { numbers: [unknown] }): number => {
+  const n =
+    typeof num === "object" &&
+    num !== null &&
+    "numbers" in num &&
+    Array.isArray(num.numbers)
+      ? normalize(num.numbers[0])
+      : normalize(num);
   if (!is.positiveInt(n, true)) return NaN;
   if (n > MAX_FACTORIAL) return Infinity;
   return _factorial(n);
