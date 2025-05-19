@@ -90,7 +90,7 @@ const reduce = ({
       );
 
 interface ArithmeticOpts {
-  numbers: unknown[];
+  numbers: [first: unknown, second: unknown, ...unknown[]];
   roundTo?: unknown;
   normalizeOpts?: NormalizeOpts;
 }
