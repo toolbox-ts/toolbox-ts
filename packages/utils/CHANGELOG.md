@@ -1,5 +1,11 @@
 # @toolbox-ts/utils
 
+## 0.4.3
+
+### Patch Changes
+
+- c9901b3: update power, modulo and factorial args for universal input handling
+
 ## 0.4.2
 
 ### Patch Changes
