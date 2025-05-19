@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 2.1.2
+
+### Patch Changes
+
+- 1df5f15: update utils/number base arithmetic functions to all accept same arg type. Update package dependencies.
+
 ## 2.1.1
 
 ### Patch Changes
