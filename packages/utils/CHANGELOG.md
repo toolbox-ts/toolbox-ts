@@ -1,5 +1,11 @@
 # @toolbox-ts/utils
 
+## 0.4.1
+
+### Patch Changes
+
+- 026dbfc: add factorial fn
+
 ## 0.4.0
 
 ### Minor Changes
