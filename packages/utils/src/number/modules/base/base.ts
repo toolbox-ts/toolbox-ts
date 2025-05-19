@@ -91,7 +91,7 @@ const reduce = ({
 
 interface ArithmeticOpts {
   numbers: unknown[];
-  roundTo?: number;
+  roundTo?: unknown;
   normalizeOpts?: NormalizeOpts;
 }
 const add = (opts: ArithmeticOpts): number =>
@@ -123,8 +123,7 @@ const divide = (opts: ArithmeticOpts): number => {
 const average = (opts: ArithmeticOpts): number => {
   const len = opts.numbers.length;
   if (len === 0) return 0;
-  const sum = add(opts);
-  return round(sum / len, opts.roundTo);
+  return round(add(opts) / len, normalize(opts.roundTo));
 };
 
 const min = ({ numbers, normalizeOpts = {} }: ArithmeticOpts): number =>
@@ -139,6 +138,31 @@ const max = ({
     ? NaN
     : Math.max(...numbers.map((v) => normalize(v, normalizeOpts)));
 const range = (opts: ArithmeticOpts): number => max(opts) - min(opts);
+
+interface PowerOpts {
+  base: unknown;
+  exponent: unknown;
+  roundTo?: number;
+}
+const power = ({ base, exponent, roundTo = 0 }: PowerOpts): number => {
+  const a = normalize(base);
+  const b = normalize(exponent);
+  if (isNaN(a) || isNaN(b)) return NaN;
+  return round(a ** b, roundTo);
+};
+
+interface ModuloOpts {
+  dividend: unknown;
+  divisor: unknown;
+  roundTo?: number;
+}
+const modulo = ({ dividend, divisor, roundTo = 0 }: ModuloOpts): number => {
+  const a = normalize(dividend);
+  const b = normalize(divisor);
+  if (b === 0 || isNaN(a) || isNaN(b)) return NaN;
+
+  return round(((a % b) + b) % b, roundTo);
+};
 
 interface ClampOpts {
   min?: number;
@@ -181,6 +205,10 @@ export {
   subtract,
   divide,
   clamp,
+  modulo,
+  power,
+  type ModuloOpts,
+  type PowerOpts,
   type ClampOpts,
   type ReducerOpts,
   type ArithmeticOpts,
