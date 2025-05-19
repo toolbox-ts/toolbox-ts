@@ -185,7 +185,6 @@ describe("add", () => {
     expect(add({ numbers: [1.234, 2.345], roundTo: 2 })).toBe(3.58);
   });
   it("adds empty array returns 0", () => {
-    //@ts-expect-error testing invalid input
     expect(add({ numbers: [] })).toBe(0);
   });
 });
@@ -197,7 +196,6 @@ describe("multiply", () => {
     expect(multiply({ numbers: [1.2, 3.4], roundTo: 2 })).toBe(4.08);
   });
   it("multiply empty array returns 1", () => {
-    //@ts-expect-error testing invalid input
     expect(multiply({ numbers: [] })).toBe(1);
   });
 });
@@ -206,9 +204,7 @@ describe("subtract", () => {
     expect(subtract({ numbers: [10, 2, 3] })).toBe(5);
   });
   it("returns normalized first number if only one element", () => {
-    //@ts-expect-error testing invalid input
     expect(subtract({ numbers: ["10"] })).toBe(10);
-    //@ts-expect-error testing invalid input
     expect(subtract({ numbers: [] })).toBe(NaN);
   });
   it("subtracts with rounding", () => {
@@ -220,9 +216,7 @@ describe("divide", () => {
     expect(divide({ numbers: [20, 2, 2] })).toBe(5);
   });
   it("returns normalized first number if only one element", () => {
-    //@ts-expect-error testing invalid input
     expect(divide({ numbers: ["10"] })).toBe(10);
-    //@ts-expect-error testing invalid input
     expect(divide({ numbers: [] })).toBe(NaN);
   });
   it("returns NaN if division by zero encountered", () => {
@@ -241,7 +235,6 @@ describe("average", () => {
     expect(average({ numbers: [1.2, 3.4], roundTo: 2 })).toBeCloseTo(2.3, 2);
   });
   it("returns 0 for empty array", () => {
-    //@ts-expect-error testing invalid input
     expect(average({ numbers: [] })).toBe(0);
   });
 });
@@ -251,7 +244,6 @@ describe("min", () => {
     expect(min({ numbers: ["5", 2, 3] })).toBe(2);
   });
   it("returns fallback for empty", () => {
-    //@ts-expect-error testing invalid input
     expect(min({ numbers: [] })).toBe(NaN);
   });
 });
@@ -261,7 +253,6 @@ describe("max", () => {
     expect(max({ numbers: ["5", 2, 3] })).toBe(5);
   });
   it("returns fallback for empty", () => {
-    //@ts-expect-error testing invalid input
     expect(max({ numbers: [] })).toBe(NaN);
   });
 });
@@ -270,11 +261,9 @@ describe("range", () => {
     expect(range({ numbers: [1, 5, 3] })).toEqual(4);
   });
   it("returns fallback range for empty", () => {
-    //@ts-expect-error testing invalid input
     expect(range({ numbers: [] })).toEqual(NaN);
   });
   it("returns NaN for empty and no fallback", () => {
-    //@ts-expect-error testing invalid input
     expect(range({ numbers: [] })).toEqual(NaN);
   });
 });

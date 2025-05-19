@@ -23,8 +23,11 @@ const normalizeArr = (arr: unknown[], opts: NormalizeOpts = {}) =>
  * Rounds a number to the specified decimal point.
  * E.g., roundTo(1.2345, 2) =\> 1.23
  */
-const round = (value: number, decimalPosition = 2) => {
-  const effectiveDecimalPosition = Math.max(0, decimalPosition);
+const round = (value: number, decimalPosition: unknown = 2) => {
+  const effectiveDecimalPosition = Math.max(
+    0,
+    normalize(decimalPosition, { fallback: 0 }),
+  );
   if (effectiveDecimalPosition === 0 || isNaN(effectiveDecimalPosition))
     return Math.round(value);
   const factor = 10 ** effectiveDecimalPosition;
@@ -90,7 +93,7 @@ const reduce = ({
       );
 
 interface ArithmeticOpts {
-  numbers: [first: unknown, second: unknown, ...unknown[]];
+  numbers: unknown[];
   roundTo?: unknown;
   normalizeOpts?: NormalizeOpts;
 }
@@ -139,22 +142,20 @@ const max = ({
     : Math.max(...numbers.map((v) => normalize(v, normalizeOpts)));
 const range = (opts: ArithmeticOpts): number => max(opts) - min(opts);
 
-interface PowerOpts {
-  numbers: [base: unknown, exponent: unknown];
-  roundTo?: number;
-}
-const power = ({ numbers, roundTo = 0 }: PowerOpts): number => {
+const power = ({
+  numbers,
+  roundTo = 0,
+}: Omit<ArithmeticOpts, "normalizeOpts">): number => {
   const a = normalize(numbers[0]);
   const b = normalize(numbers[1]);
   if (isNaN(a) || isNaN(b)) return NaN;
   return round(a ** b, roundTo);
 };
 
-interface ModuloOpts {
-  numbers: [dividend: unknown, divisor: unknown];
-  roundTo?: number;
-}
-const modulo = ({ numbers, roundTo = 0 }: ModuloOpts): number => {
+const modulo = ({
+  numbers,
+  roundTo = 0,
+}: Omit<ArithmeticOpts, "normalizeOpts">): number => {
   const a = normalize(numbers[0]);
   const b = normalize(numbers[1]);
   if (b === 0 || isNaN(a) || isNaN(b)) return NaN;
@@ -211,8 +212,6 @@ export {
   clamp,
   modulo,
   power,
-  type ModuloOpts,
-  type PowerOpts,
   type ClampOpts,
   type ReducerOpts,
   type ArithmeticOpts,
