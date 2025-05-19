@@ -15,6 +15,8 @@ import {
   divide,
   clamp,
   factorial,
+  modulo,
+  power,
 } from "./base";
 
 describe("normalize", () => {
@@ -42,7 +44,6 @@ describe("normalize", () => {
     expect(normalize(Infinity, { checkFinite: true, fallback: 0 })).toBe(0);
   });
 });
-
 describe("normalizeArr", () => {
   it("normalizes all elements in an array", () => {
     const arr = [1, "2", "abc", Infinity];
@@ -51,7 +52,6 @@ describe("normalizeArr", () => {
     ]);
   });
 });
-
 describe("round", () => {
   it("rounds to default 2 decimals", () => {
     expect(round(1.2345)).toBe(1.23);
@@ -65,7 +65,6 @@ describe("round", () => {
     expect(round(1.2345, NaN)).toBe(1);
   });
 });
-
 describe("is helpers", () => {
   it("checks finite", () => {
     expect(is.finite(5)).toBe(true);
@@ -139,7 +138,6 @@ describe("is helpers", () => {
     expect(is.numericString("Infinity")).toBe(true);
   });
 });
-
 describe("reduce", () => {
   it("reduces with sum", () => {
     expect(
@@ -179,7 +177,6 @@ describe("reduce", () => {
     ).toBe(3);
   });
 });
-
 describe("add", () => {
   it("adds numbers", () => {
     expect(add({ numbers: [1, 2, 3] })).toBe(6);
@@ -191,7 +188,6 @@ describe("add", () => {
     expect(add({ numbers: [] })).toBe(0);
   });
 });
-
 describe("multiply", () => {
   it("multiplies numbers", () => {
     expect(multiply({ numbers: [2, 3, 4] })).toBe(24);
@@ -203,7 +199,6 @@ describe("multiply", () => {
     expect(multiply({ numbers: [] })).toBe(1);
   });
 });
-
 describe("subtract", () => {
   it("subtracts multiple numbers", () => {
     expect(subtract({ numbers: [10, 2, 3] })).toBe(5);
@@ -216,7 +211,6 @@ describe("subtract", () => {
     expect(subtract({ numbers: [10, 2.555], roundTo: 2 })).toBe(7.45);
   });
 });
-
 describe("divide", () => {
   it("divides multiple numbers", () => {
     expect(divide({ numbers: [20, 2, 2] })).toBe(5);
@@ -233,7 +227,6 @@ describe("divide", () => {
     expect(divide({ numbers: [10, 3], roundTo: 2 })).toBeCloseTo(3.33, 2);
   });
 });
-
 describe("average", () => {
   it("calculates average", () => {
     expect(average({ numbers: [2, 4, 6] })).toBe(4);
@@ -245,7 +238,6 @@ describe("average", () => {
     expect(average({ numbers: [] })).toBe(0);
   });
 });
-
 describe("min", () => {
   it("returns min value", () => {
     expect(min({ numbers: [1, 2, 3] })).toBe(1);
@@ -255,7 +247,6 @@ describe("min", () => {
     expect(min({ numbers: [] })).toBe(NaN);
   });
 });
-
 describe("max", () => {
   it("returns max value", () => {
     expect(max({ numbers: [1, 2, 3] })).toBe(3);
@@ -265,7 +256,6 @@ describe("max", () => {
     expect(max({ numbers: [] })).toBe(NaN);
   });
 });
-
 describe("range", () => {
   it("returns range [min, max]", () => {
     expect(range({ numbers: [1, 5, 3] })).toEqual(4);
@@ -277,7 +267,6 @@ describe("range", () => {
     expect(range({ numbers: [] })).toEqual(NaN);
   });
 });
-
 describe("clamp", () => {
   it("clamps number within range", () => {
     expect(clamp(5, { min: 1, max: 10 })).toBe(5);
@@ -288,7 +277,6 @@ describe("clamp", () => {
     expect(clamp(NaN, { min: 1, max: 10, decimal: 0 })).toBe(NaN);
   });
 });
-
 describe("factorial", () => {
   it("returns 1 for 0 and 1", () => {
     expect(factorial(0)).toBe(1);
@@ -318,5 +306,64 @@ describe("factorial", () => {
 
   it("returns the correct value for MAX_FACTORIAL (170!)", () => {
     expect(factorial(170)).toBeCloseTo(7.257415615307994e306);
+  });
+});
+describe("modulo", () => {
+  it("computes positive modulo correctly", () => {
+    expect(modulo({ dividend: 13, divisor: 5 })).toBe(3);
+  });
+
+  it("handles negative dividend correctly", () => {
+    expect(modulo({ dividend: -13, divisor: 64 })).toBe(51);
+  });
+
+  it("handles negative divisor correctly", () => {
+    expect(modulo({ dividend: 13, divisor: -5 })).toBe(-2);
+  });
+
+  it("returns NaN if divisor is 0", () => {
+    expect(modulo({ dividend: 5, divisor: 0 })).toBeNaN();
+  });
+
+  it("coerces string inputs and works correctly", () => {
+    expect(modulo({ dividend: "10", divisor: "3" })).toBe(1);
+  });
+
+  it("respects rounding", () => {
+    expect(modulo({ dividend: 5.7, divisor: 2.1, roundTo: 2 })).toBe(1.5);
+  });
+
+  it("returns NaN for invalid input", () => {
+    expect(modulo({ dividend: "foo", divisor: 3 })).toBeNaN();
+  });
+});
+describe("power", () => {
+  it("computes power correctly", () => {
+    expect(power({ base: 2, exponent: 3 })).toBe(8);
+  });
+
+  it("handles zero exponent", () => {
+    expect(power({ base: 5, exponent: 0 })).toBe(1);
+  });
+
+  it("handles zero base", () => {
+    expect(power({ base: 0, exponent: 5 })).toBe(0);
+  });
+
+  it("handles fractional exponent", () => {
+    expect(power({ base: 9, exponent: 0.5 })).toBe(3);
+  });
+
+  it("handles negative exponent", () => {
+    expect(power({ base: 2, exponent: -2, roundTo: 2 })).toBe(0.25);
+  });
+
+  it("respects rounding", () => {
+    expect(power({ base: 2, exponent: 3.14159, roundTo: 3 })).toBe(8.825);
+  });
+
+  it("returns NaN for non-numeric input", () => {
+    expect(power({ base: "foo", exponent: 2 })).toBeNaN();
+    expect(power({ base: 2, exponent: "bar" })).toBeNaN();
   });
 });

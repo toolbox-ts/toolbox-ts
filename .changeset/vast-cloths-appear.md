@@ -2,4 +2,4 @@
 "@toolbox-ts/utils": patch
 ---
 
-add factorial fn
+add modulo and power function
