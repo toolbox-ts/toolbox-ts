@@ -1,5 +1,11 @@
 # @toolbox-ts/utils
 
+## 0.4.2
+
+### Patch Changes
+
+- e451f5f: add modulo and power function
+
 ## 0.4.1
 
 ### Patch Changes
