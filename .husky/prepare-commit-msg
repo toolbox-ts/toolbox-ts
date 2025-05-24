@@ -1,1 +1,8 @@
+branch=$(git symbolic-ref --short HEAD)
+
+if echo "$branch" | grep -q '^dev/'; then
+  echo "Skipping prepare-commit-msg hook on dev/* branch"
+  exit 0
+fi
+
 exec < /dev/tty && pnpm cz --hook || true
