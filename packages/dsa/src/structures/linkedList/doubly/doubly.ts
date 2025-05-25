@@ -1,7 +1,7 @@
-import * as DataNode from "../../node/node.js";
-import * as Base from "../types.js";
+import * as DataNode from '../../core/base/node/node.js';
+import * as Base from '../base/base.js';
 
-type TraversalDirection = Base.TraversalDirection | "reverse";
+type TraversalDirection = Base.TraversalDirection | 'reverse';
 
 class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
   setHead(node: DataNode.DoublyLinkedInstance<T>) {
@@ -14,10 +14,10 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
   protected insertAtTarget(
     targetNode: DataNode.DoublyLinkedInstance<T>,
     movingNode: DataNode.Detail<T>,
-    position: Base.InsertPosition,
+    position: Base.InsertPosition
   ) {
     const newNode = DataNode.create.doublyLinked(movingNode);
-    if (position === "before") {
+    if (position === 'before') {
       newNode.next = targetNode;
       newNode.prev = targetNode.prev;
       if (targetNode.prev) targetNode.prev.next = newNode;
@@ -65,8 +65,8 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
     this._size++;
     return this;
   }
-  insert({ indexOrId, node, position = "before" }: Base.InsertArgs<T>) {
-    if (typeof indexOrId === "number") {
+  insert({ indexOrId, node, position = 'before' }: Base.InsertArgs<T>) {
+    if (typeof indexOrId === 'number') {
       if (indexOrId <= 0) return this.prepend(node);
       if (indexOrId >= this._size) return this.append(node);
       const target = this.get(indexOrId)!;
@@ -74,9 +74,9 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
     } else {
       const target = this.find(indexOrId);
       if (!target) return this;
-      if (position === "before" && target.node === this._head)
+      if (position === 'before' && target.node === this._head)
         return this.prepend(node);
-      if (position === "after" && target.node === this._tail)
+      if (position === 'after' && target.node === this._tail)
         return this.append(node);
       return this.insertAtTarget(target.node, node, position);
     }
@@ -84,8 +84,9 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
   remove(indexOrId: number | string) {
     if (!this._head) return this;
     const target = (
-      typeof indexOrId === "number" ? this.get(indexOrId) : this.find(indexOrId)
-    )!;
+      typeof indexOrId === 'number' ?
+        this.get(indexOrId)
+      : this.find(indexOrId))!;
     if (target.index === 0) return this.removeHead();
     if (target.index === this._size - 1) {
       this.pop();
@@ -104,7 +105,7 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
     this.remove(id);
     return target;
   }
-  find(id: string, direction: TraversalDirection = "forward") {
+  find(id: string, direction: TraversalDirection = 'forward') {
     for (const n of this[direction]()) if (n.node.id === id) return n;
     return undefined;
   }
@@ -112,13 +113,13 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
   get(index: number) {
     if (index < 0 || index >= this._size) return undefined;
     const direction =
-      index < Math.round(this._size / 2) ? "forward" : "reverse";
+      index < Math.round(this._size / 2) ? 'forward' : 'reverse';
     // Bounds are validated so the conditional will never fail. return undefined is seemingly unreachable. It's written to satisfy TypeScript.
     /* v8 ignore next 2 */
     for (const n of this[direction]()) if (n.index === index) return n;
     return undefined;
   }
-  has(id: string, direction: TraversalDirection = "forward") {
+  has(id: string, direction: TraversalDirection = 'forward') {
     return !!this.find(id, direction);
   }
   pop() {
@@ -144,7 +145,7 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
   moveToTarget(
     nodeToMoveId: string,
     targetNodeId: string,
-    position: "before" | "after",
+    position: 'before' | 'after'
   ) {
     const targetNode = this.find(targetNodeId)?.node;
     if (!targetNode) return this;
@@ -152,17 +153,17 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
     const movingNode = this.extract(nodeToMoveId)?.node;
     if (!movingNode) return this;
 
-    if (position === "before" && targetNode === this._head)
+    if (position === 'before' && targetNode === this._head)
       return this.prepend(movingNode);
 
     this.insertAtTarget(targetNode, movingNode, position);
     return this;
   }
   toString() {
-    if (!this._head) return "Empty List";
-    let result = "null←";
+    if (!this._head) return 'Empty List';
+    let result = 'null←';
     for (const { node } of this.forward()) result += `(${node.id})⇆`;
-    return result.slice(0, -1) + "→null";
+    return result.slice(0, -1) + '→null';
   }
   reset() {
     let curr = this._head;
@@ -183,7 +184,7 @@ class Doubly<T> extends Base.LinkedList<T, DataNode.DoublyLinkedInstance<T>> {
 }
 
 const create = <T>(
-  nodes?: DataNode.Details<T>,
+  nodes?: DataNode.Details<T>
 ): Base.LinkedListAPI<T> & {
   reverse: () => Generator<
     { data: T; id: string; index: number },
@@ -192,24 +193,20 @@ const create = <T>(
   >;
 } => {
   const list = new Doubly<T>(nodes);
-  const format = (
-    node: undefined | DataNode.DoublyLinkedInstance<T>,
-  ): Base.AccessorResult<T> =>
-    node ? { data: node.data, id: node.id } : undefined;
   const api = Object.freeze({
     *forward() {
       for (const { node, index } of list.forward())
-        yield { data: node.data, id: node.id, index };
+        yield { ...node.detail, index };
     },
     *reverse() {
       for (const { node, index } of list.reverse())
-        yield { data: node.data, id: node.id, index };
+        yield { ...node.detail, index };
     },
     get head() {
       return list.head;
     },
     get tail() {
-      return list.tail;
+      return list.tail?.detail;
     },
     get size() {
       return list.size;
@@ -241,7 +238,7 @@ const create = <T>(
     moveToTarget(
       nodeToMoveId: string,
       targetNodeId: string,
-      position: Base.InsertPosition,
+      position: Base.InsertPosition
     ) {
       list.moveToTarget(nodeToMoveId, targetNodeId, position);
       return api;
@@ -251,17 +248,18 @@ const create = <T>(
       return api;
     },
     getIndex: (id: string) => list.getIndex(id),
-    extract: (id: string) => format(list.extract(id)?.node),
-    find: (id: string, direction: TraversalDirection = "forward") =>
-      format(list.find(id, direction)?.node),
-    get: (index: number) => format(list.get(index)?.node),
-    pop: () => format(list.pop()),
+    extract: (id: string) => list.extract(id)?.node.detail,
+    find: (id: string, direction: TraversalDirection = 'forward') =>
+      list.find(id, direction)?.node.detail,
+    get: (index: number) => list.get(index)?.node.detail,
+    pop: () => list.pop()?.detail,
     has: list.has.bind(list),
     toString: list.toString.bind(list),
+    toArray: list.toArray.bind(list),
     reset: () => {
       list.reset();
       return api;
-    },
+    }
   } as const);
   return api;
 };

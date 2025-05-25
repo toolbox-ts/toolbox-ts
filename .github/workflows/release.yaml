@@ -8,9 +8,9 @@ env:
 on:
   push:
     branches:
-      - "main"
+      - 'main'
     paths-ignore:
-      - "README.md"
+      - 'README.md'
   pull_request:
     types:
       - closed
@@ -26,7 +26,7 @@ permissions:
 jobs:
   prerelease:
     name: Pre-Release
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && !startsWith(github.ref,'refs/heads/dev/')
     runs-on: ubuntu-latest
 
     steps:
@@ -40,8 +40,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: "https://registry.npmjs.org/"
-          cache: "pnpm"
+          registry-url: 'https://registry.npmjs.org/'
+          cache: 'pnpm'
 
       - name: 📥 Installing Dependencies
         run: pnpm install --frozen-lockfile
@@ -68,8 +68,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
-    name: Publish
+  release:
+    name: Release
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'pull_request' &&
@@ -88,8 +88,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: "https://registry.npmjs.org/"
-          cache: "pnpm"
+          registry-url: 'https://registry.npmjs.org/'
+          cache: 'pnpm'
 
       - name: 📦 Installing Dependencies
         run: pnpm install --frozen-lockfile
