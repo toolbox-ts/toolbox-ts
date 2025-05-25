@@ -57,6 +57,7 @@ describe('structure module', () => {
   it('root.set/get/reset/has works as expected', () => {
     // set/get
     const node = mockNode('tail', 2);
+    console.dir(node, { depth: 10 });
     core.root.set('tail', node);
     expect(core.root.get('tail')).toBe(node);
     // reset
