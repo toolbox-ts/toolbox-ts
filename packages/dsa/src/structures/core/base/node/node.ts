@@ -1,185 +1,71 @@
-interface Detail<D> {
-  id: string;
-  data: D;
-}
-interface Base<D> {
-  get id(): string;
-  get data(): D;
-  set data(data: D);
-  get detail(): Detail<D>;
-}
-type Type = 'singly' | 'doubly';
+import { Singly } from './singly/index.js';
+import { Doubly } from './doubly/index.js';
+import { Base } from './base/index.js';
 
-type Pointers<D, K extends string, N extends Base<D>> = { [key in K]?: N };
-type SinglyPointerKey = 'next';
-type SinglyPointers<D, N extends Base<D>> = Pointers<D, SinglyPointerKey, N>;
-interface Singly<D> extends Base<D> {
-  get next(): Singly<D> | undefined;
-  set next(next: Singly<D> | undefined);
-}
-interface SinglyArgs<D> extends Detail<D> {
-  pointers?: SinglyPointers<D, Singly<D>>;
-}
+const modules = { singly: Singly, doubly: Doubly, base: Base } as const;
+const TYPES = [Singly.TYPE, Doubly.TYPE] as const;
 
-type DoublyPointerKey = 'next' | 'prev';
-type DoublyPointers<D, N extends Base<D>> = Pointers<D, DoublyPointerKey, N>;
-interface Doubly<D> extends Base<D> {
-  get next(): Doubly<D> | undefined;
-  set next(next: Doubly<D> | undefined);
-  get prev(): Doubly<D> | undefined;
-  set prev(prev: Doubly<D> | undefined);
-}
-interface DoublyArgs<D> extends Detail<D> {
-  pointers?: DoublyPointers<D, Doubly<D>>;
-}
+type Detail<D = unknown> = Base.Detail<D>;
 
-interface TypeMap<D> {
-  singly: Singly<D>;
-  doubly: Doubly<D>;
-}
-interface TypePointerKeyMap {
-  singly: SinglyPointerKey;
-  doubly: DoublyPointerKey;
-}
+type SinglyTypeKey = Singly.TypeKey;
+type DoublyTypeKey = Doubly.TypeKey;
+type TypeKey = SinglyTypeKey | DoublyTypeKey;
 
-type TypeArgs<T extends Type, D> =
-  T extends 'singly' ? SinglyArgs<D> : DoublyArgs<D>;
+type NodeConfig<K extends TypeKey, D> =
+  K extends SinglyTypeKey ? Singly.NodeConfig<D>
+  : K extends DoublyTypeKey ? Doubly.NodeConfig<D>
+  : never;
 
-type With<D, T extends Type, W> = TypeMap<D>[T] | W;
-type WithUndefined<D, T extends Type> = With<D, T, undefined>;
-type WithDetail<D, W> = Detail<D> | W;
-type WithDetailUndefined<D> = WithDetail<D, undefined>;
+type Type<K extends TypeKey, D> =
+  K extends Singly.TypeKey ? Singly.Type<D>
+  : K extends Doubly.TypeKey ? Doubly.Type<D>
+  : never;
 
-const Base = <D>(args: Detail<D>): Base<D> => {
-  const { id } = args;
-  let { data } = args;
-  return {
-    get id() {
-      return id;
-    },
-    get data() {
-      return data;
-    },
-    set data(newData: D) {
-      data = newData;
-    },
-    get detail() {
-      return { id, data };
-    }
-  };
-};
-const Singly = <D>({ pointers = {}, ...rest }: SinglyArgs<D>): Singly<D> => {
-  let { next: nxt } = pointers;
-  return Object.freeze(
-    Object.defineProperties<Singly<D>>(Base(rest) as Singly<D>, {
-      next: {
-        get() {
-          return nxt;
-        },
-        set(next: Singly<D> | undefined) {
-          nxt = next;
-        }
-      }
-    })
-  );
-};
-const Doubly = <D>({ pointers = {}, ...rest }: DoublyArgs<D>): Doubly<D> => {
-  let { next: nxt, prev: prv } = pointers;
-  return Object.freeze(
-    Object.defineProperties<Doubly<D>>(Base(rest) as Doubly<D>, {
-      next: {
-        get() {
-          return nxt;
-        },
-        set(next: Doubly<D> | undefined) {
-          nxt = next;
-        }
-      },
-      prev: {
-        get() {
-          return prv;
-        },
-        set(prev: Doubly<D> | undefined) {
-          prv = prev;
-        }
-      }
-    })
-  );
-};
+type IteratorKey<K extends TypeKey> =
+  K extends SinglyTypeKey ? Singly.IteratorKey
+  : K extends DoublyTypeKey ? Doubly.IteratorKey
+  : never;
 
-type _Record<D, T extends Type, K extends string> = {
-  [key in K]: TypeMap<D>[T] | undefined;
-};
+type PointerKey<K extends TypeKey> =
+  K extends SinglyTypeKey ? Singly.PointerKey
+  : K extends DoublyTypeKey ? Doubly.PointerKey
+  : never;
 
-interface SinglyIteratorYield<D> {
-  node: With<D, 'singly', undefined>;
-  index: number;
+type Iterators<T extends TypeKey, D> =
+  T extends SinglyTypeKey ? Singly.Iterators<D>
+  : T extends DoublyTypeKey ? Doubly.Iterators<D>
+  : never;
+type _Record<T extends TypeKey, D, Key extends string> = Record<
+  Key,
+  Type<T, D> | undefined
+>;
+interface Kit<T extends TypeKey, D> {
+  createNode: (cfg: NodeConfig<T, D>) => Type<T, D>;
+  iterators: Iterators<T, D>;
 }
-interface SinglyIterators<D> {
-  forward: (startingNode?: Singly<D>) => Generator<SinglyIteratorYield<D>>;
-}
-const SinglyIterators = <D>(): SinglyIterators<D> => ({
-  forward: function* (startingNode) {
-    let index = 0;
-    for (let node = startingNode; node; node = node.next) {
-      yield { node, index };
-      index++;
-    }
-  }
-});
-interface DoublyIteratorYield<D> {
-  node: With<D, 'doubly', undefined>;
-  index: number;
-}
-interface DoublyIterators<D> {
-  forward: (startingNode?: Doubly<D>) => Generator<DoublyIteratorYield<D>>;
-  backward: (startingNode?: Doubly<D>) => Generator<DoublyIteratorYield<D>>;
-}
-const DoublyIterators = <D>(): DoublyIterators<D> => ({
-  forward: function* (startingNode) {
-    let index = 0;
-    for (let node = startingNode; node; node = node.next) {
-      yield { node, index };
-      index++;
-    }
-  },
-  backward: function* (startingNode) {
-    let index = 0;
-    for (let node = startingNode; node; node = node.prev) {
-      yield { node, index };
-      index++;
-    }
-  }
-});
-
-interface IteratorMap<D> {
-  singly: SinglyIterators<D>;
-  doubly: DoublyIterators<D>;
-}
-
 const create = {
-  singly: Singly,
-  doubly: Doubly,
-  iterators: { singly: SinglyIterators, doubly: DoublyIterators }
+  singly: Singly.create.node,
+  doubly: Doubly.create.node,
+  iterators: {
+    singly: Singly.create.iterators,
+    doubly: Doubly.create.iterators
+  },
+  record: { singly: Singly.create.record, doubly: Doubly.create.record },
+  kit: <T extends TypeKey, D>(type: T): Kit<T, D> =>
+    ({
+      createNode: create[type],
+      iterators: create.iterators[type]<D, Type<T, D>>()
+    }) as unknown as Kit<T, D>
 } as const;
 
-export {
-  type _Record as Record,
-  type IteratorMap,
-  type DoublyIterators,
-  type SinglyIterators,
-  type DoublyIteratorYield,
-  type SinglyIteratorYield,
-  type WithDetailUndefined,
-  type WithUndefined,
-  type Detail,
-  type Type,
-  type Singly,
-  type Doubly,
-  type TypeArgs,
-  type TypePointerKeyMap,
-  type TypeMap,
-  type With,
-  type WithDetail,
-  create
+export { TYPES, modules, create };
+export type {
+  Type,
+  IteratorKey,
+  PointerKey,
+  Detail,
+  _Record as Record,
+  NodeConfig,
+  TypeKey,
+  Iterators
 };
