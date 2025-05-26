@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { Factory, type Type } from './base.js';
 
 // Minimal concrete node type for testing
-interface TestNode extends Type<number> {
+interface TestNode extends Type<'test', number> {
   type: 'test';
   next?: TestNode;
   prev?: TestNode;
@@ -88,7 +88,7 @@ describe('Factory', () => {
   });
 
   it('handles empty pointers and iterators', () => {
-    const EmptyFactory = Factory<Type, never, 'test'>({
+    const EmptyFactory = Factory<Type<, never, 'test'>({
       type: 'test',
       iteratorConfigs: []
     });

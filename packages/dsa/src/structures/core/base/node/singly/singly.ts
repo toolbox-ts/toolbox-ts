@@ -1,6 +1,7 @@
 import { Base } from '../base/index.js';
 
 export const TYPE = 'singly' as const;
+export const POINTER_KEYS = ['next'] as const;
 export type TypeKey = typeof TYPE;
 export interface Type<D = unknown> extends Base.Type<TypeKey, D> {
   readonly type: TypeKey;
@@ -9,13 +10,11 @@ export interface Type<D = unknown> extends Base.Type<TypeKey, D> {
 }
 export type IteratorKey = 'forward';
 export type PointerKey = Base.PointerKey<Type>;
-export type NodeConfig<D> = Base.NodeConfig<Type<D>, D>;
 export type Iterators<D> = Base.Iterators<Type<D>, IteratorKey>;
 
-const create = {
-  node: <D>() =>
-    Base.base.node<Type<D>, TypeKey, D>('singly', {
-      type: TYPE,
-      pointers: [{ key: 'next' }]
-    })
-};
+export const { iterators, node } = Base.Factory<
+  Type,
+  TypeKey,
+  PointerKey,
+  IteratorKey
+>(TYPE, POINTER_KEYS, [{ key: 'forward', pointerKey: 'next' }]);
