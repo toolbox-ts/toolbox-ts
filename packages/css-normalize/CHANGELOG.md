@@ -1,5 +1,11 @@
 # @toolbox-ts/css-normalize
 
+## 2.1.3
+
+### Patch Changes
+
+- 01e84e7: update deps and rework dsa
+
 ## 2.1.2
 
 ### Patch Changes

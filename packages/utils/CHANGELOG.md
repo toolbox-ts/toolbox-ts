@@ -1,5 +1,11 @@
 # @toolbox-ts/utils
 
+## 0.4.6
+
+### Patch Changes
+
+- 01e84e7: update deps and rework dsa
+
 ## 0.4.5
 
 ### Patch Changes
