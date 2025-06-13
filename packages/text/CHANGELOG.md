@@ -1,5 +1,14 @@
 # @toolbox-ts/text
 
+## 0.1.14
+
+### Patch Changes
+
+- 01e84e7: update deps and rework dsa
+- Updated dependencies [01e84e7]
+  - @toolbox-ts/schema@0.1.14
+  - @toolbox-ts/utils@0.4.6
+
 ## 0.1.13
 
 ### Patch Changes

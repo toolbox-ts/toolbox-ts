@@ -1,5 +1,11 @@
 # @toolbox-ts/dsa
 
+## 0.2.0
+
+### Minor Changes
+
+- 01e84e7: update deps and rework dsa
+
 ## 0.1.6
 
 ### Patch Changes

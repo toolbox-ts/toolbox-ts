@@ -1,5 +1,13 @@
 # @toolbox-ts/colors
 
+## 1.4.10
+
+### Patch Changes
+
+- 01e84e7: update deps and rework dsa
+- Updated dependencies [01e84e7]
+  - @toolbox-ts/utils@0.4.6
+
 ## 1.4.9
 
 ### Patch Changes
