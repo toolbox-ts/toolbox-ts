@@ -1,188 +1,87 @@
-# @toolbox-ts/dsa
+# toolbox-ts / dsa
 
-![](https://img.shields.io/badge/coverage-100%25-brightgreen)
-
----
-
-## Overview
-
-A lightweight and extensible TypeScript library for building and managing data
-structures and algorithms. This package provides modular, reusable classes for
-singly and doubly linked nodes, along with a robust linked list API optimized
-for traversal, mutation, and utility operations.
-
-**Currently, the project only includes implementations of singly and doubly
-linked lists along with the fundamental link-based DataNode. More data
-structures and algorithms will be added in the future.**
+A composable, type-safe TypeScript library for building and managing data
+structures with pointer-based nodes. This package provides reusable modules for
+singly and doubly linked lists, queues, deques, stacks, and more, all built on a
+unified node and structure foundation.
 
 ---
 
 ## Features
 
-- 🔗 **Linked and Doubly Linked Nodes**
-- 🧱 **Composable Node Structures**
-- 🧠 **Memory-Safe Linked List Operations**
-- 🔁 **Generator-Based Traversals**
-- 🧪 **100% Typed and Test-Covered**
+- **Composable Node System**: Build nodes with customizable pointer and anchor
+  properties.
+- **Generic Structures**: Create and manage lists, queues, deques, and stacks
+  with shared, extensible APIs.
+- **Type Safety**: All modules are fully typed, supporting custom node types,
+  anchors, and pointer keys.
+- **Anchor and Pointer Management**: Efficiently manage head/tail anchors and
+  node pointers.
+- **Size Control**: Optional size enforcement and capacity management for all
+  structures.
+- **Extensible**: Compose your own data structures by combining core modules.
 
 ---
 
-## Installation
+## Directory Structure
 
-```bash
-npm i @toolbox-ts/dsa
-```
+- **core/base/node/**  
+  Core node types, singly/doubly node managers, pointer and anchor logic.  
+  See [Node README](./src/structures/core/base/node/README.md).
 
----
+- **core/base/node/\_Manager/**  
+  Low-level node manager system for composing node types.  
+  See [Node Manager README](./src/structures/core/base/node/_Manager/README.md).
 
-## Usage
+- **core/base/structure/**  
+  Generic structure logic for managing nodes, anchors, and size.  
+  See [Structure README](./src/structures/core/base/structure/README.md).
 
-### Importing
+- **linkedList/**  
+  Singly and doubly linked list implementations (standard and circular).  
+  See [Linked List README](./src/structures/linkedList/README.md).
 
-```ts
-import { LinkedList } from "@toolbox-ts/dsa";
-```
+- **queue/**  
+  Queue and deque (double-ended queue) implementations, including circular
+  variants.  
+  See [Queue/Deque README](./src/structures/queue/README.md).
 
-### Creating a Linked List
-
-```ts
-const singly = LinkedList.singly.create([
-  { id: "a", data: "first" },
-  { id: "b", data: "second" },
-]);
-
-singly.append({ id: "c", data: "third" });
-```
-
----
-
-## Exports
-
-```ts
-export * as LinkedList from "./linkedList/index.js";
-export * as DataNode from "./node/index.js";
-```
+- **stack/**  
+  Stack implementation (LIFO), built on the core structure and node modules. See
+  [Stack README](./src//structures//stack//README.md)
 
 ---
 
-## API Overview
-
-### 🔹 DataNode
+## Example Usage
 
 ```ts
-type Type = "linked" | "doublyLinked";
+import { create as createList } from "./linkedList/singly/singlyLinkedList";
 
-interface Detail<T> {
-  data: T;
-  id: string;
+const list = createList("singlyLinkedList");
+list.insert.head({ id: "a", data: 1 });
+list.insert.tail({ id: "b", data: 2 });
+
+for (const { detail, index } of list) {
+  console.log(index, detail);
 }
 
-abstract class DataNode<T> {
-  readonly id: string;
-  data: T;
-  abstract readonly type: Type;
-}
-```
+import { create as createQueue } from "./queue/singly/singlyQueue";
 
-#### Linked Node
-
-```ts
-class Linked<T> extends DataNode<T> {
-  readonly type = "linked";
-  next?: Linked<T>;
-}
-```
-
-#### Doubly Linked Node
-
-```ts
-class DoublyLinked<T> extends DataNode<T> {
-  readonly type = "doublyLinked";
-  next?: DoublyLinked<T>;
-  prev?: DoublyLinked<T>;
-}
-```
-
-#### Create Utilities
-
-```ts
-const create = {
-  linked: <T>(args: Detail<T> & { next?: Linked<T> }) => new Linked(args),
-  doublyLinked: <T>(
-    args: Detail<T> & { next?: DoublyLinked<T>; prev?: DoublyLinked<T> },
-  ) => new DoublyLinked(args),
-};
+const queue = createQueue("queue");
+queue.enqueue({ id: "x", data: 42 });
+console.log(queue.dequeue()); // { id: 'x', data: 42 }
 ```
 
 ---
 
-### 🔹 LinkedList API
+## Documentation
 
-#### Core Properties
-
-- `head`: first node (readonly)
-- `tail`: last node (readonly)
-- `size`: number of nodes
-
-#### Core Methods
-
-| Method                                       | Description                        |
-| -------------------------------------------- | ---------------------------------- |
-| `append(node)`                               | Add node to tail                   |
-| `prepend(node)`                              | Add node to head                   |
-| `insert({ node, indexOrId, position })`      | Insert relative to node or index   |
-| `remove(indexOrId)`                          | Remove by index or ID              |
-| `extract(id)`                                | Remove and return node             |
-| `find(id)`                                   | Find node by ID                    |
-| `get(index)`                                 | Get node by index                  |
-| `has(id)`                                    | Check if ID exists                 |
-| `getIndex(id)`                               | Get index by ID                    |
-| `moveToIndex(id, index)`                     | Move node to specific index        |
-| `moveToTarget(movingId, targetId, position)` | Move node relative to another node |
-| `pop()`                                      | Remove tail                        |
-| `reset()`                                    | Clear all nodes                    |
-| `toString()`                                 | Visual representation of list      |
-
-#### Traversal
-
-```ts
-for (const { data, id, index } of list.forward()) {
-  console.log(`[${index}] ${id}: ${data}`);
-}
-```
-
----
-
-## Example
-
-```ts
-const list = LinkedList.singly.create();
-
-list.append({ id: "1", data: "alpha" });
-list.append({ id: "2", data: "beta" });
-list.prepend({ id: "0", data: "zero" });
-
-list.insert({
-  node: { id: "1.5", data: "middle" },
-  indexOrId: "1",
-  position: "after",
-});
-
-console.log(list.toString()); // null→(0)→(1)→(1.5)→(2)→null
-```
-
----
-
-## Types
-
-This package is fully typed and ships with:
-
-- `Detail<T>`, `Details<T>`: Payload types
-- `LinkedListAPI<T>`: Typed API object
-- `LinkedInstance<T>`, `DoublyLinkedInstance<T>`: Node class instances
-- `ListAPI<T, E>`: Extended typed API signature
-
----
+- [Node Module](./src/structures/core/base/node/README.md)
+- [Node Manager](./src/structures/core/base/node/_Manager/README.md)
+- [Structure Module](./src/structures/core/base/structure/README.md)
+- [Linked List](./src/structures/linkedList/README.md)
+- [Stack](./src//structures//stack//README.md)
+- [Queue and Deque](./src/structures/queue/README.md)
 
 ## License
 

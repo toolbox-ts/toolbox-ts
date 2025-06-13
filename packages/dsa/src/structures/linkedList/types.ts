@@ -1,111 +1,73 @@
-import type * as DataNode from "../node/node.js";
+import type { Node } from "../core/index.js";
 
-type TraversalDirection = "forward";
-type InsertPosition = "before" | "after";
-interface InsertArgs<T> {
-  node: DataNode.Detail<T>;
-  indexOrId: number | string;
-  position?: InsertPosition;
-}
-type AccessorResult<T> = DataNode.Detail<T> | undefined;
-type ListIterator<N> = Generator<{ node: N; index: number }>;
-abstract class LinkedList<T, N extends DataNode.Instance<T>> {
-  protected _head: N | undefined = undefined;
-  protected _tail: N | undefined = undefined;
-  protected _size = 0;
+/** Valid positions for relative insert or move operations in a linked list. */
+export type Position = "before" | "after";
 
-  constructor(nodes?: DataNode.Details<T>) {
-    if (nodes) nodes.forEach((node) => this.append(node));
-  }
+/** Index or ID type for node lookup and operations. */
+export type IndexOrId = number | string;
 
-  get head() {
-    return this._head;
-  }
-
-  get tail() {
-    return this._tail;
-  }
-
-  get size() {
-    return this._size;
-  }
-  *forward(): ListIterator<N> {
-    let curr = this._head;
-    let index = 0;
-    while (curr) {
-      yield { node: curr, index };
-      curr = curr.next as N;
-      index++;
-    }
-  }
-  abstract setHead(node: N): this;
-  abstract removeHead(): this;
-  abstract append(data: DataNode.Detail<T>): this;
-  abstract prepend(data: DataNode.Detail<T>): this;
-  abstract insert(args: InsertArgs<T>): this;
-  protected abstract insertAtTarget(
-    targetNode: N,
-    movingNode: DataNode.Detail<T>,
-    position: InsertPosition,
-  ): this;
-  abstract remove(indexOrId: number | string): this;
-  abstract extract(id: string): { node: N; index: number } | undefined;
-  abstract find(
-    id: string,
-    direction?: TraversalDirection,
-  ): { node: N; index: number } | undefined;
-  abstract get(index: number): { node: N; index: number } | undefined;
-  abstract has(id: string, direction?: TraversalDirection): boolean;
-  abstract moveToIndex(targetId: string, index: number): this;
-  abstract moveToTarget(
-    nodeToMoveId: string,
-    targetNodeId: string,
-    position: InsertPosition,
-  ): this;
-  abstract toString(): string;
-  abstract reset(): this;
-  abstract getIndex(id: string): number | undefined;
-  abstract pop(): N | undefined;
-}
-type ListAPIIterator<T> = Generator<
-  { data: T; id: string; index: number },
-  void,
-  unknown
->;
-interface LinkedListAPI<T> {
-  forward: () => ListAPIIterator<T>;
-  readonly head: AccessorResult<T>;
-  readonly tail: AccessorResult<T>;
-  readonly size: number;
-  setHead: (data: DataNode.Detail<T>) => LinkedListAPI<T>;
-  append: (data: DataNode.Detail<T>) => LinkedListAPI<T>;
-  prepend: (data: DataNode.Detail<T>) => LinkedListAPI<T>;
-  insert: (arg: InsertArgs<T>) => LinkedListAPI<T>;
-  remove: (indexOrId: string | number) => LinkedListAPI<T>;
-  moveToIndex: (targetId: string, index: number) => LinkedListAPI<T>;
-  moveToTarget: (
-    nodeToMoveId: string,
-    targetNodeId: string,
-    position: InsertPosition,
-  ) => LinkedListAPI<T>;
-  removeHead: () => LinkedListAPI<T>;
-  getIndex: (id: string) => number | undefined;
-  extract: (id: string) => AccessorResult<T>;
-  find: (id: string, direction?: TraversalDirection) => AccessorResult<T>;
-  get: (index: number) => AccessorResult<T>;
-  pop: () => AccessorResult<T>;
-  has: (id: string, direction?: TraversalDirection) => boolean;
-  toString: () => string;
-  reset: () => LinkedListAPI<T>;
+/**
+ * Insert operations for a linked list.
+ * Provides methods for inserting nodes at various positions.
+ *
+ * @template D - Data type stored in the node
+ * @template R - Return type for each insert operation
+ */
+export interface Insert<D, R> {
+  /** Insert the initial node (when the list is empty). */
+  initial: (d: Node.Detail<D>) => R;
+  /** Insert a node at a specific index. */
+  at: (index: number, d: Node.Detail<D>) => R;
+  /** Insert a node at the head of the list. */
+  head: (d: Node.Detail<D>) => R;
+  /** Insert a node at the tail of the list. */
+  tail: (d: Node.Detail<D>) => R;
+  /** Insert a node before a given index or id. */
+  before: (d: Node.Detail<D>, target: IndexOrId) => R;
+  /** Insert a node after a given index or id. */
+  after: (d: Node.Detail<D>, target: IndexOrId) => R;
 }
 
-export type ListAPI<T, E = undefined> = LinkedListAPI<T> & E;
-export {
-  type AccessorResult,
-  type InsertArgs,
-  type InsertPosition,
-  type LinkedListAPI,
-  type ListAPIIterator,
-  type TraversalDirection,
-  LinkedList,
-};
+/**
+ * Generic linked list interface.
+ * Provides common methods for traversal, access, mutation, and queries.
+ *
+ * @template OpData - Operation data type (e.g., node, node detail, or yield)
+ * @template Iterator - Iterator type for traversal
+ * @template Return - Return type for mutating methods (default: OpData)
+ */
+export interface LinkedList<OpData, Iterator, Return = OpData> {
+  /** Default iterator over node details. */
+  [Symbol.iterator]: () => Iterator;
+  /** Traversal methods for forward iteration. */
+  traverse: { forward: () => Iterator };
+  /** Node retrieval methods. */
+  get: {
+    /** Retrieves a node by index. */
+    byIndex: (index: number) => OpData | undefined;
+    /** Retrieves a node by ID. */
+    byId: (id: string) => OpData | undefined;
+    /** Retrieves a node by index or ID. */
+    byIndexOrId: (indexOrId: IndexOrId) => OpData | undefined;
+  };
+  /** Checks if a node exists by index or id. */
+  has: (indexOrId: IndexOrId) => boolean;
+  /** Resets the structure to empty. */
+  reset: () => Return;
+  /** Move operation for repositioning nodes. */
+  move: (from: IndexOrId, to: IndexOrId, position?: Position) => Return;
+  /** Extracts a node by index, id, or predicate. */
+  extract: (
+    indexOrIdOrCb: IndexOrId | ((n: OpData) => boolean),
+  ) => OpData | undefined;
+  /** Iterates over each node, calling the callback. */
+  forEach: (cb: (n: OpData) => void) => Return;
+  /** Maps each node to a new value. */
+  map: <R>(cb: (n: OpData) => R) => R[];
+  /** Reduces the list to a single value. */
+  reduce: <R>(cb: (acc: R, n: OpData) => R, initialValue: R) => R;
+  /** Filter operation for selecting nodes matching a predicate. */
+  filter: (cb: (n: OpData) => boolean) => OpData[];
+  /** Finds the first node matching a predicate. */
+  find: (cb: (n: OpData) => boolean) => OpData | undefined;
+}

@@ -50,6 +50,8 @@ export default defineConfig({
         "./packages/colors/src/api/api.ts",
         // Constants File
         "./packages/css-normalize/src/core/tokens/definitions.ts",
+        // Re-exports modules
+        "./packages/dsa/src/structures/core/base/node/node.ts",
       ],
     },
   },
