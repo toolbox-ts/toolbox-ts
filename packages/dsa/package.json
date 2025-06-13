@@ -16,7 +16,12 @@
     "data-structures",
     "algorithms",
     "linked-list",
-    "doubly-linked-list"
+    "doubly-linked-list",
+    "stack",
+    "queue",
+    "deque",
+    "circular-queue",
+    "circular-deque"
   ],
   "homepage": "https://github.com/toolbox-ts/toolbox-ts/tree/main/packages/dsa",
   "repository": {
@@ -44,6 +49,6 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "3.1.4",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.3"
   }
 }

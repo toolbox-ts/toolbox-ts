@@ -37,6 +37,13 @@ const rules: ConfigWithExtends["rules"] = {
   "@typescript-eslint/no-redundant-type-constituents": "off",
   "@typescript-eslint/prefer-reduce-type-parameter": "off",
   "@typescript-eslint/no-non-null-assertion": "off",
+  "@typescript-eslint/no-base-to-string": "off",
+  "@typescript-eslint/no-confusing-void-expression": "off",
+  "@typescript-eslint/no-invalid-void-type": [
+    "error",
+    { allowInGenericTypeArguments: true, allowAsThisParameter: true },
+  ],
+  "@typescript-eslint/restrict-plus-operands": ["error", { allowAny: true }],
 };
 
 export default tseslint.config(

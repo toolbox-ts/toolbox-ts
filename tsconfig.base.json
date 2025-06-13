@@ -19,7 +19,7 @@
     "resolveJsonModule": true,
     "allowImportingTsExtensions": false,
     "isolatedModules": true,
-    "removeComments": true,
+    "removeComments": false,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,

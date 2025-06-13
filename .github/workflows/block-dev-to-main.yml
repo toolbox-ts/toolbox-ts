@@ -1,0 +1,17 @@
+name: Block Dev-to-Main Merges
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  block-dev-merges:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ❌ Block PRs from dev/* branches
+        run: |
+          if [[ "${{ github.head_ref }}" == dev/* ]]; then
+            echo "Merging dev/* to main is not allowed."
+            exit 1
+          fi
